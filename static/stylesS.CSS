@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #6fb1fc, #4d85ff, #0052d4);
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 50px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+button {
+    background: #0052d4;
+    border: none;
+    padding: 15px 30px;
+    margin: 20px;
+    font-size: 1.2em;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#fileInput {
+    background: #0052d4;
+    border: none;
+    padding: 15px 30px;
+    margin: 20px;
+    font-size: 1.2em;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#sampling_overview {
+    padding: 20px;
+}
+
+button:hover {
+    background: #609dff;
+    transform: translateY(-5px);
+}
+
+button:active {
+    background: #6fb1fc;
+    transform: translateY(2px);
+}
+
+.error {
+    color: red;
+}
+
+.message {
+    color: green;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 60%;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 5px;
+    text-align: left;
+}
+
+th {
+    background-color: #4d85ff;
+    color: white;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+#messageBox {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #8a9dda;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+    z-index: 1000;
+}
+
+#messageBox.hidden {
+    display: none;
+}
+
+#messageButton {
+    background-color: white;
+    color: #1b2127;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#messageButton:hover {
+    background-color: #f1f1f1;
+}
+
+#saveOptions.hidden {
+    display: none;
+}

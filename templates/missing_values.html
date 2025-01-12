@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handle Missing Values</title>
+    <link rel="icon" href="static/NEATD.png">
+    <link rel="stylesheet" href="static\stylesS.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h3>Upload your dataset</h3>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" required>
+        <button type="submit">Upload</button>
+        <button type="button" id="resetButton">Reset</button>
+    </form>
+    
+    <div id="uploadMessage"></div>
+    <div id="dataOverview">
+        <h2>Data Overview</h2>
+        <h3>Visualizations of Missing Values</h3>
+        <img id="missingValuesPlot" src="" alt="Missing Values Plot" class="hidden">
+        <form id="customizePlotForm">
+            <label for="colorMap">Choose a color map:</label>
+            <select name="colorMap" id="colorMap">
+                <option value="viridis">Viridis</option>
+                <option value="plasma">Plasma</option>
+                <option value="inferno">Inferno</option>
+                <option value="magma">Magma</option>
+                <option value="cividis">Cividis</option>
+            </select>
+            <br>
+            <label for="plotWidth">Plot Width (inches):</label>
+            <input type="number" name="plotWidth" id="plotWidth" value="8" step="0.1">
+            <br>
+            <label for="plotHeight">Plot Height (inches):</label>
+            <input type="number" name="plotHeight" id="plotHeight" value="6" step="0.1">
+            <br>
+            <label for="missingColor">Missing Color:</label>
+            <input type="color" name="missingColor" id="missingColor" value="#000000">
+            <br>
+            <label for="presentColor">Present Color:</label>
+            <input type="color" name="presentColor" id="presentColor" value="#FFFFFF">
+            <br>
+            <button type="submit">Update Plot</button>
+        </form>
+        <br>
+        <a id="downloadPlot" href="#" class="">Download Plot</a>
+        <h3>Statistics About Missing Data</h3>
+        <div id="missingDataTable"></div>
+        <h3>Sample of the DataFrame</h3>
+        <div id="sampleData"></div>
+        
+    </div>
+
+    <h2>Handle Missing Values</h2>
+    <form id="processForm">
+        <label>Choose an option to handle missing values:</label><br>
+        <input type="radio" name="choice" value="1" required> Delete rows with missing values<br>
+        <input type="radio" name="choice" value="2" required> Delete columns with missing values<br>
+        <input type="radio" name="choice" value="3" required> Impute missing values<br>
+        <br>
+        <div id="imputationMethods" class="hidden">
+            <label>Choose an imputation method:</label><br>
+            <input type="radio" name="impute_choice" value="1"> KNN Imputer<br>
+            <input type="radio" name="impute_choice" value="2"> Mean Imputer<br>
+            <input type="radio" name="impute_choice" value="3"> Mode Imputer<br>
+            <input type="radio" name="impute_choice" value="4"> Most Frequent Imputer<br>
+            <input type="radio" name="impute_choice" value="6"> MICE Imputer<br>
+            <br>
+            <div id="knnNeighbors" class="hidden">
+                <label>Enter the number of neighbors for KNN Imputer (if applicable):</label><br>
+                <input type="text" name="n_neighbors"><br>
+            </div>
+            <div id="miceParams" class="hidden">
+                <label>Enter the number of iterations for MICE Imputer (if applicable):</label><br>
+                <input type="text" name="max_iter"><br>
+            </div>
+        </div>
+        <br>
+        <label>Enter the column names to process (comma separated, or 'all' to process all columns):</label><br>
+        <input type="text" name="columns" required><br>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="messageBox" class="hidden">
+        <span id="messageContent"></span>
+        <button id="messageButton">Close</button>
+    </div>
+
+    <div id="saveData" class="hidden">
+        <h2>Save Processed Data</h2>
+        <form id="saveDecisionForm">
+            <label>Do you want to save the processed data?</label><br>
+            <input type="radio" name="save_decision" value="yes" required> Yes<br>
+            <input type="radio" name="save_decision" value="no" required> No<br>
+            <input type="radio" name="save_decision" value="process_more" required> Process more columns<br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="saveOptions" class="hidden">
+        <h2>Choose File Format and Path</h2>
+        <form id="saveFormatForm">
+            <label>Choose file format:</label><br>
+            <input type="radio" name="file_format" value="xlsx" required> XLSX<br>
+            <input type="radio" name="file_format" value="csv" required> CSV<br>
+            <input type="radio" name="file_format" value="json" required> JSON<br>
+            <input type="radio" name="file_format" value="parquet" required> Parquet<br>
+            <br>
+            <label>Enter the path where you want to save the file:</label><br>
+            <input type="text" name="save_path" required><br>
+            <label>Enter the filename:</label><br>
+            <input type="text" name="filename" required><br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <div id="saveMessage"></div>
+    <script src="static/MV.js"></script>
+</body>
+</html>

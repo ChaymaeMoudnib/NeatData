@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .hidden { display: none; }
+        .message { color: green; }
+        .error { color: red; }
+        .data img { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+    <h1>Dimensionality Reduction</h1>
+    <h3>Upload your dataset</h3>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" required>
+        <button type="submit">Upload</button>
+        <button type="button" id="resetButton">Reset</button>
+    </form>
+    <div id="uploadMessage"></div>
+<script>
+    $(document).ready(function() {        
+        $('#uploadForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.error) {
+                        $('#uploadMessage').text(data.error).addClass('error');
+                    } else {
+                        $('#uploadMessage').text(data.message).addClass('message');
+                        fetchFeatureOverview();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#uploadMessage').text('An error occurred: ' + xhr.responseText).addClass('error');
+                }
+            });
+        });
+    
+        function fetchFeatureOverview() {
+            $.ajax({
+                url: '/sampling_overview',
+                type: 'GET',
+                success: function(response) {
+                    if (response.error) {
+                        $('#overviewMessage').html('<p class="error">' + response.error + '</p>');
+                    } else {
+                        $('#data_types').text(JSON.stringify(response.data_types, null, 2));
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#overviewMessage').html('<p class="error">' + xhr.responseText + '</p>');
+                }
+            });
+        }
+    
+    
+        $('#resetButton').on('click', function() {
+            $.ajax({
+                url: '/reset',
+                type: 'POST',
+                success: function(data) {
+                    $('#uploadForm')[0].reset();
+                    displayMessage('#uploadMessage', '', ''); // Clear the message
+                    $('#data_overview').find('pre').empty();
+                    $('#overviewMessage').empty();
+                    $('#samplingForm')[0].reset();
+                    $('#samplingMessage').empty();
+                    $('#sampledData').addClass('hidden');
+                    $('#sampledDataTable').empty();
+                },
+                error: function(xhr, status, error) {
+                    displayMessage('#uploadMessage', 'An error occurred: ' + xhr.responseText, 'error');
+                }
+            });
+        });
+    
+        function displayMessage(selector, message, type) {
+            $(selector).text(message).removeClass('error message').addClass(type);
+        }
+    
+    
+    
+        $('#samplingForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = {
+                samplingMethod: $('#samplingMethod').val(),
+                sampleSize: $('#sampleSize').val(),
+                stratifyColumn: $('#stratifyColumn').val(),
+                numClusters: $('#numClusters').val(),
+                clusterColumn: $('#clusterColumn').val()
+            };
+            $.ajax({
+                url: '/sample_data',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function(response) {
+                    if (response.error) {
+                        $('#samplingMessage').html('<p class="error">' + response.error + '</p>');
+                    } else {
+                        $('#sampledData').removeClass('hidden');
+                        renderTable('#sampledDataTable', response.sampled_data);
+                        $('#analysisResults').removeClass('hidden');
+                        $('#analysisResultsContent').text(JSON.stringify(response.analysis_results, null, 2));
+                        renderVisualizations(response.visualizations);
+                        $('#samplingMessage').html('<p class="message">Data sampled successfully.</p>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#samplingMessage').html('<p class="error">' + xhr.responseText + '</p>');
+                }
+            });
+        });
+    
+        $('#samplingMethod').on('change', function() {
+            const method = $(this).val();
+            $('#stratifiedOptions').toggleClass('hidden', method !== 'stratified');
+            $('#clusterOptions').toggleClass('hidden', method !== 'cluster');
+            $('#sampleSize').prop('required', method !== 'convenience');
+        });
+    
+    
+        function renderTable(selector, data) {
+            const table = $(selector);
+            table.empty();
+    
+            const columns = Object.keys(data);
+            const numRows = data[columns[0]].length;
+    
+            const headerRow = $('<tr>');
+            columns.forEach(col => {
+                headerRow.append($('<th>').text(col));
+            });
+            table.append(headerRow);
+    
+            for (let i = 0; i < numRows; i++) {
+                const row = $('<tr>');
+                columns.forEach(col => {
+                    row.append($('<td>').text(data[col][i]));
+                });
+                table.append(row);
+            }
+        }
+    
+        function renderVisualizations(visualizations) {
+            $('#histograms').empty();
+            $('#boxplots').empty();
+            $('#countplots').empty();
+            $('#correlationMatrix').attr('src', 'static/' + visualizations.correlation_matrix);
+    
+            visualizations.histograms.forEach(src => {
+                $('#histograms').append('<img src="static/' + src + '" alt="Histogram">');
+            });
+    
+            visualizations.boxplots.forEach(src => {
+                $('#boxplots').append('<img src="static/' + src + '" alt="Boxplot">');
+            });
+    
+            visualizations.countplots.forEach(src => {
+                $('#countplots').append('<img src="static/' + src + '" alt="Countplot">');
+            });
+        }
+    
+        $('#saveDecisionForm').on('submit', function(e) {
+            e.preventDefault();
+            var decision = $('input[name="save_decision"]:checked').val();
+            if (decision === 'yes') {
+                $('#saveOptions').removeClass('hidden');
+            } else {
+                $('#saveOptions').addClass('hidden');
+                displayMessage('#saveMessage', 'Data not saved.', 'message');
+            }
+        });
+    
+        $('#saveFormatForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = {
+                file_format: $('input[name="file_format"]:checked').val(),
+                save_path: $('input[name="save_path"]').val(),
+                filename: $('input[name="filename"]').val()
+            };
+            $.ajax({
+                url: '/save',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function(response) {
+                    displayMessage('#saveMessage', response.message, 'message');
+                },
+                error: function(response) {
+                    displayMessage('#saveMessage', response.responseJSON.error, 'error');
+                }
+            });
+        });
+    
+    });
+    
+</script>
+<style>
+    .user-message {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 10px;
+        margin: 5px;
+        align-self: flex-end;
+        max-width: 70%;
+    }
+    .bot-message {
+        background-color: #f1f1f1;
+        color: #000;
+        padding: 5px 10px;
+        border-radius: 10px;
+        margin: 5px;
+        align-self: flex-start;
+        max-width: 70%;
+    }
+    #chatbot-messages {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        overflow-y: auto;
+        max-height: 300px;
+        border-top: 1px solid #ccc;
+    }
+    #chatbot-container {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 300px;
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    #chatbot-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+    }
+    #chatbot-input-container {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ccc;
+    }
+    #chatbot-input {
+        flex: 1;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    #chatbot-send {
+        margin-left: 5px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+    #chatbot-send:hover {
+        background-color: #0056b3;
+    }
+</style>
+<script>
+    //c chatbot
+    const chatbotContainer = document.getElementById('chatbot-container');
+    const chatbotIcon = document.getElementById('chatbot-icon');
+    const messagesContainer = document.getElementById('chatbot-messages');
+    const inputField = document.getElementById('chatbot-input');
+    const sendButton = document.getElementById('chatbot-send');
+    const removeConversationButton = document.getElementById('remove-conversation');
+
+    const chatbotResponses = {
+        default: "I'm here to help you with data cleaning! Ask me anything.",
+        questions: {
+            "what is data cleaning": "Data cleaning is the process of detecting and correcting (or removing) corrupt or inaccurate records from a dataset. It ensures your data is accurate and ready for analysis.",
+            "why is data cleaning important": "Data cleaning is crucial because it improves data quality, ensures reliable analyses, and leads to better decision-making.",
+            "how to handle missing data": "Handling missing data depends on the context. Common techniques include imputation (e.g., mean, median, or mode), deletion, or using algorithms that support missing values."
+        }
+    };
+
+    chatbotIcon.addEventListener('click', () => {
+        console.log("Chatbot icon clicked");
+        chatbotContainer.style.display = 'flex';
+        chatbotIcon.style.display = 'none';
+    });
+
+    removeConversationButton.addEventListener('click', () => {
+        console.log("Remove conversation button clicked");
+        chatbotContainer.style.display = 'none';
+        chatbotIcon.style.display = 'block';
+    });
+
+    function appendMessage(content, sender = 'bot') {
+        const messageElement = document.createElement('div');
+        messageElement.style.marginBottom = '10px';
+        messageElement.style.padding = '8px';
+        messageElement.style.borderRadius = '5px';
+        messageElement.style.backgroundColor = sender === 'bot' ? '#f1f1f1' : '#d4edda';
+        messageElement.textContent = content;
+        messagesContainer.appendChild(messageElement);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function handleUserMessage() {
+        const userMessage = inputField.value.trim();
+        if (userMessage) {
+            appendMessage(userMessage, 'user');
+            inputField.value = '';
+
+            const lowerCaseMessage = userMessage.toLowerCase();
+            const response = chatbotResponses.questions[lowerCaseMessage] || chatbotResponses.default;
+            appendMessage(response);
+        }
+    }
+
+    sendButton.addEventListener('click', handleUserMessage);
+    inputField.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleUserMessage();
+    });
+
+    // Initialize with a welcome message
+    appendMessage(chatbotResponses.default);
+</script>
+</body>
+</html>

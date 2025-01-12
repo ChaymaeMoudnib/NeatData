@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encoding Categorical Variables</title>
+    <link rel="stylesheet" href="static\stylesS.css">
+    <link rel="icon" href="static/NEATD.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .hidden { display: none; }
+        .message { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Encoding Categorical Variables</h1>
+    <h3>Upload your dataset</h3>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" required>
+        <button type="submit">Upload</button>
+        <button type="button" id="resetButton">Reset</button>
+    </form>
+    <div id="uploadMessage"></div>
+    <div id="encoding_overview">
+        <h2>Data Overview</h2>
+        <h3>Data types of columns</h3>
+        <pre id="data_types"></pre>
+        <h3>Categories of columns</h3>
+        <pre id="column_categories"></pre>
+    </div>
+    <form id="encodingForm">
+        <label>Choose an encoding method:</label><br>
+        <input type="radio" name="encoding_choice" value="onehot" required> One-hot encoding<br>
+        <input type="radio" name="encoding_choice" value="label" required> Label encoding<br>
+        <input type="radio" name="encoding_choice" value="binary" required> Binary encoding<br>
+        <input type="radio" name="encoding_choice" id="manualEncoding" value="manual" required> Manual encoding<br>
+        <br>
+        <label>Enter the column names to encode (comma separated):</label><br>
+        <input type="text" name="encoding_columns" required><br>
+        <br>
+        <button type="button" id="addManualMapping" disabled>Add Manual Mapping</button>
+        <div id="manualEncodingInputs"></div>
+        <p><button type="submit">Submit</button></p>
+    </form>
+    <div id="processMessage"></div>
+    <h3>Sample of the DataFrame (After Encoding)</h3>
+    <div id="encodingSampleDataAfter"></div>
+    <div id="processMessage"></div>
+
+    <div id="saveData" class="hidden">
+        <h2>Save Processed Data</h2>
+        <form id="saveDecisionForm">
+            <label>Do you want to save the processed data?</label><br>
+            <input type="radio" name="save_decision" value="yes" required> Yes<br>
+            <input type="radio" name="save_decision" value="no" required> No<br>
+            <input type="radio" name="save_decision" value="process_more" required> Process more columns<br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="saveOptions" class="hidden">
+        <h2>Choose File Format and Path</h2>
+        <form id="saveFormatForm">
+            <label>Choose file format:</label><br>
+            <input type="radio" name="file_format" value="xlsx" required> XLSX<br>
+            <input type="radio" name="file_format" value="csv" required> CSV<br>
+            <input type="radio" name="file_format" value="json" required> JSON<br>
+            <input type="radio" name="file_format" value="parquet" required> Parquet<br>
+            <br>
+            <label>Enter the path where you want to save the file:</label><br>
+            <input type="text" name="save_path" required><br>
+            <label>Enter the filename:</label><br>
+            <input type="text" name="filename" required><br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <div id="saveMessage"></div>
+    <script src="static/Encoding.js"></script>
+</body>
+</html>

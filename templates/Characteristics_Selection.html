@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Selection</title>
+    <link rel="icon" href="static/NEATD.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="static\stylesS.css">
+
+</head>
+<body>
+    <h1>Feature Selection Predicted_CLASSE_ISR</h1>
+    <h3>Upload your dataset</h3>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" id="fileInput" required>
+        <input type="text" name="target" id="targetInput" placeholder="Enter target column name" required>
+        <button type="submit">Upload</button>
+        <button type="button" id="resetButton">Reset</button>
+    </form>
+    <div id="uploadMessage"></div>
+    <div id="overviewSection">
+        <button id="overviewButton" class="button-box">Overview Your Data</button>
+        <p>Click the button to display an overview of your data, including the data types of the columns and a correlation heatmap.</p>
+    </div>
+    
+    <div id="heatmap_overview" class="hidden">
+        <h2>Data Overview</h2>
+        <h3>Data types of columns</h3>
+        <pre id="data_types"></pre>
+        <h3>Correlation Heatmap</h3>
+        <img id="heatmap" src="" alt="Heatmap" class="hidden">
+    </div>
+    <div id="overviewMessage"></div>
+    <h3>Customize Heatmap</h3>
+    <form id="customizeHeatmapForm">
+        <label for="color1">Select Color 1:</label>
+        <input type="color" id="color1" name="color1" value="#0000FF">
+        <label for="color2">Select Color 2:</label>
+        <input type="color" id="color2" name="color2" value="#FFFFFF">
+        <label for="color3">Select Color 3:</label>
+        <input type="color" id="color3" name="color3" value="#FF0000">
+        <button type="submit">Update Heatmap</button>
+    </form>
+    <div id="customizeMessage"></div>
+    <h2>Handle various Features</h2>
+    <form id="processForm">
+        <label>Choose an option to reduce Features of your data:</label><br>
+        <input type="radio" name="choice" value="anova" required> ANOVA F-test <br>
+        <input type="radio" name="choice" value="selectkbest" required> SelectKBest  <br>
+        <input type="radio" name="choice" value="chi2" required> Chi-squared test  <br>
+        <input type="radio" name="choice" value="rfe" required> RFE <br>
+        <div id="rfe-options" class="hidden">
+            <label for="estimator">Select Estimator:</label>
+            <select id="estimator" name="estimator">
+                <option value="logistic">Logistic Regression</option>
+                <option value="svm">SVM</option>
+                <option value="rf">Random Forest</option>
+            </select>
+        </div>
+        <br>
+        <label for="excludeColumns">Columns to exclude (comma separated):</label>
+        <input type="text" id="excludeColumns" name="excludeColumns" placeholder="e.g., column1,column2">
+        <label for="numFeatures">Number of features to keep:</label>
+        <input type="number" id="numFeatures" name="numFeatures" min="1" required>
+        <input type="submit" value="Submit">
+    </form>
+    <div id="selectedData" class="hidden">
+        <h2>Selected Data</h2>
+        <table id="selectedDataTable"></table>
+    </div>
+    <div id="heatmapResult" class="hidden">
+        <h2>Selected Data Heatmap</h2>
+        <img id="selectedHeatmap" src="" alt="Selected Heatmap">
+    </div>
+    <div id="saveData" class="hidden">
+        <h2>Save Processed Data</h2>
+        <form id="saveDecisionForm">
+            <label>Do you want to save the processed data?</label><br>
+            <input type="radio" name="save_decision" value="yes" required> Yes<br>
+            <input type="radio" name="save_decision" value="no" required> No<br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="messageBox" class="hidden">
+        <span id="messageContent"></span>
+        <button id="messageButton">Close</button>
+    </div>
+    <div id="saveOptions" class="hidden">
+        <h2>Choose File Format and Path</h2>
+        <form id="saveFormatForm">
+            <label>Choose file format:</label><br>
+            <input type="radio" name="file_format" value="xlsx" required> XLSX<br>
+            <input type="radio" name="file_format" value="csv" required> CSV<br>
+            <input type="radio" name="file_format" value="json" required> JSON<br>
+            <input type="radio" name="file_format" value="parquet" required> Parquet<br>
+            <br>
+            <label>Enter the path where you want to save the file:</label><br>
+            <input type="text" name="save_path" required><br>
+            <label>Enter the filename:</label><br>
+            <input type="text" name="filename" required><br>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+    <div id="saveMessage"></div>
+        <script src="static/FS.js"></script>
+</body>
+</html>

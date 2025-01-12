@@ -1,0 +1,108 @@
+body {
+    background:linear-gradient(135deg, #6fb1fc, #4d85ff, #0052d4);
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+.roadmap-container {
+    position: relative;
+    padding: 50px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.roadmap-path {
+    position: relative;
+    height: 1000px;
+    margin: 0 auto;
+}
+.stage {
+    position: absolute;
+    width: 200px;
+    padding: 20px;
+    border-radius: 15px;
+    background:rgb(255, 255, 187);
+    color: #000;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
+}
+.stage:hover {
+    background-color: #2980b9;
+    color: #fff;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+.stage h3 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.stage p {
+    font-size: 1rem;
+}
+.stage i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+.stage-1 { top: 100px; left: 20%; }
+.stage-2 { top: 300px; left: 60%; }
+.stage-3 { top: 500px; left: 30%; }
+.stage-4 { top: 700px; left: 70%; }
+.stage-5 { top: 900px; left: 40%; }
+
+/* Animated Path */
+.path-line {
+    position: absolute;
+    width: 5px;
+    height: 1000px;
+    left: 50%;
+    background: repeating-linear-gradient(
+        to bottom,
+        #ffffff,
+        #ffffff 10px,
+        transparent 10px,
+        transparent 20px
+    );
+    transform: translateX(-50%);
+}
+
+/* Tooltips */
+.stage[data-bs-toggle="tooltip"]::after {
+    content: attr(data-bs-original-title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1;
+}
+.stage[data-bs-toggle="tooltip"]:hover::after {
+    opacity: 1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .stage {
+        width: 140px;
+        padding: 10px;
+    }
+    .roadmap-path {
+        height: 1200px;
+    }
+    .stage-1 { top: 150px; left: 30%; }
+    .stage-2 { top: 400px; left: 70%; }
+    .stage-3 { top: 650px; left: 40%; }
+    .stage-4 { top: 900px; left: 80%; }
+    .stage-5 { top: 1150px; left: 50%; }
+    .path-line {
+        height: 1200px;
+    }
+}

@@ -1,0 +1,103 @@
+openai.api_key = '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'
+API_URL = 'https://api.openai.com/v1/assistants'
+CORS(app)  
+
+@app.route('/api/chat', methods=['POST'])
+def chat():
+    
+    try:
+        user_input = request.json.get('message')  # Get the user input from the request
+
+        if not user_input:
+            return jsonify({'error': 'No message provided'}), 400
+
+        # Make a request to OpenAI API using the updated method
+        response = openai.chat.completions.create(
+            model="gpt-4-turbo",  # Choose your model
+            messages=[{"role": "user", "content": user_input}],
+            max_tokens=150,
+            temperature=0.7
+        )
+        
+        # Check if the response contains valid data
+        if response and 'choices' in response and len(response['choices']) > 0:
+            bot_message = response['choices'][0]['message']['content'].strip()
+            return jsonify({'response': bot_message})  # Send back the response to the client
+        else:
+            return jsonify({'error': 'No valid response from OpenAI'}), 500
+
+    except Exception as e:
+        # Catch any other exceptions and log them
+        return jsonify({'error': f"An unexpected error occurred: {str(e)}"}), 500
+
+
+        <script>
+            // Select elements
+            const chatbotIcon = document.getElementById('chatbot-icon');
+            const chatbotContainer = document.getElementById('chatbot-container');
+            const closeButton = document.getElementById('close-chatbot');
+            const chatbotInput = document.getElementById('chatbot-input');
+            const chatbotSend = document.getElementById('chatbot-send');
+            const chatbotMessages = document.getElementById('chatbot-messages');
+    
+            // Open chatbot
+            chatbotIcon.addEventListener('click', () => {
+                chatbotContainer.style.display = 'block';
+                chatbotIcon.style.display = 'none';
+            });
+    
+            // Close chatbot
+            closeButton.addEventListener('click', () => {
+                chatbotContainer.style.display = 'none';
+                chatbotIcon.style.display = 'block';
+            });
+    
+            // Add a message to the chat
+            function addMessage(sender, text) {
+                const message = document.createElement('div');
+                message.className = sender === 'user' ? 'user-message' : 'bot-message';
+                message.textContent = text;
+                chatbotMessages.appendChild(message);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+    
+            // Handle user input
+            chatbotSend.addEventListener('click', () => {
+                const userInput = chatbotInput.value.trim();
+                if (userInput) {
+                    addMessage('user', userInput);
+                    chatbotInput.value = '';
+                    botReply(userInput);
+                }
+            });
+    
+            chatbotInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    chatbotSend.click();
+                }
+            });
+    
+            // Simple bot replies
+            function botReply(input) {
+                fetch('http://localhost:5000/api/chat', {  // Change to Python backend URL
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: input }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const botMessage = data.reply;
+                    addMessage('bot', botMessage);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    addMessage('bot', "Sorry, I couldn't get a response from the server.");
+                });
+            }
+    
+            // Styling messages dynamically
+            const style = document.createElement('style');
+            document.head.appendChild(style);
+        </script>

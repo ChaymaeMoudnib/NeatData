@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeatData</title>
+    <link rel="icon" href="static/IMG/NEATD.png">
+    <link rel="stylesheet" href="static/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap">
+</head>
+<body>
+    
+    <header class="header">
+        <navbar class="navbar">
+            <div class="LOGOIM">
+                <img src="static/IMG/yo.png" alt="NeatData logo" class="logo">
+                <a href="{{ url_for('index') }}" class="NEAT">
+                    NeatData
+                </a>
+
+            </div>
+            <div class="links">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#transform" class="dropbtn">Catalog</a>
+                        <div class="dropdown-content">
+                            <a href="#transform">Transform Data</a>
+                            <a href="#cleaning">Data Cleaning</a>
+                            <a href="#engineering">Feature Engineering</a>
+                            <a href="#analyze">Analyze your Data</a>
+                        </div>
+                    </li>
+                    <li><a href="#ND_MODELS">ND Models</a></li>
+                    <li><a href="#road">Roadmap</a></li>
+                    <li><a href="#learn">Learn</a></li>
+                    <li><a href="#contact-us" target="_blank">Contact Us</a></li>
+                </ul>
+            </div>
+        </navbar>
+        
+    </header>
+    <!-- BOT part  -->
+    <img id="chatbot-icon" src="static/IMG/cleany-removebg.png" alt="Chatbot Icon" style="width: 60px; height: 60px; cursor: pointer; position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Cleany
+            <button id="close-chatbot">X</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="bot-message">Welcome! 😊 I'm your assistant. Here are some things you can ask me about :</div>
+            <div class="bot-message">What can you do?</div>
+            <div class="bot-message">How to remove missing values?</div>
+            <div class="bot-message">Tell me more about KNN imputer</div>
+        </div>
+        <div id="chatbot-input-container">
+            <input type="text" id="chatbot-input" placeholder="Type your message...">
+            <button id="chatbot-send">Send</button>
+        </div>
+    </div>
+    
+    <!-- chaymae part  -->
+    
+    <img src="static\IMG\Design sans titre\O16.png" alt="" class="back4">
+    <section>
+        <div class="container">
+            <div class="image-container">
+                <img src="static\IMG\Design sans titre\11.png" alt="Data Cleaning" class="cleanM">
+            </div>
+            <div class="text-container">
+                <p class="w">What is NeatData?</p>
+                <p class="n">NeatData is your ultimate solution for cleaning and preparing your data for manipulation and modeling. Whether you're handling missing values, encoding categorical variables, or performing more advanced data processing, NeatData offers a comprehensive suite of tools to streamline these tasks. You have the flexibility to choose which steps to take or let NeatData automate the process for you. Begin your data treatment journey today and let NeatData assist you every step of the way!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ayoub part -->
+    <section id="transform" class="learning-paths">
+        <div class="catalog">
+            <h3>Transform Data</h3>
+            <div class="category center-buttons">
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/f" target="_blank">
+                        <p>Transform To CSV</p>
+                        <p class="small">Convert your data into CSV format.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/encoding" target="_blank">
+                        <p>Encoding Categorical Variables</p>
+                        <p class="small">Encode categorical variables for your models.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/f" target="_blank">
+                        <p>Normalize & Denormalize Data</p>
+                        <p class="small">Standardize your data for better analysis.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/f" target="_blank">
+                        <p>Correct Errors</p>
+                        <p class="small">Identify and correct errors in your dataset.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>        
+    </section>
+    <img src="static\IMG\Design sans titre\23.png" alt="" class="back2">
+    <img src="static\IMG\Design sans titre\22.png" alt="" class="back1">
+
+    <!-- Data Cleaning Section -->
+    <section id="cleaning" class="learning-paths">
+        <div class="catalog">
+            <h3>Data Cleaning</h3>
+            <div class="category center-buttons">
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/missing_values" target="_blank">
+                        <p>Missing Values</p>
+                        <p class="small">Handle missing data efficiently.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/f" target="_blank">
+                        <p>Handle Outliers</p>
+                        <p class="small">Identify and manage outliers in your dataset.</p>
+                        <div class="go-corner" href="#">
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>        
+    </section>
+
+    <!-- Feature Engineering Section -->
+    <section id="engineering" class="learning-paths">
+        <div class="catalog ">
+            <h3 class="title">Feature Engineering</h3>
+            <div class="category center-buttons">
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/Dimensionality_reduction" target="_blank">
+                        <p>Dimensionality Reduction</p>
+                        <p class="small">Reduce the number of input variables in your dataset.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="category center-buttons">
+                    <div class="card" data-aos="fade-up">
+                        <a class="card1" href="/missing_values2" target="_blank">
+                            <p>MV</p>
+                            <p class="small">Reduce the number of input variables in your dataset.</p>
+                            <div class="go-corner" href="#">
+                                <div class="go-arrow">→</div>
+                            </div>
+                        </a>
+                    </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/Characteristics_Selection" target="_blank">
+                        <p>Feature Selection</p>
+                        <p class="small">Select important features for your model.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/Data_Sampling" target="_blank">
+                        <p>Data Sampling</p>
+                        <p class="small">Sample your data for better training results.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/" target="_blank">
+                        <p>Imbalanced Data</p>
+                        <p class="small">Handle imbalanced data for better accuracy.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/test" target="_blank">
+                        <p>Features Correction</p>
+                        <p class="small">Correct features for better model performance.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <img src="static\IMG\Design sans titre\21.png" alt="" class="back11">
+
+        </div>        
+    </section>
+    
+    <!-- Analyze Your Data Section -->
+    <section id="analyze" class="learning-paths">
+        <div class="catalog">
+            <h3>Analyze your Data</h3>
+            <div class="category center-buttons">
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/f" target="_blank">
+                        <p>Visualize your Data</p>
+                        <p class="small">Create visualizations to understand your data better.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/f" target="_blank">
+                        <p>Filtering & Sorting</p>
+                        <p class="small">Filter and sort your data for better insights.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <img src="static\IMG\Design sans titre\24.png" alt="" class="back9">
+        </div>        
+    </section>
+    
+    <!-- chaymae part -->
+    <div CLASS="back22">    </div>
+
+    <section id="ND_MODELS">
+        <div class="catalog2">
+            <h3>ND Models</h3>
+            <div class="category center-buttons">
+                <div     class="card" data-aos="fade-up">
+                    <a class="card11" href="/f" target="_blank">
+                        <p>Missing Values Model</p>
+                        <p class="small">Let NeatData help you choose the right method to deal with your missing values.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card11" href="/encoding" target="_blank">
+                        <p>Encoding Categorical Variables</p>
+                        <p class="small">Encode categorical variables for your models.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card11" href="/f" target="_blank">
+                        <p>Normalize & Denormalize Data</p>
+                        <p class="small">Standardize your data for better analysis.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card11" href="/f" target="_blank">
+                        <p>Correct Errors</p>
+                        <p class="small">Identify and correct errors in your dataset.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>   
+    </section>
+    <section id="road">
+        <div class="sec1">
+            <div class="text-sec1">
+                <p class="w">ROADMAP ?</p>
+                <p class="r">We’ve got you covered! Discover your pathway to effortless data processing and modeling—no deep expertise required!</p>
+                <a  href="/road" target="_blank" ><button id="filterSortButton">View the roadmap</button></a>
+            </div>
+            <div class="image-sec1">
+                <img src="static/IMG/r2.png" alt="Roadmap">
+                <div class="middle">
+                    <div class="text">
+                        <a href="/road.html" target="_blank"></a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </section>
+    <section id="learn">
+        <div class="sec1">
+            
+            <div class="image-sec1">
+                <img src="static/IMG/Design sans titre/cc.png" alt="Roadmap">
+                <div class="middle">
+                    <div class="text">
+                        <a href="/f" target="_blank"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-sec1">
+                <p class="w">Ready to Learn?</p>
+                <p class="r">Dive deeper into data manipulation techniques and master the methods you use. Expand your knowledge and take control of your data journey!</p>                
+                <a href="/f" target="_blank" ><button id="filterSortButton">Go to learning page</button></a>
+            </div>            
+        </div>    
+    </section>
+
+    <footer class="footer">
+        <div id="contact-us">
+            <h1>Contact Us</h1>
+            <h3>We'd love to hear from you.</h3>
+            <form id="contactForm">
+                <div class="form-fields">
+                    <div class="field">
+                        <input class="input-field" id="firstName" name="firstName" placeholder="First name" type="text" />
+                    </div>
+                    <div class="field">
+                        <input class="input-field" id="lastName" name="lastName" placeholder="Last name" type="text" />
+                    </div>
+                    <div class="field">
+                        <input class="input-field" id="emailAddress" name="emailAddress" placeholder="Email Address" type="email" />
+                    </div>
+                    <div class="field submit-button">
+                        <input class="input-field" type="submit" name="submit" value="Send" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    
+        <div id="thankYouModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="thankYouMessage">Thank you for reaching out!</p>
+            </div>
+        </div>
+    
+        <div class="social-media">
+            <a title="Facebook" href="https://www.facebook.com/profile.php?id=61553478833337&mibextid=ZbWKwL" target="_blank" class="social-link fb">
+                <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 28"><path d="M14.984 0.187v4.125h-2.453c-1.922 0-2.281 0.922-2.281 2.25v2.953h4.578l-0.609 4.625h-3.969v11.859h-4.781v-11.859h-3.984v-4.625h3.984v-3.406c0-3.953 2.422-6.109 5.953-6.109 1.687 0 3.141 0.125 3.563 0.187z"></path></svg>
+            </a>
+            <a title="Instagram" href="https://www.instagram.com/" target="_blank" class="social-link ig">
+                <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28"><path d="M16 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zM18.156 14c0 3.406-2.75 6.156-6.156 6.156s-6.156-2.75-6.156-6.156 2.75-6.156 6.156-6.156 6.156 2.75 6.156 6.156zM19.844 7.594c0 0.797-0.641 1.437-1.437 1.437s-1.437-0.641-1.437-1.437 0.641-1.437 1.437-1.437 1.437 0.641 1.437 1.437zM12 4.156c-1.75 0-5.5-0.141-7.078 0.484-0.547 0.219-0.953 0.484-1.375 0.906s-0.688 0.828-0.906 1.375c-0.625 1.578-0.484 5.328-0.484 7.078s-0.141 5.5 0.484 7.078c0.219 0.547 0.484 0.953 0.906 1.375s0.828 0.688 1.375 0.906c1.578 0.625 5.328 0.484 7.078 0.484s5.5 0.141 7.078-0.484c0.547-0.219 0.953-0.484 1.375-0.906s0.688-0.828 0.906-1.375c0.625-1.578 0.484-5.328 0.484-7.078s0.141-5.5-0.484-7.078c-0.219-0.547-0.484-0.953-0.906-1.375s-0.828-0.688-1.375-0.906c-1.578-0.625-5.328-0.484-7.078-0.484zM24 14c0 1.656 0.016 3.297-0.078 4.953-0.094 1.922-0.531 3.625-1.937 5.031s-3.109 1.844-5.031 1.937c-1.656 0.094-3.297 0.078-4.953 0.078s-3.297 0.016-4.953-0.078c-1.922-0.094-3.625-0.531-5.031-1.937s-1.844-3.109-1.937-5.031c-0.094-1.656-0.078-3.297-0.078-4.953s-0.016-3.297 0.078-4.953c0.094-1.922 0.531-3.625 1.937-5.031s3.109-1.844 5.031-1.937c1.656-0.094 3.297-0.078 4.953-0.078s3.297-0.016 4.953 0.078c1.922 0.094 3.625 0.531 5.031 1.937s1.844 3.109 1.937 5.031c0.094 1.656 0.078 3.297 0.078 4.953z"></path></svg>
+            </a>
+            <a title="Pinterest" href="https://pinterest.com/m" target="_blank" class="social-link pinterest">
+                <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 28"><path d="M0 9.328c0-5.766 5.281-9.328 10.625-9.328 4.906 0 9.375 3.375 9.375 8.547 0 4.859-2.484 10.25-8.016 10.25-1.313 0-2.969-0.656-3.609-1.875-1.188 4.703-1.094 5.406-3.719 9l-0.219 0.078-0.141-0.156c-0.094-0.984-0.234-1.953-0.234-2.938 0-3.187 1.469-7.797 2.188-10.891-0.391-0.797-0.5-1.766-0.5-2.641 0-1.578 1.094-3.578 2.875-3.578 1.313 0 2.016 1 2.016 2.234 0 2.031-1.375 3.938-1.375 5.906 0 1.344 1.109 2.281 2.406 2.281 3.594 0 4.703-5.187 4.703-7.953 0-3.703-2.625-5.719-6.172-5.719-4.125 0-7.313 2.969-7.313 7.156 0 2.016 1.234 3.047 1.234 3.531 0 0.406-0.297 1.844-0.812 1.844-0.078 0-0.187-0.031-0.266-0.047-2.234-0.672-3.047-3.656-3.047-5.703z"></path></svg>
+            </a>
+            <a title="Twitter" href="https://twitter.com/" target="_blank" class="social-link twitter">
+        <svg width="26" height="26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28"><path d="M28 4.109c-1.031 0.453-2.141 0.766-3.297 0.906 1.188-0.703 2.094-1.844 2.516-3.188-1.109 0.656-2.344 1.141-3.656 1.406-1.047-1.109-2.547-1.797-4.203-1.797-3.172 0-5.75 2.578-5.75 5.75 0 0.453 0.047 0.875 0.141 1.297-4.781-0.234-9.016-2.531-11.844-6.016-0.5 0.875-0.781 1.891-0.781 2.969 0 2.047 1.047 3.844 2.625 4.906-0.953-0.031-1.844-0.281-2.625-0.703v0.078c0 2.875 2.047 5.266 4.75 5.797-0.5 0.125-1.031 0.203-1.594 0.203-0.391 0-0.766-0.031-1.141-0.109 0.766 2.391 2.953 4.141 5.547 4.188-2.031 1.594-4.609 2.547-7.391 2.547-0.484 0-0.969-0.031-1.453-0.078 2.625 1.688 5.75 2.672 9.109 2.672 10.938 0 16.922-9.063 16.922-16.922 0-0.266 0-0.531-0.016-0.797 1.156-0.812 2.141-1.875 2.938-3.063z"></path></svg>
+        </a>
+        </div>
+        <div data-h="legal-links" data-testid="legal-links" class="X">
+            <a href="" data-h="legal-link"  class="k">NeatData Membership </a>
+            <a href="" data-h="legal-link"  class="v">Terms and Conditions</a>
+            <a href="" data-h="legal-link"  class="w">Privacy Policy</a>
+                <div data-h="legal-link-text"  class="z">© 2024  Inc.</div>
+        </div>
+
+</footer>    
+<!-- ayoub part -->
+    <script>
+        AOS.init({
+        duration: 1000, // Animation duration in milliseconds
+        offset: 100, // Offset (in px) from the original trigger point
+        });
+    </script>
+    <!-- Script for Chatbot Functionality -->
+    <script>
+        // Select elements
+        const chatbotIcon = document.getElementById('chatbot-icon');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const closeButton = document.getElementById('close-chatbot');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+
+        // Open chatbot
+        chatbotIcon.addEventListener('click', () => {
+            chatbotContainer.style.display = 'block';
+            chatbotIcon.style.display = 'none';
+        });
+
+        // Close chatbot
+        closeButton.addEventListener('click', () => {
+            chatbotContainer.style.display = 'none';
+            chatbotIcon.style.display = 'block';
+        });
+
+        // Add a message to the chat
+        function addMessage(sender, text) {
+            const message = document.createElement('div');
+            message.className = sender === 'user' ? 'user-message' : 'bot-message';
+            message.textContent = text;
+            chatbotMessages.appendChild(message);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Handle user input
+        chatbotSend.addEventListener('click', () => {
+            const userInput = chatbotInput.value.trim();
+            if (userInput) {
+                addMessage('user', userInput);
+                chatbotInput.value = '';
+                botReply(userInput);
+            }
+        });
+
+        chatbotInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                chatbotSend.click();
+            }
+        });
+
+        // Simple bot replies
+        function botReply(input) {
+            fetch('http://localhost:5000/api/chat', {  // Change to Python backend URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: input }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botMessage = data.reply;
+                addMessage('bot', botMessage);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                addMessage('bot', "Sorry, I couldn't get a response from the server.");
+            });
+        }
+
+        // Styling messages dynamically
+        const style = document.createElement('style');
+        document.head.appendChild(style);
+    </script>
+    <script src="static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
