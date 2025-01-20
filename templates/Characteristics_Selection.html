@@ -4,14 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feature Selection</title>
-    <link rel="icon" href="static/NEATD.png">
+    <link rel="icon" href="static/IMG/NEATD.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="static\stylesS.css">
 
 </head>
 <body>
-    <h1>Feature Selection Predicted_CLASSE_ISR</h1>
-    <h3>Upload your dataset</h3>
+    <div class="split-container">
+        <div class="info-section">
+            <h2>About Feature Selection</h2>
+            <p>
+                Enhance your model's performance by selecting the most relevant features using our comprehensive feature selection tools. Whether you want to reduce dimensionality, eliminate noise, or improve interpretability, we have you covered.
+            </p>
+            <p>
+                <strong>Supported feature selection methods:</strong>
+            </p>
+            <ul>
+                <li><strong>ANOVA F-test:</strong> Measures the relationship between individual features and the target variable.</li>
+                <li><strong>SelectKBest:</strong> Selects the top k features based on statistical tests.</li>
+                <li><strong>Chi-squared Test:</strong> Evaluates the independence between categorical variables and the target.</li>
+                <li><strong>Recursive Feature Elimination (RFE):</strong> Iteratively removes less significant features to identify the best subset.</li>
+            </ul>
+            <img src="static/IMG/feature_selection_overview.png" alt="Feature Selection Overview" class="info-image">
+    
+            <h3>Discover New Methods!</h3>
+            <p>
+                Unleash the potential of advanced feature selection techniques to optimize your models further. Click below to explore more!
+            </p>
+            <button id="toggleTechniques" class="btn-toggle">Explore Advanced Feature Selection Methods!</button>
+            <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+                <p><strong>Advanced Feature Selection Methods:</strong></p>
+                <ul>
+                    <li><strong>Mutual Information:</strong> Measures the dependency between features and the target variable.</li>
+                    <li><strong>Principal Component Analysis (PCA):</strong> Transforms features into a lower-dimensional space while preserving variance.</li>
+                    <li><strong>Feature Importance:</strong> Uses model-based techniques (e.g., Random Forest) to identify key features.</li>
+                    <li><strong>Correlation Thresholding:</strong> Removes highly correlated features to prevent multicollinearity.</li>
+                </ul>
+            </div>
+        </div>
+
+    <div class="functionality-section">
+    <h1>Select your best features with NeatData</h1>
+    <h2>Upload your dataset</h2>
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="file" name="file" id="fileInput" required>
         <input type="text" name="target" id="targetInput" placeholder="Enter target column name" required>
@@ -63,7 +97,7 @@
         <input type="text" id="excludeColumns" name="excludeColumns" placeholder="e.g., column1,column2">
         <label for="numFeatures">Number of features to keep:</label>
         <input type="number" id="numFeatures" name="numFeatures" min="1" required>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit"  class="btn-success">
     </form>
     <div id="selectedData" class="hidden">
         <h2>Selected Data</h2>
@@ -103,6 +137,21 @@
         </form>
     </div>
     <div id="saveMessage"></div>
-        <script src="static/FS.js"></script>
+</div>
+</div>
+<script>
+    document.getElementById('toggleTechniques').addEventListener('click', function() {
+        var additionalTechniques = document.getElementById('additionalTechniques');
+        if (additionalTechniques.style.display === 'none') {
+            additionalTechniques.style.display = 'block';
+            this.textContent = 'Show Fewer Techniques';  // Change button text to be more inviting
+        } else {
+            additionalTechniques.style.display = 'none';
+            this.textContent = 'Discover More Techniques!';  // Change button text back
+        }
+    });
+    </script>
+<script src="static/FS.js"></script>
 </body>
 </html>
+

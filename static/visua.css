@@ -1,0 +1,263 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.split-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* Info Section */
+.info-section {
+    flex: 3; /* This should be 3 parts out of 10 */
+    background-color: #f9f9f9;
+    padding: 30px;
+    overflow-y: auto;
+    text-align: left;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Info section */
+.info-section {
+    flex: 3;
+    background-color: #f9f9f9;
+    padding: 30px;
+    overflow-y: auto; /* Enable vertical scroll */
+    text-align: left;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+.info-section h2 {
+    color: #1E90FF;
+    font-size: 26px;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+.info-section h3 {
+    color: #3CB371;
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.info-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.info-section ul li {
+    font-size: 16px;
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.info-section ul li strong {
+    color: #0052d4;
+}
+
+.info-section p {
+    font-size: 18px;
+    margin: 15px 0;
+    line-height: 1.8;
+}
+
+.info-section p:first-child {
+    margin-top: 0;
+}
+
+.info-image {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Animation Keyframes */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.card {
+    text-align: center ;
+}
+
+/* Container */
+/* Functionality Section - Visualization */
+.functionality-secti {
+    flex: 7; /* This should be 7 parts out of 10 */
+    background: linear-gradient(135deg, #8fc3ff, #3b79fd, #0a234b);
+    background-size: 300% 300%; /* Increase size for smoother animation */
+    animation: gradientAnimation 10s ease infinite; /* Apply animation */
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    overflow-y: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content to the top */
+    align-items: center; /* Center the items horizontally */
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative; /* Allow absolute positioning for child elements if needed */
+}
+
+
+/* Header */
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-control, .form-select {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+button {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    flex: 1;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Visualization Output */
+#chartCanvas {
+    margin: 20px 0;
+    display: block;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* Download Button */
+#downloadImage {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#downloadImage:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .form-control, .form-select, button {
+        font-size: 0.9rem;
+    }
+}

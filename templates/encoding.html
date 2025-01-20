@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encoding Categorical Variables</title>
     <link rel="stylesheet" href="static\stylesS.css">
-    <link rel="icon" href="static/NEATD.png">
+    <link rel="icon" href="static/IMG/NEATD.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .hidden { display: none; }
@@ -14,69 +14,125 @@
     </style>
 </head>
 <body>
-    <h1>Encoding Categorical Variables</h1>
-    <h3>Upload your dataset</h3>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="file" id="fileInput" required>
-        <button type="submit">Upload</button>
-        <button type="button" id="resetButton">Reset</button>
-    </form>
-    <div id="uploadMessage"></div>
-    <div id="encoding_overview">
-        <h2>Data Overview</h2>
-        <h3>Data types of columns</h3>
-        <pre id="data_types"></pre>
-        <h3>Categories of columns</h3>
-        <pre id="column_categories"></pre>
+    <div class="split-container">
+    <div class="info-section">
+        <h2>About Encoding Categorical Variables</h2>
+        <p>
+            Efficiently encode your categorical variables using our intuitive tool. Whether you need one-hot encoding, label encoding, or custom mappings, we've got you covered.
+        </p>
+        <p>
+            <strong>Supported encoding methods:</strong>
+        </p>
+        <ul>
+            <li><strong>One-hot encoding:</strong> Converts categorical values into binary columns.</li>
+            <li><strong>Label encoding:</strong> Assigns a unique integer to each category.</li>
+            <li><strong>Binary encoding:</strong> Encodes categories as binary numbers.</li>
+            <li><strong>Manual encoding:</strong> Allows you to specify custom mappings.</li>
+        </ul>
+        <img src="static/IMG/encoding_overview.png" alt="Encoding Overview" class="info-image">
+        
+        <h3>Discover New Techniques!</h3>
+        <p>
+            Unlock advanced encoding methods to elevate your data processing. Click below to explore more!
+        </p>
+        <button id="toggleTechniques" class="btn-toggle">Explore Advanced Encoding Techniques!</button>
+        <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+            <p><strong>Advanced Encoding Methods:</strong></p>
+            <ul>
+                <li><strong>Target Encoding:</strong> Encodes categories by replacing them with the mean of the target variable for each category, useful for regression and classification tasks.</li>
+                <li><strong>Frequency Encoding:</strong> Replaces categories with their frequency count, preserving information about the distribution.</li>
+                <li><strong>Hash Encoding:</strong> Maps categories to hash values, which is especially helpful for high-cardinality data.</li>
+                <li><strong>Mean Encoding:</strong> Similar to target encoding but uses the mean of a numerical column related to each category.</li>
+            </ul>
+        </div>
     </div>
-    <form id="encodingForm">
-        <label>Choose an encoding method:</label><br>
-        <input type="radio" name="encoding_choice" value="onehot" required> One-hot encoding<br>
-        <input type="radio" name="encoding_choice" value="label" required> Label encoding<br>
-        <input type="radio" name="encoding_choice" value="binary" required> Binary encoding<br>
-        <input type="radio" name="encoding_choice" id="manualEncoding" value="manual" required> Manual encoding<br>
-        <br>
-        <label>Enter the column names to encode (comma separated):</label><br>
-        <input type="text" name="encoding_columns" required><br>
-        <br>
-        <button type="button" id="addManualMapping" disabled>Add Manual Mapping</button>
-        <div id="manualEncodingInputs"></div>
-        <p><button type="submit">Submit</button></p>
-    </form>
-    <div id="processMessage"></div>
-    <h3>Sample of the DataFrame (After Encoding)</h3>
-    <div id="encodingSampleDataAfter"></div>
-    <div id="processMessage"></div>
+        
 
-    <div id="saveData" class="hidden">
-        <h2>Save Processed Data</h2>
-        <form id="saveDecisionForm">
-            <label>Do you want to save the processed data?</label><br>
-            <input type="radio" name="save_decision" value="yes" required> Yes<br>
-            <input type="radio" name="save_decision" value="no" required> No<br>
-            <input type="radio" name="save_decision" value="process_more" required> Process more columns<br>
-            <button type="submit">Submit</button>
+    <!-- Encoding Section -->
+    <div class="functionality-section">
+        <h2>Encode Your Categorical Variables with NeatData</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput" required>
+            <button type="submit">Upload</button>
+            <button type="button" id="resetButton">Reset</button>
         </form>
-    </div>
+        <div id="uploadMessage"></div>
+        <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+            <span id="messageContent"></span>
+            <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">×</button>
+        </div>
 
-    <div id="saveOptions" class="hidden">
-        <h2>Choose File Format and Path</h2>
-        <form id="saveFormatForm">
-            <label>Choose file format:</label><br>
-            <input type="radio" name="file_format" value="xlsx" required> XLSX<br>
-            <input type="radio" name="file_format" value="csv" required> CSV<br>
-            <input type="radio" name="file_format" value="json" required> JSON<br>
-            <input type="radio" name="file_format" value="parquet" required> Parquet<br>
+        <div class="overview-section">
+            <h3>Data types of columns</h3>
+            <table id="data_types_table" class="table-style"></table>
+        </div>
+        <div class="overview-section">
+            <h3>Categories of Columns</h3>
+            <table id="column_categories_table" class="table-style"></table>
+        </div>
+
+        <form id="encodingForm">
+            <label>Choose an encoding method:</label><br>
+            <input type="radio" name="encoding_choice" value="onehot" required> One-hot encoding<br>
+            <input type="radio" name="encoding_choice" value="label" required> Label encoding<br>
+            <input type="radio" name="encoding_choice" value="binary" required> Binary encoding<br>
+            <input type="radio" name="encoding_choice" id="manualEncoding" value="manual" required> Manual encoding<br>
             <br>
-            <label>Enter the path where you want to save the file:</label><br>
-            <input type="text" name="save_path" required><br>
-            <label>Enter the filename:</label><br>
-            <input type="text" name="filename" required><br>
-            <button type="submit">Save</button>
+            <label>Enter the column names to encode (comma-separated):</label><br>
+            <input type="text" name="encoding_columns" required><br>
+            <br>
+            <button type="button" id="addManualMapping" disabled>Add Manual Mapping</button>
+            <div id="manualEncodingInputs"></div>
+            <p><button type="submit">Submit</button></p>
         </form>
-    </div>
 
-    <div id="saveMessage"></div>
-    <script src="static/Encoding.js"></script>
+        <div id="processMessage"></div>
+        <h3>Sample of the DataFrame (After Encoding)</h3>
+        <div id="encodingSampleDataAfter"></div>
+
+        <div id="saveData" class="hidden">
+            <h2>Save Processed Data</h2>
+            <form id="saveDecisionForm">
+                <label>Do you want to save the processed data?</label><br>
+                <input type="radio" name="save_decision" value="yes" required> Yes<br>
+                <input type="radio" name="save_decision" value="no" required> No<br>
+                <input type="radio" name="save_decision" value="process_more" required> Process more columns<br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div id="saveOptions" class="hidden">
+            <h2>Choose File Format and Path</h2>
+            <form id="saveFormatForm">
+                <label>Choose file format:</label><br>
+                <input type="radio" name="file_format" value="xlsx" required> XLSX<br>
+                <input type="radio" name="file_format" value="csv" required> CSV<br>
+                <input type="radio" name="file_format" value="json" required> JSON<br>
+                <input type="radio" name="file_format" value="parquet" required> Parquet<br>
+                <br>
+                <label>Enter the path where you want to save the file:</label><br>
+                <input type="text" name="save_path" required><br>
+                <label>Enter the filename:</label><br>
+                <input type="text" name="filename" required><br>
+                <button type="submit">Save</button>
+            </form>
+        </div>
+
+        <div id="saveMessage"></div>
+    </div>
+</div>
+<script>
+    document.getElementById('toggleTechniques').addEventListener('click', function() {
+        var additionalTechniques = document.getElementById('additionalTechniques');
+        if (additionalTechniques.style.display === 'none') {
+            additionalTechniques.style.display = 'block';
+            this.textContent = 'Show Fewer Techniques';  // Change button text to be more inviting
+        } else {
+            additionalTechniques.style.display = 'none';
+            this.textContent = 'Discover More Techniques!';  // Change button text back
+        }
+    });
+    </script>
+<script src="static/Encoding.js"></script>
 </body>
 </html>

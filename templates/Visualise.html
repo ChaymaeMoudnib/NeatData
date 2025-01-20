@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/visua.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="split-container">
+        <div class="functionality-secti">
+            <div class="container mt-4">
+                <h1 class="text-center">Data Visualization Tool</h1>
+                <p class="text-center">Upload your dataset and create customizable visualizations.</p>
+        
+                <!-- Upload Dataset -->
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Upload Your Dataset</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <input type="file" id="fileInput" name="file" class="form-control mb-3" required>
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                            <button type="button" id="resetButton" class="btn btn-danger">Reset</button>
+                        </form>
+                        <div id="uploadMessage" class="mt-2"></div>
+                        <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+                            <span id="messageContent"></span>
+                            <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">×</button>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- Visualization Options -->
+                <div id="visualizationOptions" class="card d-none">
+                    <div class="card-header">
+                        <h2>Create Visualization</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="visualizationForm">
+                            <!-- Column Selection -->
+                            <div class="mb-3">
+                                <label for="columns" class="form-label">Columns to Visualize (comma-separated):</label>
+                                <input type="text" id="columns" name="columns" class="form-control" required>
+                            </div>
+        
+                            <!-- Visualization Type -->
+                            <div class="mb-3">
+                                <label for="chartType" class="form-label">Select Visualization Type:</label>
+                                <select id="chartType" name="chartType" class="form-select" required>
+                                    <option value="line">Line Chart</option>
+                                    <option value="bar">Bar Chart</option>
+                                    <option value="scatter">Scatter Plot</option>
+                                    <option value="pie">Pie Chart</option>
+                                    <option value="histogram">Histogram</option>
+                                </select>
+                            </div>
+        
+                            <!-- Customization Options -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="chartWidth" class="form-label">Chart Width (px):</label>
+                                    <input type="number" id="chartWidth" name="chartWidth" class="form-control" value="800" min="400">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="chartHeight" class="form-label">Chart Height (px):</label>
+                                    <input type="number" id="chartHeight" name="chartHeight" class="form-control" value="600" min="400">
+                                </div>
+                            </div>
+        
+                            <!-- Color Picker -->
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="backgroundColor" class="form-label">Background Color:</label>
+                                    <input type="color" id="backgroundColor" name="backgroundColor" class="form-control" value="#ffffff">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lineColor" class="form-label">Line/Bar Color:</label>
+                                    <input type="color" id="lineColor" name="lineColor" class="form-control" value="#007bff">
+                                </div>
+                            </div>
+        
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-success mt-3">Generate Visualization</button>
+                        </form>
+                    </div>
+                </div>
+        
+                <!-- Visualization Output -->
+                <div id="visualizationOutput" class="card d-none mt-4">
+                    <div class="card-header">
+                        <h2>Visualization</h2>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartCanvas"></canvas>
+                        <a id="downloadImage" class="btn btn-primary mt-3" download="visualization.png">Download Visualization</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="info-section">
+        <h2>About Visualization Techniques</h2>
+        <p>
+            Visualization is a crucial aspect of data analysis that allows you to present data in a clear and engaging way. Our intuitive tool enables you to create stunning visualizations to uncover insights and tell compelling stories with your data.
+        </p>
+        <p>
+            You can explore the following visualization techniques:
+        </p>
+        <ul>
+            <li><strong>Bar Charts:</strong> Useful for comparing quantities across different categories, bar charts display data in rectangular bars with lengths proportional to the values they represent.</li>
+            <li><strong>Line Graphs:</strong> Ideal for showing trends over time, line graphs connect individual data points with lines, making it easy to observe changes and patterns.</li>
+            <li><strong>Pie Charts:</strong> Effective for displaying proportions and percentages, pie charts represent data as slices of a circular graph, illustrating the relative sizes of different categories.</li>
+            <li><strong>Scatter Plots:</strong> Great for visualizing relationships between two quantitative variables, scatter plots show individual data points on a two-dimensional graph, helping identify correlations.</li>
+            <li><strong>Heatmaps:</strong> Useful for displaying data density, heatmaps use color gradients to represent values in a matrix format, making it easy to spot trends and anomalies.</li>
+        </ul>
+        <img src="static/IMG/visualization_overview.png" alt="Visualization Overview" class="info-image">
+    
+        <h3>Discover New Techniques!</h3>
+        <p>
+            Enhance your visualization skills by exploring advanced methods to improve your data storytelling. Click below to learn more!
+        </p>
+        <button id="toggleTechniques" class="btn-toggle">Explore New Visualization Techniques!</button>
+        <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+            <p><strong>Advanced Visualization Methods:</strong></p>
+            <ul>
+                <li><strong>Dashboards:</strong> Combine multiple visualizations into a single interface to provide a comprehensive view of your data and facilitate quick insights.</li>
+                <li><strong>Geospatial Visualizations:</strong> Use maps to represent data geographically, allowing you to analyze patterns and trends in location-based data.</li>
+            </ul>
+        </div>
+    </div>    
+    </div>
+    <script src="static/visua.js"></script>
+</body>
+</html>

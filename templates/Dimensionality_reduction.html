@@ -4,14 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimensionality Reduction</title>
-    <link rel="icon" href="static/NEATD.png">
+    <link rel="icon" href="static/IMG/NEATD.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="static\stylesS.css">
 
 </head>
 <body>
-    <h1>Dimensionality Reduction</h1>
-    <h3>Upload your dataset</h3>
+    <div class="split-container">
+        <div class="info-section">
+            <h2>About Dimensionality Reduction</h2>
+            <p>
+                Streamline your data analysis process by reducing dimensionality and uncovering hidden patterns with our robust tools. Whether you're optimizing for computational efficiency or visualizing high-dimensional data, we've got the right solution for you.
+            </p>
+            <p>
+                <strong>Supported dimensionality reduction methods:</strong>
+            </p>
+            <ul>
+                <li><strong>Principal Component Analysis (PCA):</strong> Transforms features into a lower-dimensional space while preserving variance.</li>
+                <li><strong>Linear Discriminant Analysis (LDA):</strong> Projects data into a space that maximizes class separability.</li>
+                <li><strong>t-SNE:</strong> Creates a low-dimensional representation while preserving local structure for visualization.</li>
+                <li><strong>Correspondence Analysis (AFC):</strong> Ideal for categorical data, it visualizes relationships between rows and columns of contingency tables.</li>
+            </ul>
+            <img src="static/IMG/dimensionality_reduction_overview.png" alt="Dimensionality Reduction Overview" class="info-image">
+    
+            <h3>Discover New Methods!</h3>
+            <p>
+                Push the boundaries with advanced techniques to elevate your data preprocessing. Click below to explore more!
+            </p>
+            <button id="toggleTechniques" class="btn-toggle">Explore Advanced Dimensionality Reduction Methods!</button>
+            <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+                <p><strong>Advanced Dimensionality Reduction Methods:</strong></p>
+                <ul>
+                    <li><strong>Kernel PCA:</strong> Extends PCA by applying kernel methods for capturing nonlinear structures.</li>
+                    <li><strong>Isomap:</strong> Preserves geodesic distances between points to better capture the manifold structure.</li>
+                    <li><strong>Autoencoders:</strong> Neural network-based dimensionality reduction technique that compresses and reconstructs data.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="functionality-section">
+
+    <h1>Reduce the dimension of your data.</h1>
+    <h2>Upload your dataset</h2>
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="file" name="file" id="fileInput" required>
         <button type="submit">Upload</button>
@@ -48,7 +81,7 @@
         <input type="radio" name="choice" value="2" required> LDA <br>
         <input type="radio" name="choice" value="3" required> T-SNE <br>
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" class="btn-success" value="Submit">
     </form>
     <div id="reducedData" class="hidden">
         <h2>Reduced Data</h2>
@@ -76,10 +109,24 @@
             <input type="text" name="save_path" required><br>
             <label>Enter the filename:</label><br>
             <input type="text" name="filename" required><br>
-            <button type="submit">Save</button>
+            <button type="Save" class="btn-success">Save</button>
         </form>
     </div>
     <div id="saveMessage"></div>
+</div>
+</div>
+    <script>
+            document.getElementById('toggleTechniques').addEventListener('click', function() {
+                var additionalTechniques = document.getElementById('additionalTechniques');
+                if (additionalTechniques.style.display === 'none') {
+                    additionalTechniques.style.display = 'block';
+                    this.textContent = 'Show Fewer Techniques';  // Change button text to be more inviting
+                } else {
+                    additionalTechniques.style.display = 'none';
+                    this.textContent = 'Discover More Techniques!';  // Change button text back
+                }
+            });
+    </script>
     <script src="static\DR.JS"></script>
 </body>
 </html>

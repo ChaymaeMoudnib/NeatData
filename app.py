@@ -45,8 +45,12 @@ def allowed_file(filename):
 def index():
     return render_template('index.html')
 
+@app.route('/visualise', methods=['GET'])
+def visualise():
+    return render_template('Visualise.html')
+
 @app.route('/transform', methods=['GET'])
-def transform_file_page():
+def transform():
     return render_template('transform.html')
 
 @app.route('/missing_values')
@@ -98,7 +102,7 @@ def upload_file():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
     file = request.files['file']
-    target_column = request.form.get('target_column')  # Correctly get target column from the form
+    target_column = request.form.get('target_column')  
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     if file and allowed_file(file.filename):
@@ -123,7 +127,48 @@ def upload_file():
     return jsonify({"error": "Only CSV and XLSX files are allowed."}), 400
 
 
-####
+####visualize
+
+@app.route('/visualise', methods=['POST'])
+def visualize():
+    data = request.json
+    filepath = os.path.join(UPLOAD_FOLDER, data['filename'])
+    df = pd.read_csv(filepath)
+
+    columns = data.get('columns', '').split(',')
+    chart_type = data['chartType']
+    chart_width = int(data['chartWidth'])
+    chart_height = int(data['chartHeight'])
+    bg_color = data['backgroundColor']
+    line_color = data['lineColor']
+
+    if not all(col in df.columns for col in columns):
+        return jsonify({'error': 'Invalid columns specified'}), 400
+
+    plt.figure(figsize=(chart_width / 100, chart_height / 100), facecolor=bg_color)
+
+    if chart_type == 'line':
+        for col in columns:
+            plt.plot(df[col], label=col, color=line_color)
+    elif chart_type == 'bar':
+        df[columns].plot(kind='bar', color=line_color)
+    elif chart_type == 'scatter' and len(columns) == 2:
+        plt.scatter(df[columns[0]], df[columns[1]], color=line_color)
+    elif chart_type == 'pie' and len(columns) == 1:
+        plt.pie(df[columns[0]].value_counts(), labels=df[columns[0]].value_counts().index, autopct='%1.1f%%')
+    elif chart_type == 'histogram':
+        df[columns].plot(kind='hist', bins=20, alpha=0.7)
+
+    plt.legend()
+    plt.tight_layout()
+    output_path = os.path.join(UPLOAD_FOLDER, 'visualization.png')
+    plt.savefig(output_path)
+    plt.close()
+
+    return jsonify({'imagePath': output_path})
+
+
+####convert to int3...
 
 def convert_to_serializable(obj):
     if isinstance(obj, pd.Series):
