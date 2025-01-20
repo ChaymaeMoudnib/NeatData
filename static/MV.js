@@ -192,3 +192,90 @@ function displayMessageBox(message, type) {
     }, 3000); // Hide after 3 seconds
 }
 });
+
+// Handle transformation
+    // Handle column transformation
+    $('#transformForm').on('submit', function(e) {
+        e.preventDefault();
+        var columnName = $('#columnSelect').val();
+        var newType = $('#typeSelect').val();
+
+        $.ajax({
+            url: '/transform',
+            type: 'POST',
+            data: { column: columnName, type: newType },
+            success: function(response) {
+                $('#messageContent').text(response.message);
+                $('#messageBox').removeClass('hidden');
+            },
+            error: function(xhr, status, error) {
+                $('#messageContent').text('Error transforming column.');
+                $('#messageBox').removeClass('hidden');
+            }
+        });
+    });
+
+    // Close message box
+    $('#messageButton').on('click', function() {
+        $('#messageBox').addClass('hidden');
+    });
+
+    // Handle Increase Type Button (if needed)
+    $('#increaseTypeButton').on('click', function() {
+        alert('Increase column type functionality is not implemented yet.');
+    });
+
+    // Handle Transform File Button (if needed)
+    $('#transformFileButton').on('click', function() {
+        alert('Transform file functionality is not implemented yet.');
+    });
+
+
+// // Handle Increase Column Type
+// $('#increaseTypeButton').click(function() {
+//     var column = $('#columnSelect').val();
+//     var currentType = $('#typeSelect').val();
+//     var nextType = getNextType(currentType);
+
+//     if (nextType) {
+//         $.ajax({
+//             url: '/transform',
+//             type: 'POST',
+//             data: { column: column, type: nextType },
+//             success: function (data) {
+//                 $('#messageContent').text(data.message);
+//                 $('#messageBox').removeClass('hidden');
+//                 $('#typeSelect').val(nextType); // Update the dropdown with the new type
+//             }
+//         });
+//     } else {
+//         alert('No higher type available');
+//     }
+// });
+
+// Get next type for increasing
+// function getNextType(currentType) {
+//     const typeOrder = ['int8', 'int16', 'int32', 'int64', 'float16', 'float32', 'float64'];
+//     const index = typeOrder.indexOf(currentType);
+//     return (index < typeOrder.length - 1) ? typeOrder[index + 1] : null;
+// }
+
+// // Handle Transform File Type
+// $('#transformFileButton').click(function() {
+//     var fileFormat = $('input[name="file_format"]:checked').val();
+//     var filePath = $('input[name="save_path"]').val();
+//     var fileName = $('input[name="filename"]').val();
+
+//     if (fileFormat && filePath && fileName) {
+//         $.ajax({
+//             url: '/transformFile',
+//             type: 'POST',
+//             data: { format: fileFormat, path: filePath, filename: fileName },
+//             success: function(data) {
+//                 alert('File transformed and saved successfully!');
+//             }
+//         });
+//     } else {
+//         alert('Please select file format and specify save path and filename');
+//     }
+// });

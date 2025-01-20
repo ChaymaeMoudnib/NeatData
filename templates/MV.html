@@ -4,31 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handle MV</title>
-    <link rel="icon" href="static/NEATD.png">
+    <link rel="icon" href="static/IMG/NEATD.png">
     <link rel="stylesheet" href="static\MV.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div class="split-container">
-        <!-- Information Section -->
-        <div class="info-section">
-            <h2>About Handling Missing Values</h2>
-            <p>
-                This tool enables you to handle missing values in your dataset. 
-                Explore various functionalities such as visualizing missing data patterns, 
-                deleting rows/columns with missing values, and imputing missing values 
-                using advanced techniques like KNN, MICE, and more.
-            </p>
-            <p>
-                Features include:
-                <ul>
-                    <li>Visualizations of missing data</li>
-                    <li>Customizable plots</li>
-                    <li>Imputation techniques</li>
-                    <li>Saving processed datasets</li>
-                </ul>
-            </p>
-        </div>
+<!-- Information Section -->
+<div class="info-section">
+    <h2>About Handling Missing Values</h2>
+    <p>
+        Missing data is a common challenge in data analysis. This tool allows you to efficiently handle missing values by 
+        offering a variety of solutions and advanced techniques. Whether you want to visualize missing data patterns, 
+        delete unwanted rows or columns, or impute missing values with sophisticated methods, this tool has got you covered.
+    </p>
+    <p>
+        You can explore the following functionalities:
+    </p>
+    <ul>
+        <li><strong>Visualize Missing Data:</strong> Get a clear view of missing values with customizable plots that highlight patterns and distributions.</li>
+        <li><strong>Imputation Techniques:</strong> Choose from advanced imputation methods like K-Nearest Neighbors (KNN), Multiple Imputation by Chained Equations (MICE), and more.</li>
+        <li><strong>Data Cleaning:</strong> Remove or replace rows and columns with missing values, tailored to your specific analysis needs.</li>
+        <li><strong>Save Cleaned Data:</strong> After processing, you can easily save the cleaned and imputed dataset for further use.</li>
+    </ul>
+    <h3>Imputation Techniques Explained</h3>
+    <p>
+        <strong>K-Nearest Neighbors (KNN):</strong> A machine learning technique that imputes missing values based on the closest data points, improving accuracy by considering the relationships in the data.
+    </p>
+    <p>
+        <strong>Multiple Imputation by Chained Equations (MICE):</strong> A more advanced approach that creates multiple imputations based on the relationships between variables, allowing for a more accurate representation of uncertainty in missing data.
+    </p>
+    <p>
+        <strong>Mean/Median Imputation:</strong> Simple but effective for numerical data, replacing missing values with the mean or median of the available values.
+    </p>
+    <p>
+        <strong>Forward/Backward Filling:</strong> A technique commonly used in time series, where missing values are imputed based on the previous (or next) available value.
+    </p>
+    <button id="toggleTechniques" class="btn-toggle">Discover More Techniques!</button>
+    <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+        <p><strong>Advanced Imputation Methods:</strong></p>
+        <ul>
+            <li><strong>Regression Imputation:</strong> Predict missing data using regression models.</li>
+            <li><strong>Interpolation:</strong> Estimate values based on neighboring data points.</li>
+        </ul>
+    </div>
+</div>
+
+
 
         <!-- Missing Values Functionality Section -->
         <div class="functionality-section">
@@ -142,6 +164,18 @@
             </div>
         
             <div id="saveMessage"></div>
-            <script src="static/MV.js"></script>
+            <script>
+                document.getElementById('toggleTechniques').addEventListener('click', function() {
+                    var additionalTechniques = document.getElementById('additionalTechniques');
+                    if (additionalTechniques.style.display === 'none') {
+                        additionalTechniques.style.display = 'block';
+                        this.textContent = 'Show Fewer Techniques';  // Change button text to be more inviting
+                    } else {
+                        additionalTechniques.style.display = 'none';
+                        this.textContent = 'Discover More Techniques!';  // Change button text back
+                    }
+                });
+                </script>
+                <script src="static/MV.js"></script>
 </body>
 </html>

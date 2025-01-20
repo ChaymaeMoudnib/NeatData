@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 $('#visualizations').addClass('hidden');
                 $('#visualizationContainer').empty();
                 $('#saveOptions').addClass('hidden'); // Hide save options on reset
+                $('#saveMessage').empty();
                 displayMessageBox('Form reset successfully.', 'message');
             },
             error: function(xhr, status, error) {

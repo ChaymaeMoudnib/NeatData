@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Transformation Tool</title>
+    <link rel="icon" href="static/IMG/NEATD.png">
+    <link rel="stylesheet" href="static/transform.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="split-container">
+        <!-- Information Section -->
+        <div class="info-section">
+            <h2>About Data Transformation</h2>
+            <p>
+                Transform your dataset effortlessly with our versatile tool. Whether you're converting files for analysis, sharing with colleagues, or preparing data for machine learning, we have you covered. 
+                <strong>Supported formats:</strong>
+                <ul>
+                    <li><strong>CSV:</strong> A simple and widely used format for data manipulation.</li>
+                    <li><strong>Excel (XLSX):</strong> Ideal for creating spreadsheets with rich features.</li>
+                    <li><strong>JSON:</strong> Perfect for web applications and APIs.</li>
+                    <li><strong>Parquet:</strong> Efficient storage for big data applications.</li>
+                    <li><strong>XML:</strong> Great for structured data interchange.</li>
+                    <li><strong>HTML:</strong> Easily create web-ready data tables.</li>
+                </ul>
+            </p>
+            <img src="static/IMG/transform2.png" alt="Data Transformation Flow" class="info-image">
+        </div>
+
+        <!-- Transformation Section -->
+        <div class="functionality-section">
+            <h2>Upload Your Dataset</h2>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" name="file" id="fileInput" required>
+                <button type="submit">Upload</button>
+                <button type="button" id="resetButton">Reset</button>
+            </form>
+            <div id="uploadMessage"></div>
+            <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+                <span id="messageContent"></span>
+                <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">×</button>
+            </div>
+            <!-- Save Options Section -->
+        <div id="saveOptions" class="">
+        <h2>Transform and Save Your File</h2>
+            <form id="saveFormatForm">
+            <label>Choose file format:</label><br>
+                <div class="file-format-options">
+                <label class="file-format-option">
+                <input type="radio" name="file_format" value="xlsx" required>
+                <span>XLSX</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="csv" required>
+                <span>CSV</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="json" required>
+                <span>JSON</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="parquet" required>
+                <span>Parquet</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="xml" required>
+                <span>XML</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="html" required>
+                <span>HTML</span>
+            </label>
+        </div>
+        <br>
+        <label>Enter the path where you want to save the file:</label><br>
+        <input type="text" name="save_path" required><br>
+        <label>Enter the filename:</label><br>
+        <input type="text" name="filename" required><br>
+        <button type="submit">Save</button>
+    </form>
+    </div>
+    </div>
+    <script src="static/commun.js"></script>
+</body>
+</html>

@@ -338,3 +338,33 @@
 </script>
 </body>
 </html>
+{CORS(app)  
+    def query_huggingface_api(payload):
+        headers = {
+            "Authorization": f"Bearer {HUGGINGFACE_API_KEY}"
+        }
+        response = requests.post(MODEL_URL, headers=headers, json=payload)
+        return response.json()
+    
+    @app.route('/api/chat', methods=['POST'])
+    def chat():
+        try:
+            user_input = request.json.get('message')
+    
+            if not user_input:
+                return jsonify({'error': 'No message provided'}), 400
+    
+            # Send user input to Hugging Face API
+            payload = {
+                "inputs": user_input,
+            }
+            response = query_huggingface_api(payload)
+    
+            # Extract and return the model response
+            if response.get("error"):
+                return jsonify({'error': response['error']}), 500
+            else:
+                return jsonify({'response': response[0]['generated_text']}), 200
+    
+        except Exception as e:
+            return jsonify({'error': f"An unexpected error occurred: {str(e)}"}), 500}

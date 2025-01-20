@@ -13,16 +13,15 @@ from sklearn.impute import IterativeImputer, KNNImputer, SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.manifold import TSNE
 from sklearn.preprocessing import LabelEncoder
-import category_encoders as ce
+import category_encoders as ce 
 from sklearn.svm import SVC
 from flask import Flask, request, jsonify
 from flask_cors import CORS  
-import openai
-import requests
+from typing_extensions import override
+import time
 
 
-HUGGINGFACE_API_KEY = 'your_huggingface_api_key'  # Get your API key from Hugging Face
-MODEL_URL = "https://api-inference.huggingface.co/models/gpt2"  # You can replace with any model
+
 
 
 UPLOAD_FOLDER = 'uploads'
@@ -33,36 +32,8 @@ plt.switch_backend('Agg')
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-CORS(app)  
-def query_huggingface_api(payload):
-    headers = {
-        "Authorization": f"Bearer {HUGGINGFACE_API_KEY}"
-    }
-    response = requests.post(MODEL_URL, headers=headers, json=payload)
-    return response.json()
 
-@app.route('/api/chat', methods=['POST'])
-def chat():
-    try:
-        user_input = request.json.get('message')
 
-        if not user_input:
-            return jsonify({'error': 'No message provided'}), 400
-
-        # Send user input to Hugging Face API
-        payload = {
-            "inputs": user_input,
-        }
-        response = query_huggingface_api(payload)
-
-        # Extract and return the model response
-        if response.get("error"):
-            return jsonify({'error': response['error']}), 500
-        else:
-            return jsonify({'response': response[0]['generated_text']}), 200
-
-    except Exception as e:
-        return jsonify({'error': f"An unexpected error occurred: {str(e)}"}), 500
 
 if not os.path.exists('static'):
     os.makedirs('static')
@@ -74,7 +45,9 @@ def allowed_file(filename):
 def index():
     return render_template('index.html')
 
-
+@app.route('/transform', methods=['GET'])
+def transform_file_page():
+    return render_template('transform.html')
 
 @app.route('/missing_values')
 def missing_values():
@@ -148,6 +121,7 @@ def upload_file():
         except Exception as e:
             return jsonify({"error": f"File processing failed: {str(e)}"}), 500
     return jsonify({"error": "Only CSV and XLSX files are allowed."}), 400
+
 
 ####
 
@@ -718,7 +692,7 @@ def process_data():
             "error": f"Data processing failed. Potential causes: {str(e)}. Ensure that the columns are correctly specified, the data types are appropriate for imputation, and the necessary dependencies are installed."
         }), 500
 
-
+###Save
 @app.route('/save', methods=['POST'])
 def save():
     try:
@@ -726,26 +700,37 @@ def save():
         save_path = request.json.get('save_path')
         filename = request.json.get('filename')
 
+        # Validate input fields
         if not file_format or not save_path or not filename:
             return jsonify({"error": "Missing required information"}), 400
 
+        # Load the current DataFrame
         df = pd.read_pickle('current_df.pkl')
 
+        # Construct the full save path
         full_path = os.path.join(save_path, f"{filename}.{file_format}")
+
+        # Save based on the selected format
         if file_format == 'xlsx':
             df.to_excel(full_path, index=False)
         elif file_format == 'csv':
             df.to_csv(full_path, index=False)
         elif file_format == 'json':
-            df.to_json(full_path, orient='records', lines=True)
+            df.to_json(full_path, orient='records', indent=2)
         elif file_format == 'parquet':
             df.to_parquet(full_path, index=False)
+        elif file_format == 'html':
+            df.to_html(full_path, index=False)
+        elif file_format == 'xml':
+            df.to_xml(full_path, index=False)
         else:
-            return jsonify({"error": "Unsupported file format"}), 400
+            return jsonify({"error": f"Unsupported file format: {file_format}"}), 400
 
         return jsonify({"message": f"File saved successfully at {full_path}"}), 200
+
     except Exception as e:
         return jsonify({"error": f"Failed to save file: {str(e)}"}), 500
+
 
 
 @app.route('/static/<path:filename>')
