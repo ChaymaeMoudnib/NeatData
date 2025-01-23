@@ -87,6 +87,10 @@ def Data_Sampling():
 def test():
     return render_template('test.html')
 
+@app.route('/download_plot')
+def download_plot():
+    return send_from_directory('static/plots', 'missing_values_plot.png', as_attachment=True)
+
 
 @app.route('/reset', methods=['POST'])
 def reset_data():
@@ -121,7 +125,7 @@ def upload_file():
             df.to_pickle('current_df.pkl')
             if target_column and target_column not in df.columns:
                 return jsonify({"error": f"Target column '{target_column}' not found in dataset"}), 400
-            return jsonify({"message": "File uploaded and data loaded successfully."})
+            return jsonify({"message": "Data loaded successfully ."})
         except Exception as e:
             return jsonify({"error": f"File processing failed: {str(e)}"}), 500
     return jsonify({"error": "Only CSV and XLSX files are allowed."}), 400

@@ -14,21 +14,19 @@ body {
 }
 
 /* Information Section Styles */
-/* Information Section Styles */
 .info-section {
     flex: 3;
     background-color: #f9f9f9;
-    color: #333;
     padding: 30px;
     overflow-y: auto;
     text-align: left;
     border-radius: 15px;
+    color: #424242;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
 }
 
 .info-section h2 {
-    color: #1E90FF;
+    color: #3671f0;
     font-size: 26px;
     font-weight: 700;
     transition: color 0.3s ease;
@@ -52,7 +50,7 @@ body {
 }
 
 .info-section ul li strong {
-    color: #0052d4;
+    color: #3671f0;
 }
 
 .info-section p {
@@ -64,89 +62,211 @@ body {
 .info-section p:first-child {
     margin-top: 0;
 }
+/* funtion S */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
-.btn-toggle {
-    background-color: #1E90FF;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    margin-top: 20px;
+
+/* uploading */
+
+.card {
     border: none;
-    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%; /* Increased from 76% to 90% */
+    height: 23%;
+    margin: 20px auto;
+    background-color: #fff;
+}
+#uploadForm {
+    display: flex;  /* Ensure form uses flexbox */
+    flex-direction: row;  /* Stack items vertically */
+    align-items: center;  /* Center items horizontally */
+
+}
+.card-header {
+    background-color: #639cf0;
+    color: #fff;
+    padding: 5px 15px;
+    font-size: 0.7rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
 }
 
-.btn-toggle:hover {
-    background-color: #4682B4;
+.card-body {
+    padding: 20px;
 }
 
-.additional-techniques {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #2F4F4F;
-    padding: 15px;
-    background-color: #f1f1f1;
-    border-radius: 8px;
+/* Form Styling */
+#uploadForm {
+    width: 100%;
+}
+
+/* Custom File Input */
+.custom-file-upload {
+    display: inline-block;
+    padding: 12px 60px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+
+}
+
+.custom-file-upload:hover {
+    border-color: #007bff;
+    background-color: #e9f3ff;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+/* Buttons */
+button {
+    padding: 13px 29px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary {
+    background-color:#639cf0;
+    border: none;
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color:white;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    flex: 1;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 
+.custom-file-upload{
+    color:#4179d3;
+}
+/* Align Items */
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction:row;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.gap-3 {
+    gap: 15px;
+}
+
+.w-100 {
+    width: 100%;
+}
+.hidden {
+    display: none;
+}
+
+
+
+/* functionality */
 
 .functionality-section {
     flex: 7;
-    background: linear-gradient(135deg, #6fb1fc, #4d85ff, #0052d4);
+    background: linear-gradient(135deg, #92b6e0, #639cf0, #003fc7);
+    background-size: 300% 300%; /* Increase size for smoother animation */
+    animation: gradientAnimation 10s ease infinite; /* Apply animation */
     color: white;
     padding: 20px;
-    overflow-y: auto; /* Enable scrolling if content overflows */
+    overflow-y: auto;
     text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Fix alignment issue */
-    align-items: center; /* Center horizontally */
-}
-
-.functionality-section h3 {
-    margin-top: 0; /* Remove unwanted extra spacing at the top */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* button, input, select {
-    display: block flex;
-    margin: 10px auto;
-} */
-
-#uploadForm {
-    display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* Modified alignment to top */
     align-items: center;
-    gap: 15px; /* Space between elements */
 }
 
-button, input, select {
-    margin: 0;
+
+#increaseButtons {
+    margin-top: 20px;
 }
 
-button {
-    background: #0052d4;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1.2em;
-    color: white;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+#increaseButtons button {
+    background: #008CBA;
+    margin: 5px;
 }
 
-button:hover {
-    background: #609dff;
-    transform: translateY(-5px);
+#increaseButtons button:hover {
+    background: #007B9A;
 }
 
-button:active {
-    background: #6fb1fc;
-    transform: translateY(2px);
+
+
+
+/* more */
+
+#downloadPlot {
+    display: inline-block; /* Make it a block element for padding */
+    padding: 10px 20px; /* Add padding for better touch targets */
+    background-color: #9fd4f3; /* Green background */
+    color: white; /* White text */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
+
+#downloadPlot:hover {
+    background-color: #328bbe; /* Darker green on hover */
+}
+
+/* Additional styling for responsiveness */
+@media (max-width: 600px) {
+    #downloadPlot {
+        padding: 8px 16px; /* Adjust padding on smaller screens */
+    }
+}
+
 
 img {
     max-width: 100%;

@@ -38,136 +38,6 @@ $(document).ready(function() {
         });
     });
 
-    function fetchDataOverview() {
-        var missingColor = $('#missingColor').val();
-        var presentColor = $('#presentColor').val();
-        
-        $.ajax({
-            url: '/data_overview',
-            type: 'GET',
-            data: {
-                missingColor: missingColor,
-                presentColor: presentColor
-            },
-            success: function(response) {
-                $('#missingDataTable').html(response.missing_data_table);
-                $('#sampleData').html(response.sample_data);
-                $('#missingValuesPlot').attr('src', 'static/' + response.missing_values_plot).removeClass('hidden');
-            },
-            error: function(xhr, status, error) {
-                displayMessageBox('An error occurred: ' + xhr.responseText, 'error');
-            }
-        });
-    }
-
-    $('#plotCustomizationForm').on('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
-        // Your AJAX code here
-    
-        var plotData = {
-            colorMap: $('#colorMap').val(),
-            plotWidth: $('#plotWidth').val(),
-            plotHeight: $('#plotHeight').val(),
-            missingColor: $('#missingColor').val(),
-            presentColor: $('#presentColor').val()
-        };
-        $.ajax({
-            url: '/customize_plot',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(plotData),
-            success: function(response) {
-                $('#missingValuesPlot').attr('src', 'static/' + response.missing_values_plot).removeClass('hidden');
-            },
-            error: function(xhr, status, error) {
-                displayMessageBox('An error occurred: ' + xhr.responseText, 'error');
-            }
-        });
-    });
-
-    $('input[name="choice"]').change(function() {
-        if ($(this).val() === '3') {
-            $('#imputationMethods').removeClass('hidden');
-        } else {
-            $('#imputationMethods').addClass('hidden');
-            $('#knnNeighbors').addClass('hidden');
-            $('#miceParams').addClass('hidden');
-        }
-    });
-
-    $('input[name="impute_choice"]').change(function() {
-        if ($(this).val() === '1') {
-            $('#knnNeighbors').removeClass('hidden');
-            $('#miceParams').addClass('hidden');
-        } else if ($(this).val() === '6') {
-            $('#miceParams').removeClass('hidden');
-            $('#knnNeighbors').addClass('hidden');
-        } else {
-            $('#knnNeighbors').addClass('hidden');
-            $('#miceParams').addClass('hidden');
-        }
-    });
-
-    $('#processForm').on('submit', function(e) {
-        e.preventDefault();
-        var formData = {
-            choice: $('input[name="choice"]:checked').val(),
-            columns: $('input[name="columns"]').val(),
-            impute_choice: $('input[name="impute_choice"]:checked').val(),
-            n_neighbors: $('input[name="n_neighbors"]').val(),
-            max_iter: $('input[name="max_iter"]').val()
-        };
-        $.ajax({
-            url: '/process',
-            type: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            success: function(response) {
-                displayMessageBox(response.message, 'message');
-                $('#saveData').removeClass('hidden');
-            },
-            error: function(response) {
-                displayMessageBox(response.responseJSON.error, 'error');
-            }
-        });
-    });
-
-    $('#saveDecisionForm').on('submit', function(e) {
-        e.preventDefault();
-        var decision = $('input[name="save_decision"]:checked').val();
-        if (decision === 'yes') {
-            $('#saveOptions').removeClass('hidden');
-        } else if (decision === 'process_more') {
-            $('#saveData').addClass('hidden');
-            $('#processMessage').addClass('hidden');
-            $('#dataOverview').removeClass('hidden');
-        } else {
-            $('#saveOptions').addClass('hidden');
-            displayMessageBox('Data not saved.', 'message');
-        }
-    });
-
-    $('#saveFormatForm').on('submit', function(e) {
-        e.preventDefault();
-        var formData = {
-            file_format: $('input[name="file_format"]:checked').val(),
-            save_path: $('input[name="save_path"]').val(),
-            filename: $('input[name="filename"]').val()
-        };
-        $.ajax({
-            url: '/save',
-            type: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            success: function(response) {
-                displayMessageBox(response.message, 'message');
-            },
-            error: function(response) {
-                displayMessageBox(response.responseJSON.error, 'error');
-            }
-        });
-    });
-
 function displayMessageBox(message, type) {
     const messageBox = document.getElementById('messageBox');
     const messageContent = document.getElementById('messageContent');
@@ -192,90 +62,122 @@ function displayMessageBox(message, type) {
     }, 3000); // Hide after 3 seconds
 }
 });
-
-// Handle transformation
-    // Handle column transformation
-    $('#transformForm').on('submit', function(e) {
-        e.preventDefault();
-        var columnName = $('#columnSelect').val();
-        var newType = $('#typeSelect').val();
-
-        $.ajax({
-            url: '/transform',
-            type: 'POST',
-            data: { column: columnName, type: newType },
-            success: function(response) {
-                $('#messageContent').text(response.message);
-                $('#messageBox').removeClass('hidden');
-            },
-            error: function(xhr, status, error) {
-                $('#messageContent').text('Error transforming column.');
-                $('#messageBox').removeClass('hidden');
-            }
-        });
+function fetchDataOverview() {
+    var missingColor = $('#missingColor').val();
+    var presentColor = $('#presentColor').val();
+    
+    $.ajax({
+        url: '/data_overview',
+        type: 'GET',
+        data: {
+            missingColor: missingColor,
+            presentColor: presentColor
+        },
+        success: function(response) {
+            $('#missingDataTable').html(response.missing_data_table);
+            $('#sampleData').html(response.sample_data);
+            $('#missingValuesPlot').attr('src', 'static/' + response.missing_values_plot).removeClass('hidden');
+        },
+        error: function(xhr, status, error) {
+            displayMessageBox('An error occurred: ' + xhr.responseText, 'error');
+        }
     });
+}
 
-    // Close message box
-    $('#messageButton').on('click', function() {
-        $('#messageBox').addClass('hidden');
+$('#plotCustomizationForm').on('submit', function(e) {
+    e.preventDefault(); // Prevent the default form submission
+    // Your AJAX code here
+
+    var plotData = {
+        colorMap: $('#colorMap').val(),
+        plotWidth: $('#plotWidth').val(),
+        plotHeight: $('#plotHeight').val(),
+        missingColor: $('#missingColor').val(),
+        presentColor: $('#presentColor').val()
+    };
+    $.ajax({
+        url: '/customize_plot',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(plotData),
+        success: function(response) {
+            $('#missingValuesPlot').attr('src', 'static/' + response.missing_values_plot).removeClass('hidden');
+        },
+        error: function(xhr, status, error) {
+            displayMessageBox('An error occurred: ' + xhr.responseText, 'error');
+        }
     });
+});
 
-    // Handle Increase Type Button (if needed)
-    $('#increaseTypeButton').on('click', function() {
-        alert('Increase column type functionality is not implemented yet.');
+$('input[name="choice"]').change(function() {
+    if ($(this).val() === '3') {
+        $('#imputationMethods').removeClass('hidden');
+    } else {
+        $('#imputationMethods').addClass('hidden');
+        $('#knnNeighbors').addClass('hidden');
+        $('#miceParams').addClass('hidden');
+    }
+});
+
+$('input[name="impute_choice"]').change(function() {
+    if ($(this).val() === '1') {
+        $('#knnNeighbors').removeClass('hidden');
+        $('#miceParams').addClass('hidden');
+    } else if ($(this).val() === '6') {
+        $('#miceParams').removeClass('hidden');
+        $('#knnNeighbors').addClass('hidden');
+    } else {
+        $('#knnNeighbors').addClass('hidden');
+        $('#miceParams').addClass('hidden');
+    }
+});
+
+document.getElementById('toggleDataOverview').addEventListener('click', function () {
+    var dataOverviewSection = document.getElementById('dataOverview');
+    if (dataOverviewSection.classList.contains('hidden')) {
+        dataOverviewSection.classList.remove('hidden');
+        this.textContent = 'Hide Data Overview'; // Change button text
+    } else {
+        dataOverviewSection.classList.add('hidden');
+        this.textContent = 'Show Data Overview'; // Change button text back
+    }
+});
+
+$('#processForm').on('submit', function(e) {
+    e.preventDefault();
+    var formData = {
+        choice: $('input[name="choice"]:checked').val(),
+        columns: $('input[name="columns"]').val(),
+        impute_choice: $('input[name="impute_choice"]:checked').val(),
+        n_neighbors: $('input[name="n_neighbors"]').val(),
+        max_iter: $('input[name="max_iter"]').val()
+    };
+    $.ajax({
+        url: '/process',
+        type: 'POST',
+        data: JSON.stringify(formData),
+        contentType: 'application/json',
+        success: function(response) {
+            displayMessageBox(response.message, 'message');
+            $('#saveData').removeClass('hidden');
+        },
+        error: function(response) {
+            displayMessageBox(response.responseJSON.error, 'error');
+        }
     });
+});
 
-    // Handle Transform File Button (if needed)
-    $('#transformFileButton').on('click', function() {
-        alert('Transform file functionality is not implemented yet.');
-    });
-
-
-// // Handle Increase Column Type
-// $('#increaseTypeButton').click(function() {
-//     var column = $('#columnSelect').val();
-//     var currentType = $('#typeSelect').val();
-//     var nextType = getNextType(currentType);
-
-//     if (nextType) {
-//         $.ajax({
-//             url: '/transform',
-//             type: 'POST',
-//             data: { column: column, type: nextType },
-//             success: function (data) {
-//                 $('#messageContent').text(data.message);
-//                 $('#messageBox').removeClass('hidden');
-//                 $('#typeSelect').val(nextType); // Update the dropdown with the new type
-//             }
-//         });
-//     } else {
-//         alert('No higher type available');
-//     }
-// });
-
-// Get next type for increasing
-// function getNextType(currentType) {
-//     const typeOrder = ['int8', 'int16', 'int32', 'int64', 'float16', 'float32', 'float64'];
-//     const index = typeOrder.indexOf(currentType);
-//     return (index < typeOrder.length - 1) ? typeOrder[index + 1] : null;
-// }
-
-// // Handle Transform File Type
-// $('#transformFileButton').click(function() {
-//     var fileFormat = $('input[name="file_format"]:checked').val();
-//     var filePath = $('input[name="save_path"]').val();
-//     var fileName = $('input[name="filename"]').val();
-
-//     if (fileFormat && filePath && fileName) {
-//         $.ajax({
-//             url: '/transformFile',
-//             type: 'POST',
-//             data: { format: fileFormat, path: filePath, filename: fileName },
-//             success: function(data) {
-//                 alert('File transformed and saved successfully!');
-//             }
-//         });
-//     } else {
-//         alert('Please select file format and specify save path and filename');
-//     }
-// });
+$('#saveDecisionForm').on('submit', function(e) {
+    e.preventDefault();
+    var decision = $('input[name="save_decision"]:checked').val();
+    if (decision === 'yes') {
+        $('#saveOptions').removeClass('hidden');
+    } else if (decision === 'process_more') {
+        $('#saveData').addClass('hidden');
+        $('#processMessage').addClass('hidden');
+        $('#dataOverview').removeClass('hidden');
+    } else {
+        $('#saveOptions').addClass('hidden');
+        displayMessageBox('Data not saved.', 'message');
+    }
+});

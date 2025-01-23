@@ -17,6 +17,7 @@ $(document).ready(function() {
                 } else {
                     uploadedFilePath = data.file_path; // Save the uploaded file path
                     displayMessageBox(data.message, 'message');
+                    fetchDataOverview(); // Fetch data overview and plot after upload
                     $('#saveOptions').removeClass('hidden'); // Show save options
                 }
             },
@@ -31,6 +32,8 @@ $(document).ready(function() {
     $('#resetButton').on('click', function() {
         $('#uploadForm')[0].reset();
         $('#uploadMessage').text('').removeClass('error message');
+        $('#dataOverview').find('pre, div').text('');
+        $('#missingValuesPlot').addClass('hidden').attr('src', '');
         $('#saveOptions').addClass(''); // Hide save options
         $('#saveMessage').empty();
         uploadedFilePath = ''; // Clear the uploaded file path
@@ -47,7 +50,7 @@ $(document).ready(function() {
         if (type === 'error') {
             messageBox.style.backgroundColor = '#dc3545'; // Red for error
         } else if (type === 'message') {
-            messageBox.style.backgroundColor = '#007bff'; // Blue for message
+            messageBox.style.backgroundColor = '#003fc7'; // Blue for message
         }
     
         messageBox.classList.remove('hidden');
@@ -60,6 +63,7 @@ $(document).ready(function() {
             messageBox.classList.add('hidden');
         }, 3000); // Hide after 3 seconds
     }
+
     $('#saveFormatForm').on('submit', function(e) {
         e.preventDefault();
         var formData = {

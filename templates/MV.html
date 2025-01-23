@@ -49,23 +49,35 @@
         </ul>
     </div>
 </div>
-
-
-
         <!-- Missing Values Functionality Section -->
-        <div class="functionality-section">
-            <h3>Upload your dataset</h3>
-            <form id="uploadForm" enctype="multipart/form-data">
-                <input type="file" name="file" id="fileInput" required>
-                <button type="submit">Upload</button>
-                <button type="button" id="resetButton">Reset</button>
-            </form>
-            
-            <div id="uploadMessage"></div>
-            <div id="dataOverview">
-                <h2>Data Overview</h2>
-                <h3>Visualizations of Missing Values</h3>
-                <img id="missingValuesPlot" src="" alt="Missing Values Plot" class="hidden">
+                <div class="functionality-section">
+                    <h1>Handle your missing values with NeatData</h1>
+                    <div class="card my-4">
+                        <div class="card-header text-center">
+                            <h2>Upload Your Dataset</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="uploadForm" enctype="multipart/form-data" class="d-flex flex-column align-items-center gap-3">
+                                <label class="custom-file-upload">
+                                    <input type="file" id="fileInput" name="file" required>
+                                    <span>Choose a File</span>
+                                </label>
+                                <div class="d-flex justify-content-center gap-3 w-100">
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                    <button type="button" id="resetButton" class="btn btn-danger">Reset</button>
+                                </div>
+                            </form>
+                            <div id="uploadMessage" class="mt-3"></div>
+                        </div>
+                        <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+                            <span id="messageContent"></span>
+                            <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">×</button>
+                        </div>
+
+        <button id="toggleDataOverview" class="btn-success">Show Data overview</button>                
+        <div id="dataOverview" class="hidden">
+                <h2>Data Overview & Visualisation</h2>
+                <img id="missingValuesPlot" src="" alt="Missing Values Plot">
                 <form id="customizePlotForm">
                     <label for="colorMap">Choose a color map:</label>
                     <select name="colorMap" id="colorMap">
@@ -88,15 +100,15 @@
                     <label for="presentColor">Present Color:</label>
                     <input type="color" name="presentColor" id="presentColor" value="#FFFFFF">
                     <br>
-                    <button type="submit">Update Plot</button>
+                    <button type="submit" class="btn-success">Update Plot</button>
                 </form>
                 <br>
-                <a id="downloadPlot" href="#" class="">Download Plot</a>
-                <h3>Statistics About Missing Data</h3>
+                <a id="downloadPlot" href="{{ url_for('download_plot') }}"  >Download Plot</a>                <h3>Statistics About Missing Data</h3>
                 <div id="missingDataTable"></div>
                 <h3>Sample of the DataFrame</h3>
-                <div id="sampleData"></div>
-                
+                <div class="table-container" class="hidden">
+                    <div id="sampleData" class="hidden"></div>
+                </div>                
             </div>
         
             <h2>Handle Missing Values</h2>
@@ -127,13 +139,10 @@
                 <label>Enter the column names to process (comma separated, or 'all' to process all columns):</label><br>
                 <input type="text" name="columns" required><br>
                 <br>
-                <button type="submit">Submit</button>
+                <button type="submit" class="btn-success">Submit</button>
             </form>
         
-            <div id="messageBox" class="hidden">
-                <span id="messageContent"></span>
-                <button id="messageButton">Close</button>
-            </div>
+
         
             <div id="saveData" class="hidden">
                 <h2>Save Processed Data</h2>
@@ -159,12 +168,132 @@
                     <input type="text" name="save_path" required><br>
                     <label>Enter the filename:</label><br>
                     <input type="text" name="filename" required><br>
-                    <button type="submit">Save</button>
+                    <button type="submit" class="btn-success">Save</button>
                 </form>
             </div>
         
             <div id="saveMessage"></div>
             <script>
+                
+    function fetchDataOverview() {
+        var missingColor = $('#missingColor').val();
+        var presentColor = $('#presentColor').val();
+        
+        $.ajax({
+            url: '/data_overview',
+            type: 'GET',
+            data: {
+                missingColor: missingColor,
+                presentColor: presentColor
+            },
+            success: function(response) {
+                $('#missingDataTable').html(response.missing_data_table);
+                $('#sampleData').html(response.sample_data);
+                $('#missingValuesPlot').attr('src', 'static/' + response.missing_values_plot).removeClass('hidden');
+            },
+            error: function(xhr, status, error) {
+                displayMessageBox('An error occurred: ' + xhr.responseText, 'error');
+            }
+        });
+    }
+
+    $('#plotCustomizationForm').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+        var plotData = {
+            colorMap: $('#colorMap').val(),
+            plotWidth: $('#plotWidth').val(),
+            plotHeight: $('#plotHeight').val(),
+            missingColor: $('#missingColor').val(),
+            presentColor: $('#presentColor').val()
+        };
+        $.ajax({
+            url: '/customize_plot',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(plotData),
+            success: function(response) {
+                $('#missingValuesPlot').attr('src', 'static/' + response.missing_values_plot).removeClass('hidden');
+            },
+            error: function(xhr, status, error) {
+                displayMessageBox('An error occurred: ' + xhr.responseText, 'error');
+            }
+        });
+    });
+
+    $('input[name="choice"]').change(function() {
+        if ($(this).val() === '3') {
+            $('#imputationMethods').removeClass('hidden');
+        } else {
+            $('#imputationMethods').addClass('hidden');
+            $('#knnNeighbors').addClass('hidden');
+            $('#miceParams').addClass('hidden');
+        }
+    });
+
+    $('input[name="impute_choice"]').change(function() {
+        if ($(this).val() === '1') {
+            $('#knnNeighbors').removeClass('hidden');
+            $('#miceParams').addClass('hidden');
+        } else if ($(this).val() === '6') {
+            $('#miceParams').removeClass('hidden');
+            $('#knnNeighbors').addClass('hidden');
+        } else {
+            $('#knnNeighbors').addClass('hidden');
+            $('#miceParams').addClass('hidden');
+        }
+    });
+
+    document.getElementById('toggleDataOverview').addEventListener('click', function () {
+        var dataOverviewSection = document.getElementById('dataOverview');
+        if (dataOverviewSection.classList.contains('hidden')) {
+            dataOverviewSection.classList.remove('hidden');
+            this.textContent = 'Hide Data Overview'; // Change button text
+        } else {
+            dataOverviewSection.classList.add('hidden');
+            this.textContent = 'Show Data Overview'; // Change button text back
+        }
+    });
+
+    $('#processForm').on('submit', function(e) {
+        e.preventDefault();
+        var formData = {
+            choice: $('input[name="choice"]:checked').val(),
+            columns: $('input[name="columns"]').val(),
+            impute_choice: $('input[name="impute_choice"]:checked').val(),
+            n_neighbors: $('input[name="n_neighbors"]').val(),
+            max_iter: $('input[name="max_iter"]').val()
+        };
+        $.ajax({
+            url: '/process',
+            type: 'POST',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            success: function(response) {
+                displayMessageBox(response.message, 'message');
+                $('#saveData').removeClass('hidden');
+            },
+            error: function(response) {
+                displayMessageBox(response.responseJSON.error, 'error');
+            }
+        });
+    });
+
+    $('#saveDecisionForm').on('submit', function(e) {
+        e.preventDefault();
+        var decision = $('input[name="save_decision"]:checked').val();
+        if (decision === 'yes') {
+            $('#saveOptions').removeClass('hidden');
+        } else if (decision === 'process_more') {
+            $('#saveData').addClass('hidden');
+            $('#processMessage').addClass('hidden');
+            $('#dataOverview').removeClass('hidden');
+        } else {
+            $('#saveOptions').addClass('hidden');
+            displayMessageBox('Data not saved.', 'message');
+        }
+    });
+
+
                 document.getElementById('toggleTechniques').addEventListener('click', function() {
                     var additionalTechniques = document.getElementById('additionalTechniques');
                     if (additionalTechniques.style.display === 'none') {
@@ -176,6 +305,6 @@
                     }
                 });
                 </script>
-                <script src="static/MV.js"></script>
+<script src="static/commun.js"></script>
 </body>
 </html>
