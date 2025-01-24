@@ -82,8 +82,8 @@ body {
     border: none;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 50%; /* Increased from 76% to 90% */
-    height: 23%;
+    width: 55%; /* Increased from 76% to 90% */
+    height: 27%;
     margin: 20px auto;
     background-color: #fff;
 }

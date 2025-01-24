@@ -18,6 +18,7 @@ $(document).ready(function() {
                     uploadedFilePath = data.file_path; // Save the uploaded file path
                     displayMessageBox(data.message, 'message');
                     fetchDataOverview(); // Fetch data overview and plot after upload
+                    fetchDimensionOverview();
                     $('#saveOptions').removeClass('hidden'); // Show save options
                 }
             },
