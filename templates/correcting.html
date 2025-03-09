@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Correction Tool</title>
+    <link rel="stylesheet" href="static/MV.css">
+    <link rel="icon" href="static/IMG/logo/neatlogo.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .hidden { display: none; }
+        .message { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="split-container">
+        <div class="info-section">
+            <h2>About Correcting Data Errors</h2>
+            <p>  
+                Fix data errors and inconsistencies with this tool—detect incorrect values, formatting issues, and more. Standardize, replace, or adjust data efficiently.  
+            </p>
+            <p>
+                You can explore the following functionalities:
+            </p>
+            <img src="static/IMG/corr.png" alt="Data Error Correction Flow" class="info-image">
+        
+            <h3>Common Data Correction Techniques</h3>
+            <button id="toggleTechniques" class="btn-success">Discover More Techniques!</button>
+            <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+                <p><strong>Advanced Error Correction Methods:</strong></p>
+                <ul>
+                    <li><strong>Value Standardization:</strong> Ensure consistency in categorical and numerical data.</li>
+                    <li><strong>Outlier Detection:</strong> Identify and correct abnormal values in the dataset.</li>
+                    <li><strong>Format Normalization:</strong> Fix date formats, text inconsistencies, and incorrect data types.</li>
+                </ul>
+            </div>
+        </div>
+        
+
+        <div class="functionality-section">
+            <div class="step" id="step8">
+                <div class="step-content">
+                    <h2>Correcting Data</h2>
+                    <p>Fix errors and inconsistencies in the dataset.</p>
+                </div>
+            </div>
+            <div class="card my-4">
+                <div class="card-header text-center">
+                    <h2>Upload Your Dataset</h2>
+                </div>
+                <div class="card-body">
+                    <form id="uploadForm" enctype="multipart/form-data" class="d-flex flex-row align-items-center gap-3">
+                        <div class="file-upload-container">
+                            <label for="fileInput" class="custom-file-upload">
+                                <span id="filePlaceholder">Choose a File</span>
+                                <input type="file" id="fileInput" name="file" required>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 w-100">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                            <button type="button" id="resetButton" class="btn btn-danger">Reset</button>
+                        </div>
+                    </form>
+                    <div id="uploadMessage" class="mt-3"></div>
+                </div>
+                <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+                    <span id="messageContent"></span>
+                    <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">&times;</button>
+                </div>
+    
+
+                <button id="toggleDataOverview" class="btn btn-warning">Show Data Overview</button>
+                <div id="tablebef" class="hidden"></div>
+                
+                <div id="correctionSection">
+                    <h3>Correct Column Values</h3>
+                    <form id="correctionForm">
+                        <div class="form-group">
+                            <label for="target_column">Select Column:</label>
+                            <select id="target_column" name="target_column" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="correction_method">Choose Correction Method:</label>
+                            <select id="correction_method" name="correction_method" required>
+                                <option value="replace">Replace Characters</option>
+                                <option value="remove">Remove Characters</option>
+                                <option value="modify_date">Modify Date Format</option>
+                            </select>
+                        </div>
+                        <div id="dateChoices" class="hidden">
+                            <label for="date_format">Select Date Format:</label>
+                            <select id="date_format" name="date_format">
+                                <option value="MM-DD-YYYY">MM-DD-YYYY</option>
+                                <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                <option value="DD-MM-YYYY">DD-MM-YYYY</option>
+                                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                            </select>
+                        </div>
+                        <div id="correctionsContainer" class="hidden">
+                            <label for="corrections">Corrections (old_value:new_value, one per line):</label>
+                            <textarea id="corrections" name="corrections" rows="5" required "center"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Apply Corrections</button>
+                    </form>
+                </div>
+                <div id="correctionResults" class="hidden"></div>
+                <div id="nextAction" class="hidden"></div>
+                <div id="spinner" class="hidden">
+                    <div class="spinner"><p></p></div>
+                </div>
+    
+                <div id="saveOptions" class="hidden">
+                    <h3> Save Your File</h3>
+                        <form id="saveFormatForm">
+                        <label>Choose file format:</label><br>
+                            <div class="file-format-options">
+                            <label class="file-format-option">
+                            <input type="radio" name="file_format" value="xlsx" required>
+                            <span>XLSX</span>
+                        </label>
+                        <label class="file-format-option">
+                            <input type="radio" name="file_format" value="csv" required>
+                            <span>CSV</span>
+                        </label>
+                        <label class="file-format-option">
+                            <input type="radio" name="file_format" value="json" required>
+                            <span>JSON</span>
+                        </label>
+                        <label class="file-format-option">
+                            <input type="radio" name="file_format" value="parquet" required>
+                            <span>Parquet</span>
+                        </label>
+                        <label class="file-format-option">
+                            <input type="radio" name="file_format" value="xml" required>
+                            <span>XML</span>
+                        </label>
+                        <label class="file-format-option">
+                            <input type="radio" name="file_format" value="html" required>
+                            <span>HTML</span>
+                        </label>
+                    </div>
+                    <br>
+                    <label for="saveLocation">Select Save Location:</label>
+                    <select id="saveLocation" name="save_path" required>
+                        <option value="documents">Documents</option>
+                        <option value="downloads">Downloads</option>
+                        <option value="desktop">Desktop</option>
+                        <option value="custom">Custom Path</option>
+                    </select>
+                    <br>
+                    
+                    <div id="customPathField" style="display: none;">
+                        <label for="customPath">Enter Custom Path:</label><br>
+                        <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
+                    </div>
+                    <br>
+                    
+                    <label for="filename">Enter the Filename:</label><br>
+                    <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
+                    <br>
+                        <button type="submit" class="btn-success">Save File</button>
+                    
+                </form>
+                </div>
+                <div id="saveMessage"></div>
+            </div>
+        </div>
+    </div>
+    <script src="static\correcting.js">
+    </script>
+</body>
+</html>

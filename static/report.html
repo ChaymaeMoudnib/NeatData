@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Data Analysis Report</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* Light Blue */
+            color: #2c3e50;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            color: #1e3a8a; /* Darker Blue */
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        /* Navigation Bar */
+        .navbar {
+            background-color: white; /* Whitish */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .navbar .LOGOIM {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar .logo {
+            height: 40px; /* Smaller logo */
+            margin-right: 10px;
+        }
+        
+        .navbar .NEAT {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+        
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .navbar ul li {
+            position: relative;
+        }
+        
+        .navbar ul li a {
+            text-decoration: none;
+            color: #1e3a8a;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 5px;
+        }
+        
+        .navbar ul li a:hover {
+            background-color: #e0f2fe; /* Light blue hover */
+        }
+        
+        /* Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            min-width: 160px;
+            z-index: 10;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            color: #1e3a8a;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #e0f2fe;
+        }
+        
+        /* Tables */
+        table {
+            width: 95%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #2563eb; /* Blue */
+            color: white;
+            font-weight: bold;
+        }
+        
+        td {
+            background-color: #ffffff;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f1f5f9; /* Light Grayish Blue */
+        }
+        
+        /* Buttons */
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1e40af;
+        }
+        
+        .btn-danger {
+            background-color: #e11d48;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #9f1239;
+        }
+        
+        .btn-success {
+            background-color: #059669;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #047857;
+        }
+        
+        /* Images */
+        img {
+            display: block;
+            max-width: 80%; /* Smaller images */
+            height: auto;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Upload Section */
+        #uploadSection {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+        
+            .navbar ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+        
+            table {
+                width: 100%;
+                font-size: 14px;
+            }
+        
+            img {
+                max-width: 100%;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <header class="header">
+        <navbar class="navbar">
+            <div class="LOGOIM">
+                <img src="static/IMG/logo/neatlogo.png" alt="NeatData logo" class="logo">
+                <a href="/" class="NEAT">
+                    NeatData
+                </a>
+
+            </div>
+            <div class="links">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#transform" class="dropbtn">Catalog</a>
+                        <div class="dropdown-content">
+                            <a href="#transform">Transform Data</a>
+                            <a href="#cleaning">Data Cleaning</a>
+                            <a href="#engineering">Feature Engineering</a>
+                            <a href="#analyze">Analyze your Data</a>
+                        </div>
+                    </li>
+                    <li><a href="#ND_MODELS">ND Models</a></li>
+                    <li><a href="#road">Roadmap</a></li>
+                    <li><a href="#learn">Learn</a></li>
+                    <li><a href="#contact-us" target="_blank">Contact Us</a></li>
+                </ul>
+            </div>
+        </navbar>
+        
+    </header>
+    <!-- Upload Form -->
+    <div id="uploadSection">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Upload Your Dataset</h2>
+            </div>
+            <div class="card-body">
+                <form id="uploadForm" enctype="multipart/form-data" class="d-flex flex-column align-items-center gap-3">
+                    <label class="custom-file-upload">
+                        <input type="file" id="fileInput" name="file" required>
+                        <span>Choose a File</span>
+                    </label>
+                    <div class="d-flex justify-content-center gap-3 w-100">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="button" id="resetButton" class="btn btn-danger">Reset</button>
+                    </div>
+                </form>
+                <div id="uploadMessage" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+    <button id="downloadReportBtn" class="btn btn-success">Download Report as PDF</button>
+    <!-- Report Section -->
+    <div id="reportSection" class="hidden">
+
+        <h1>Missing Data Analysis Report</h1>
+        <h2>Dataset Overview</h2>
+        <p><strong>Number of Rows:</strong> 4</p>
+        <p><strong>Number of Columns:</strong> 5</p>
+
+        <h2>Missing Data Summary</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Missing Percentage</th>
+                    <th>Data Type</th>
+                    <th>Top 3 Imputation Methods</th>
+                    <th>Explanations</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>Unnamed: 0</td>
+                    <td>0.0%</td>
+                    <td>int64</td>
+                    <td>
+                        <ol>
+                            
+                            <li>None</li>
+                            
+                        </ol>
+                    </td>
+                    <td>
+                        <ul>
+                            
+                            <li>Your Data doesn&#39;t contain any missing values and ready for the next steps✅.</li>
+                            
+                        </ul>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>a</td>
+                    <td>0.0%</td>
+                    <td>int64</td>
+                    <td>
+                        <ol>
+                            
+                            <li>None</li>
+                            
+                        </ol>
+                    </td>
+                    <td>
+                        <ul>
+                            
+                            <li>Your Data doesn&#39;t contain any missing values and ready for the next steps✅.</li>
+                            
+                        </ul>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>b</td>
+                    <td>0.0%</td>
+                    <td>int64</td>
+                    <td>
+                        <ol>
+                            
+                            <li>None</li>
+                            
+                        </ol>
+                    </td>
+                    <td>
+                        <ul>
+                            
+                            <li>Your Data doesn&#39;t contain any missing values and ready for the next steps✅.</li>
+                            
+                        </ul>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>c</td>
+                    <td>0.0%</td>
+                    <td>int64</td>
+                    <td>
+                        <ol>
+                            
+                            <li>None</li>
+                            
+                        </ol>
+                    </td>
+                    <td>
+                        <ul>
+                            
+                            <li>Your Data doesn&#39;t contain any missing values and ready for the next steps✅.</li>
+                            
+                        </ul>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>d</td>
+                    <td>0.0%</td>
+                    <td>int64</td>
+                    <td>
+                        <ol>
+                            
+                            <li>None</li>
+                            
+                        </ol>
+                    </td>
+                    <td>
+                        <ul>
+                            
+                            <li>Your Data doesn&#39;t contain any missing values and ready for the next steps✅.</li>
+                            
+                        </ul>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        <h2>Visualizations</h2>
+        <h3>Missing Data Heatmap</h3>
+        <img src="/static/images/missing_data_heatmap.png" alt="Missing Data Heatmap">
+
+        <h3>Column Distributions</h3>
+        
+        <h4>Unnamed: 0</h4>
+        <img src="/static/images/Unnamed:%200_distribution.png" alt="Unnamed: 0 Distribution">
+        
+        <h4>a</h4>
+        <img src="/static/images/a_distribution.png" alt="a Distribution">
+        
+        <h4>b</h4>
+        <img src="/static/images/b_distribution.png" alt="b Distribution">
+        
+        <h4>c</h4>
+        <img src="/static/images/c_distribution.png" alt="c Distribution">
+        
+        <h4>d</h4>
+        <img src="/static/images/d_distribution.png" alt="d Distribution">
+        
+
+        <h3>Correlation Matrix</h3>
+        <img src="/static/images/correlation_matrix.png" alt="Correlation Matrix">
+
+        <h3>Spider Chart: Imputation Criteria</h3>
+            <img src="/static/images/spider_chart.png" alt="Spider Chart">
+    </div>
+
+    <!-- Include JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        document.getElementById('downloadReportBtn').addEventListener('click', function() {
+            let element = document.getElementById('reportSection'); // Select only the report section
+            let opt = {
+                margin: 10,
+                filename: 'Missing_Data_Report.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().from(element).set(opt).save();
+        });
+
+
+        $('#uploadForm').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    if (data.error) {
+                        $('#uploadMessage').html(`<div class="alert alert-danger">${data.error}</div>`);
+                    } else {
+                        $('#uploadMessage').html(`<div class="alert alert-success">${data.message}</div>`);
+                        $('#uploadSection').addClass('hidden'); // Hide upload section
+                        $('#reportSection').removeClass('hidden'); // Show report section
+                
+                        // Fetch and load the analysis results dynamically
+                        //$.get('/analyze', function(response) {
+                            //$('#reportSection').html($(response).find('#reportSection').html());
+                        //});
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#uploadMessage').html(`<div class="alert alert-danger">An error occurred: ${xhr.responseText}</div>`);
+                }
+            });
+        });
+        $('#resetButton').on('click', function() {
+            $.ajax({
+                url: '/reset',
+                type: 'POST',
+                success: function(data) {
+                    $('#uploadForm')[0].reset();
+                    $('#dataOverview').find('pre, div').text('');
+                    $('#missingValuesPlot').addClass('hidden').attr('src', '');
+                    displayMessageBox('Form reset successfully.', 'message');
+                },
+                error: function(xhr, status, error) {
+                    displayMessageBox('An error occurred: ' + xhr.responseText, 'error');
+                }
+            });
+        });
+    </script>
+    <script src="static/commun.js"></script>
+</body>
+</html>

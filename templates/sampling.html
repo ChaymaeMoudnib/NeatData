@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Sampling</title>
+    <link rel="icon" href="static/IMG/logo/neatlogo.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="static/MV.css"> 
+</head>
+<body>
+    <div class="split-container">
+        <!-- info sec -->
+        <div class="info-section">
+            <h2>About Sampling Methods</h2>
+            <p>
+                Sampling is crucial in data analysis, and our intuitive tool simplifies the process. Choose from methods like systematic, stratified, and more to extract valuable insights.
+            </p>
+            <p>
+                Explore the following sampling methods:
+            </p>
+            <img src="static/IMG/sampling.png" alt="Outlier Detection Flow" class="info-image">
+            <h3>Sampling Overview</h3>
+            <button id="toggleTechniques" class="btn-success">Discover New Techniques!</button>
+            <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+                <p><strong>Advanced Sampling Methods:</strong></p>
+                <ul>
+                    <li><strong>Adaptive Sampling:</strong> Adjusts strategy based on observed data for efficient resource use.</li>
+                    <li><strong>Multistage Sampling:</strong> Combines various methods in stages for a more efficient process.</li>
+                </ul>
+            </div>
+        </div>
+        
+
+<div class="functionality-section">
+    <div class="step" id="step4">
+        <div class="step-content">
+            <h2>Sampling Methods</h2>
+            <p>Use sampling techniques to create representative subsets of your data.</p>
+        </div>
+    </div>  
+    <div class="card my-4">
+                    <div class="card-header text-center">
+                        <h2>Upload Your Dataset</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadForm" enctype="multipart/form-data" class="d-flex flex-row align-items-center gap-3">
+                            <div class="file-upload-container">
+                                <label for="fileInput" class="custom-file-upload">
+                                    <span id="filePlaceholder">Choose a File</span>
+                                    <input type="file" id="fileInput" name="file" required>
+                                </label>
+                            </div>
+                            <div class="d-flex justify-content-center gap-3 w-100">
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                                <button type="button" id="resetButton" class="btn btn-danger">Reset</button>
+                            </div>
+                        </form>
+                        <div id="uploadMessage" class="mt-3"></div>
+                    </div>
+                </div>
+                <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+                    <span id="messageContent"></span>
+                    <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">×</button>
+                </div>
+            
+                <button id="toggleSamplingOverview" class="btn btn-warning">Show Data Overview</button>
+                <div id="sampling_overview" class="hidden">
+                    <h2>Data Overview</h2>
+                    <div class="overview-section">
+                        <h3>Data types of columns</h3>
+                        <table id="data_types_table"></table>
+                    </div>
+                    <div class="overview-section">
+                        <h3>Data Information</h3>
+                        <table id="data_info_table"></table>
+                    </div>
+                </div>
+            <div id="overviewMessage"></div>
+            <h3>Sampling Options</h3>
+            <form id="samplingForm">
+                <label for="samplingMethod">Choose a sampling method:</label>
+                <select id="samplingMethod" name="samplingMethod" required>
+                    <option value="systematic">Systematic Sampling</option>
+                    <option value="stratified">Stratified Sampling</option>
+                    <option value="cluster">Cluster Sampling</option>
+                    <option value="convenience">Convenience Sampling</option>
+                    <option value="simple">Simple Random Sampling</option>
+                </select>
+                <br>
+                <label for="sampleSize">Sample Size:</label>
+                <input type="number" id="sampleSize" class="row-md-8" name="sampleSize" min="1">
+                
+                <div id="stratifiedOptions" class="hidden">
+                    <label for="stratifyColumn">Stratify By Column:</label>
+                    <input type="text" id="stratifyColumn" name="stratifyColumn" placeholder="e.g., column_name">
+                </div>
+                <div id="clusterOptions" class="hidden">
+                    <label for="numClusters">Number of Clusters:</label>
+                    <input type="number" id="numClusters" name="numClusters" min="1">
+                    <label for="clusterColumn">Cluster Column:</label>
+                    <input type="text" id="clusterColumn" name="clusterColumn">
+                </div>
+                <button type="submit" class="btn-success">Sample The Data</button>
+            </form>
+            <div id="samplingMessage"></div>
+
+            <div id="sampledData" class="hidden">
+                <h2>10 examples of the Sample Data</h2>
+                <table id="sampledDataTable"></table>
+            </div>
+
+            <div id="analysisResults" class="hidden">
+                <h2>Analysis Results</h2>
+                <h3>Statistics</h3>
+                <table id="analysisResultsTable"></table>
+            </div>
+
+            <div id="samplingErrors" class="hidden">
+                <h3>Sampling Errors</h3>
+                <table id="samplingErrorsTable"></table>
+            </div>
+            <div id="saveOptions" class="hidden">
+                <h3> Save Your File</h3>
+                    <form id="saveFormatForm">
+                    <label>Choose file format:</label><br>
+                        <div class="file-format-options">
+                        <label class="file-format-option">
+                        <input type="radio" name="file_format" value="xlsx" required>
+                        <span>XLSX</span>
+                    </label>
+                    <label class="file-format-option">
+                        <input type="radio" name="file_format" value="csv" required>
+                        <span>CSV</span>
+                    </label>
+                    <label class="file-format-option">
+                        <input type="radio" name="file_format" value="json" required>
+                        <span>JSON</span>
+                    </label>
+                    <label class="file-format-option">
+                        <input type="radio" name="file_format" value="parquet" required>
+                        <span>Parquet</span>
+                    </label>
+                    <label class="file-format-option">
+                        <input type="radio" name="file_format" value="xml" required>
+                        <span>XML</span>
+                    </label>
+                    <label class="file-format-option">
+                        <input type="radio" name="file_format" value="html" required>
+                        <span>HTML</span>
+                    </label>
+                </div>
+                <br>
+                <label for="saveLocation">Select Save Location:</label>
+                <select id="saveLocation" name="save_path" required>
+                    <option value="documents">Documents</option>
+                    <option value="downloads">Downloads</option>
+                    <option value="desktop">Desktop</option>
+                    <option value="custom">Custom Path</option>
+                </select>
+                <br>
+                <div id="customPathField" style="display: none;">
+                    <label for="customPath">Enter Custom Path:</label><br>
+                    <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
+                </div>
+                <br>
+                <label for="filename">Enter the Filename:</label><br>
+                <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
+                <br>
+                    <button type="submit" class="btn-success">Save File</button>
+                </form>
+            </div>
+        <div id="saveMessage"></div>
+    </div>
+    <script>
+        document.getElementById('toggleTechniques').addEventListener('click', function() {
+            var additionalTechniques = document.getElementById('additionalTechniques');
+            if (additionalTechniques.style.display === 'none') {
+                additionalTechniques.style.display = 'block';
+                this.textContent = 'Show Fewer Techniques';  // Change button text to be more inviting
+            } else {
+                additionalTechniques.style.display = 'none';
+                this.textContent = 'Discover More Techniques!';  // Change button text back
+            }
+        });
+        document.getElementById("fileInput").addEventListener("change", function () {
+            var fileName = this.files.length > 0 ? this.files[0].name : "Choose a File";
+            document.getElementById("filePlaceholder").textContent = fileName;
+        });
+        </script>
+    <script src="static/scriptsS.js"></script>
+</body>
+</html>

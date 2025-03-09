@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Transformation Tool</title>
+    <link rel="icon" href="static/IMG/logo/neatlogo.png">
+    <link rel="stylesheet" href="static/MV.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="split-container">
+        <!-- Information Section -->
+        <div class="info-section">
+            <h2>About Data Transformation</h2>
+            <p>
+                Transform your dataset effortlessly with our versatile tool. Whether you're converting files for analysis, sharing with colleagues, or preparing data for machine learning, we have you covered. 
+                <strong>Supported formats:</strong>
+                <img src="static/IMG/transformation.png" alt="Data Transformation Flow" class="info-image">
+            </p>
+        </div>
+
+        <!-- Transformation Section -->
+        <div class="functionality-section">
+            <div class="step" id="step5">
+                <div class="step-content">
+                    <h2>Transforming Data</h2>
+                    <p>Normalize, scale, or transform data for better analysis.</p>
+                </div>
+            </div>            <div class="card my-4">
+                <div class="card-header text-center">
+                    <h3 style="color:white;">Upload Your Dataset</h3>
+                </div>
+                <div class="card-body">
+                    <form id="uploadForm" enctype="multipart/form-data" class="d-flex flex-row align-items-center gap-3">
+                        <div class="file-upload-container">
+                            <label for="fileInput" class="custom-file-upload">
+                                <span id="filePlaceholder">Choose a File</span>
+                                <input type="file" id="fileInput" name="file" required>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 w-100">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                            <button type="button" id="resetButton" class="btn btn-danger">Reset</button>
+                        </div>
+                    </form>
+                    <div id="uploadMessage" class="mt-3"></div>
+                </div>
+            </div>
+            
+            
+
+            <div id="uploadMessage"></div>
+            <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+                <span id="messageContent"></span>
+                <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">×</button>
+            </div>
+            <!-- Save Options Section -->
+        <div id="saveOptions" class="">
+        <h3>Transform and Save Your File</h3>
+            <form id="saveFormatForm">
+            <label>Choose file format:</label><br>
+                <div class="file-format-options">
+                <label class="file-format-option">
+                <input type="radio" name="file_format" value="xlsx" required>
+                <span>XLSX</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="csv" required>
+                <span>CSV</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="json" required>
+                <span>JSON</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="parquet" required>
+                <span>Parquet</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="xml" required>
+                <span>XML</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="html" required>
+                <span>HTML</span>
+            </label>
+        </div>
+        <br>
+        <label for="saveLocation">Select Save Location:</label>
+        <select id="saveLocation" name="save_path" required>
+            <option value="documents">Documents</option>
+            <option value="downloads">Downloads</option>
+            <option value="desktop">Desktop</option>
+            <option value="custom">Custom Path</option>
+        </select>
+        <br>
+        
+        <div id="customPathField" style="display: none;">
+            <label for="customPath">Enter Custom Path:</label><br>
+            <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
+        </div>
+        <br>
+        
+        <label for="filename">Enter the Filename:</label><br>
+        <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
+        <br>
+            <button type="submit" class="btn-success">Save File</button>
+        
+    </form>
+    </div>
+    </div>
+    <script src="static/commun.js"></script>
+</body>
+</html>

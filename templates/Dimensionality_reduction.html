@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimensionality Reduction</title>
+    <link rel="icon" href="static/IMG/logo/neatlogo.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="static/dimension.css">
+<style>
+    /* General form styling */
+#customizePairplotForm {
+    font-family: 'Arial', sans-serif;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Label styling */
+#customizePairplotForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Input styling */
+#customizePairplotForm input[type="color"],
+#customizePairplotForm input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Color input specific styling */
+#customizePairplotForm input[type="color"] {
+    height: 40px;
+    padding: 3px;
+}
+
+/* Number input specific styling */
+#customizePairplotForm input[type="number"] {
+    height: 40px;
+}
+
+/* Hover and focus effects */
+#customizePairplotForm input[type="color"]:hover,
+#customizePairplotForm input[type="number"]:hover {
+    border-color: #999;
+}
+
+#customizePairplotForm input[type="color"]:focus,
+#customizePairplotForm input[type="number"]:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+    .spinner {
+        position:fixed ; /* Cover the entire viewport */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure it's on top of other elements */
+    }
+    
+    .spinner::before {
+        content: "";
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    /* General Styling */
+    /* General Styling */
+#results {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    max-width: 1500px; /* Increased max-width to make it wider */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* PCA Plot Styling */
+#pcaPlot {
+    width: 80%; /* Limit the width of the plot */
+    height: 400px; /* Set height */
+    margin: 20px auto; /* Center the plot */
+    display: block; /* Ensures the plot is a block element */
+    border: 1px solid #ccc; /* Optional: Add a border for visual distinction */
+}
+
+
+/* PCA Results Styling */
+#pcaResults {
+    border: 1px solid #3498db; /* Blue border for the results box */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    background-color: #ffffff; /* White background for contrast */
+    text-align: center; /* Center text within pcaResults */
+    margin: 20px auto; /* Center the results box */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    max-width: 600px; /* Limit max width */
+}
+
+/* Adjusting paragraphs within pcaResults */
+#pcaResults p {
+    margin: 10px 0; /* Adjust margin for spacing */
+    font-size: 16px; /* Increased font size for readability */
+}
+
+/* Styling for strong elements within pcaResults */
+#pcaResults strong {
+    color: #3498db; /* Blue color for strong elements */
+    font-weight: bold; /* Bold font weight */
+}
+=
+
+    #results p {
+        margin: 10px 0;
+        font-size: 16px;
+        color: #333;
+    }
+    
+    #results strong {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    #results span {
+        color: #e74c3c;
+        font-weight: 500;
+    }
+
+
+/* RFE Results Styling */
+#rfeResults p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#rfeResults strong {
+    color: #27ae60;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    #results {
+        padding: 15px;
+    }
+
+    #results p {
+        font-size: 14px;
+    }
+}
+    .hidden {
+        display: none; /* Hide the spinner by default */
+    }
+    .plot-container {
+        text-align: center;
+    }
+    #plot {
+        display: inline-block;
+    }
+    img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(84, 125, 240, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    img:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(84, 125, 240, 0.3);
+    }
+
+    
+</style>
+</head>
+<body>
+    <div class="split-container">
+        <div class="info-section">
+            <h2>About Data Engineering</h2>
+            <p>
+                Feature selection and dimensionality reduction enhance model performance by keeping only the most relevant data.  
+                This tool provides various methods to optimize your dataset efficiently.
+            </p>
+            <p>
+                Explore the following functionalities:
+            </p>
+            <img src="static/IMG/engineering.png" alt="Data Transformation Flow" class="info-image">
+        
+            <h3>Data Engineering Techniques</h3>
+            <button id="toggleTechniques" class="btn-success">Discover More Techniques!</button>
+            <div id="additionalTechniques" class="additional-techniques" style="display:none;">
+                <p><strong>Advanced Data Engineering Methods:</strong></p>
+                <ul>
+                    <li><strong>Chi-Square Test:</strong> Select important categorical features based on statistical significance.</li>
+                    <li><strong>Mutual Information:</strong> Measure feature relevance by evaluating the dependency between variables.</li>
+                    <li><strong>Variance Thresholding:</strong> Remove low-variance features that provide little information.</li>
+                    <li><strong>Embedded Methods (LASSO, Ridge):</strong> Use model-based techniques to select the most impactful features.</li>
+                </ul>
+            </div>            
+        </div>
+
+
+        <!-- RD Functionality Section -->
+        <div class="functionality-section">
+            <div class="step" id="step7">
+                <div class="step-content">
+                    <h2>Feature Engineering</h2>
+                    <p>Create new features to improve model performance.</p>
+                </div>
+            </div>
+            <div class="card my-4">
+                <div class="card-header text-center">
+                    <h2>Upload Your Dataset</h2>
+                </div>
+                <div class="card-body">
+                    <form id="uploadForm" enctype="multipart/form-data" class="d-flex flex-row align-items-center gap-3">
+                        <div class="file-upload-container">
+                            <label for="fileInput" class="custom-file-upload">
+                                <span id="filePlaceholder">Choose a File</span>
+                                <input type="file" id="fileInput" name="file" required>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-center gap-3 w-100">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                            <button type="button" id="resetButton" class="btn btn-danger">Reset</button>
+                        </div>
+                    </form>
+                    <div id="uploadMessage" class="mt-3"></div>
+                </div>
+            </div>
+                <div id="messageBox" class="hidden" style="position: absolute; bottom: 20px; right: 20px; padding: 10px; border-radius: 5px; color: white;">
+                    <span id="messageContent"></span>
+                    <button id="messageButton" style="margin-left: 10px; background: none; border: none; color: white; cursor: pointer;">×</button>
+                </div>
+
+                
+        <button id="toggleDataOverview" class="btn btn-warning">Show Data overview</button>                
+        <div id="dimension_overview" class="hidden">
+        <h2>Data Overview</h2>
+        <h3>Data types of columns</h3>
+        <div id="data_types"></div>
+        <h3>Correlation between Features</h3>
+<img id="correlation" src="" class="hidden" alt="Correlation Heatmap">
+
+<h3>Pairplot of 6 First Features</h3>
+<img id="pairplot" src="" alt="Pairplot" class="hidden">
+
+    <div id="overviewMessage"></div>
+    <h3>Customize Pairplot</h3>
+    <form id="customizePairplotForm">
+        <label for="plotColor">Select Plot Color:</label>
+        <input type="color" id="plotColor" name="plotColor" value="#FF5733">
+        <label for="plotWidth">Plot Width (inches):</label>
+        <input type="number" id="plotWidth" name="plotWidth" value="6">
+        <label for="plotHeight">Plot Height (inches):</label>
+        <input type="number" id="plotHeight" name="plotHeight" value="4">
+        <button type="submit" class="btn-success">Update Plot</button>
+    </form>
+    <div id="customizeMessage"></div>
+</div>
+    <h2>Handle various characteristics</h2>
+    <form id="processForm">
+        <label for="choice">Choose Method:</label>
+        <label class="radio-container">
+        <input type="radio" name="choice" value="1" required> PCA <br>
+        <span class="checkmark"></span>
+        </label>
+        <label class="radio-container">
+        <input type="radio" name="choice" value="2" required> RFE <br>
+        <span class="checkmark"></span>
+        </label>
+        <label class="radio-container">
+        <input type="radio" name="choice" value="3" required> AEFS <br>
+        <span class="checkmark"></span>
+        </label>
+    
+        <div id="targetFeatureFields" style="display: none;">
+            <label for="target">Target Variable:</label>
+            <input type="text" id="target" name="target" placeholder="Enter target variable name"><br>
+    
+            <label for="num_features">Number of Features to Select:</label>
+            <input type="number" id="num_features" name="num_features" value="5"><br>
+        </div>
+    
+        <div id="autoencoderFields" style="display: none;">
+            <label for="hidden_layer_size">Hidden Layer Size for AEFS:</label>
+            <input type="number" id="hidden_layer_size" name="hidden_layer_size" value="10"><br>
+    
+            <label for="max_iter">Max Iterations for AEFS:</label>
+            <input type="number" id="max_iter" name="max_iter" value="1000"><br>
+        </div>
+    
+        <label for="exclude_numeric">Exclude Numeric Columns (comma-separated):</label>
+        <input type="text" id="exclude_numeric" name="exclude_numeric" placeholder="column1,column2"><br>
+    
+        <label for="exclude_categorical">Exclude Categorical Columns (comma-separated):</label>
+        <input type="text" id="exclude_categorical" name="exclude_categorical" placeholder="column3"><br>
+        <button type="submit" class="btn-success">Submit</button>
+    </form>
+    <div id="results" style="display: none;">
+        <div id="pcaResults">
+            <p><strong>Explained Variance:</strong> <span id="explainedVariance">N/A</span></p>
+            <p><strong>Contributions:</strong> <span id="contributions">No message</span></p>
+            <div id="pcaPlot" ></div> <!-- Centered with margin auto -->
+        </div>
+        <div id="rfeResults">
+            <p><strong>Selected Features:</strong> <span id="selected_features">N/A</span></p>
+        </div>
+    </div>
+
+    <div id="messageBox" class="hidden">
+        <div id="messageContent"></div>
+        <button id="messageButton">Close</button>
+    </div>
+    <div id="spinner" class="hidden">
+        <div class="spinner"><p></p></div>
+    </div>
+
+    <div id="saveOptions" class="hidden">
+        <h3> Save Your File</h3>
+            <form id="saveFormatForm">
+            <label>Choose file format:</label><br>
+                <div class="file-format-options">
+                <label class="file-format-option">
+                <input type="radio" name="file_format" value="xlsx" required>
+                <span>XLSX</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="csv" required>
+                <span>CSV</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="json" required>
+                <span>JSON</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="parquet" required>
+                <span>Parquet</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="xml" required>
+                <span>XML</span>
+            </label>
+            <label class="file-format-option">
+                <input type="radio" name="file_format" value="html" required>
+                <span>HTML</span>
+            </label>
+        </div>
+        <br>
+        <label for="saveLocation">Select Save Location:</label>
+        <select id="saveLocation" name="save_path" required>
+            <option value="documents">Documents</option>
+            <option value="downloads">Downloads</option>
+            <option value="desktop">Desktop</option>
+            <option value="custom">Custom Path</option>
+        </select>
+        <br>
+        
+        <div id="customPathField" style="display: none;">
+            <label for="customPath">Enter Custom Path:</label><br>
+            <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
+        </div>
+        <br>
+        
+        <label for="filename">Enter the Filename:</label><br>
+        <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
+        <br>
+            <button type="submit" class="btn-success">Save File</button>
+        
+    </form>
+    </div>
+    <div id="saveMessage"></div>
+</div>
+</div>
+<script>
+    document.getElementById("fileInput").addEventListener("change", function () {
+        var fileName = this.files.length > 0 ? this.files[0].name : "Choose a File";
+        document.getElementById("filePlaceholder").textContent = fileName;
+    });
+</script>
+    <script src="static\DR.js"></script>
+</body>
+</html>

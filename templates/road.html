@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeatData in Data Science Roadmap</title>
+    <link rel="icon" href="static/IMG/logo/neatlogo.png">
+    <link rel="stylesheet" href="static/road.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    
+    <div class="roadmap-container">
+        <div class="header">
+            <img src="static/IMG/logo/neatlogo.png" alt="NeatData Logo" class="logo">
+            <h1>NeatData in Data Science</h1>
+        </div>
+        <div class="timeline">
+            <div class="line"></div>
+            <div class="step" id="step1">
+                <div class="step-icon"><i class="fas fa-search"></i></div>
+                <div class="step-content">
+                    <h2>Missing Data Analysis</h2>
+                    <p>Identify and analyze missing data patterns in your dataset.</p>
+                    <a href="/missing_values" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-icon"><i class="fas fa-broom"></i></div>
+                <div class="step-content">
+                    <h2>Missing Values Handling</h2>
+                    <p>Apply techniques like imputation or deletion to handle missing values.</p>
+                    <a href="/missing_values" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="step-content">
+                    <h2>Outliers Handling</h2>
+                    <p>Detect and handle outliers using statistical or machine learning methods.</p>
+                    <a href="/Outliers" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-icon"><i class="fas fa-filter"></i></div>
+                <div class="step-content">
+                    <h2>Sampling Methods</h2>
+                    <p>Use sampling techniques to create representative subsets of your data.</p>
+                    <a href="/sampling" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step5">
+                <div class="step-icon"><i class="fas fa-exchange-alt"></i></div>
+                <div class="step-content">
+                    <h2>Transforming Data</h2>
+                    <p>Normalize, scale, or transform data for better analysis.</p>
+                    <a href="/transform" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step6">
+                <div class="step-icon"><i class="fas fa-code"></i></div>
+                <div class="step-content">
+                    <h2>Encoding Features</h2>
+                    <p>Encode categorical variables into numerical formats.</p>
+                    <a href="/encoding" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step7">
+                <div class="step-icon"><i class="fas fa-cogs"></i></div>
+                <div class="step-content">
+                    <h2>Feature Engineering</h2>
+                    <p>Create new features to improve model performance.</p>
+                    <a href="/Feature_engineering" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step8">
+                <div class="step-icon"><i class="fas fa-wrench"></i></div>
+                <div class="step-content">
+                    <h2>Correcting Data</h2>
+                    <p>Fix errors and inconsistencies in the dataset.</p>
+                    <a href="/correct" class="step-link">Learn More →</a>
+                </div>
+            </div>
+            <div class="step" id="step9">
+                <div class="step-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="step-content">
+                    <h2>Data Quality Report</h2>
+                    <p>Generate a report to score your data quality out of 100.</p>
+                    <a href="/DataQuality" class="step-link">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>// Add smooth scrolling to steps
+// Add smooth scrolling to steps
+document.querySelectorAll('.step').forEach(step => {
+    step.addEventListener('click', () => {
+        const stepId = step.getAttribute('id');
+        document.getElementById(stepId).scrollIntoView({ behavior: 'smooth' });
+    });
+});
+
+// Add expand/collapse functionality
+document.querySelectorAll('.step-content').forEach(content => {
+    content.style.display = 'none'; // Initially hide content
+});
+
+document.querySelectorAll('.step').forEach(step => {
+    step.addEventListener('click', () => {
+        const content = step.querySelector('.step-content');
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block'; // Show content
+        } else {
+            content.style.display = 'none'; // Hide content
+        }
+    });
+});</script>
+</body>
+</html>

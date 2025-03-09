@@ -1,0 +1,115 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, rgba(33, 83, 221, 0.1), rgba(255, 255, 255, 1));
+    color: #333;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+/* Roadmap Container */
+.roadmap-container {
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.roadmap-container .header {
+    margin-bottom: 40px;
+}
+
+.roadmap-container .header img.logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.roadmap-container .header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4180e6;
+    margin-bottom: 10px;
+}
+
+.roadmap-container .header p {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+.timeline .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background-color: #0052d4;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.timeline .step {
+    position: relative;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline .step:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.timeline .step-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3b7be2;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    margin: 0 auto 20px;
+}
+
+.timeline .step-content {
+    text-align: center;
+}
+
+.timeline .step-content h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color:#3778e0;
+    margin-bottom: 10px;
+}
+
+.timeline .step-content p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.timeline .step-content .step-link {
+    color: #3778e0;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.timeline .step-content .step-link:hover {
+    color: rgb(44, 90, 168);
+}

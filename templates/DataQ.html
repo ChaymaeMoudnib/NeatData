@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data quality report</title>
+    <link rel="icon" href="static/IMG/logo/neatlogo.png">
+    <link rel="stylesheet" href="static/models.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <navbar class="navbar">
+            <div class="LOGOIM">
+                <img src="static/IMG/logo/neatlogo.png" alt="NeatData logo" class="logo">
+                <a href="{{ url_for('index') }}" class="NEAT">NeatData</a>
+            </div>
+            <div class="links">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#transform" class="dropbtn">CATALOG</a>
+                        <div class="dropdown-content">
+                            <a href="#transform">Transform Data</a>
+                            <a href="#cleaning">Data Cleaning</a>
+                            <a href="#engineering">Feature Engineering</a>
+                            <a href="#analyze">Analyze your Data</a>
+                        </div>
+                    </li>
+                    <li><a href="#ND_MODELS">ND Models</a></li>
+                    <li><a href="#road">Roadmap</a></li>
+                    <li><a href="#learn">Learn</a></li>
+                    <li><a href="#contact-us" target="_blank">Contact Us</a></li>
+                </ul>
+            </div>
+        </navbar>
+    </header>
+
+    <!-- Upload Form -->
+    <div id="uploadSection">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Your path to observe your data quality!</h2>
+                <p class="subtitle">Upload you dataset and see your dataset quality score on /100.</p>
+            </div>
+            <div class="card-body">
+                <form id="uploadForm" enctype="multipart/form-data" class="upload-form">
+                    <label class="file-drop-zone">
+                        <label class="custom-file-upload">
+                            <input type="file" id="fileInput" name="file" required>
+                        </label>
+                        <div class="drop-content">
+                            <!--<i class="upload-icon">📂</i>-->
+                            <p class="drop-text">Drag & drop your file here</p>
+                            <p class="browse-text">or <span>browse</span> to upload</p>
+                        </div>
+                    </label>
+                    <div id="fileNameDisplay" class="file-name-display"></div>
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span>Upload</span>
+                            <i class="upload-arrow"> ➔ </i>
+                        </button>
+                        <button type="button" id="resetButton" class="btn btn-danger">
+                            <span>Reset</span>
+                            <i class="reset-icon"> ↺ </i>
+                        </button>
+                        <label for="target_col">Target Column (optional):</label>
+        <input type="text" id="target_col" name="target_col"><br><br>
+
+        <label for="include_balance">Include Balance Score:</label>
+        <input type="checkbox" id="include_balance" name="include_balance" checked><br><br>
+
+        <label for="include_domain">Include Domain Checks:</label>
+        <input type="checkbox" id="include_domain" name="include_domain" checked><br><br>
+                        <button id="evaluateButton">Evaluate Data Quality</button>
+                    </div>
+                </form>
+                <div id="uploadMessage" class="text-center"></div>
+<div id="loadingIndicator" class="text-center hidden">
+    <p>Loading your report...</p>
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+<!-- Update the reportSection with scores from Flask -->
+<div id="reportSection" class="report-description">
+    <div class="container mt-4">
+        <h2 class="text-center">Dataset Quality Report</h2>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Criteria</th>
+                    <th>Score</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Completeness</td>
+                    <td id="completeness-score">{{ completeness_score }}</td>
+                    <td id="completeness-details">Checking for missing values...</td>
+                </tr>
+                <tr>
+                    <td>Uniqueness & Duplicates</td>
+                    <td id="duplicates-score">{{ duplicates_score }}</td>
+                    <td id="duplicates-details">Checking for duplicate values...</td>
+                </tr>
+                <tr>
+                    <td>Outliers & Anomalies</td>
+                    <td id="outliers-score">{{ outliers_score }}</td>
+                    <td id="outliers-details">Analyzing outliers...</td>
+                </tr>
+                <tr>
+                    <td>Consistency & Formatting</td>
+                    <td id="formatting-score">{{ formatting_score }}</td>
+                    <td id="formatting-details">Checking data consistency...</td>
+                </tr>
+                <tr>
+                    <td>Data Type Validity</td>
+                    <td id="datatype-score">{{ datatype_score }}</td>
+                    <td id="datatype-details">Validating column data types...</td>
+                </tr>
+                <tr>
+                    <td>Cardinality & Feature Uniqueness</td>
+                    <td id="cardinality-score">{{ cardinality_score }}</td>
+                    <td id="cardinality-details">Evaluating feature uniqueness...</td>
+                </tr>
+                <tr>
+                    <td>Balance & Distribution</td>
+                    <td id="balance-score">{{ balance_score }}</td>
+                    <td id="balance-details">Checking for class balance...</td>
+                </tr>
+                <tr>
+                    <td>Correlation & Redundant Features</td>
+                    <td id="correlation-score">{{ correlation_score }}</td>
+                    <td id="correlation-details">Assessing feature redundancy...</td>
+                </tr>
+                <tr>
+                    <td>Domain-Specific Checks</td>
+                    <td id="domain-score">{{ domain_score }}</td>
+                    <td id="domain-details">Verifying domain-specific constraints...</td>
+                </tr>
+                <tr class="font-weight-bold">
+                    <td>Total Score</td>
+                    <td id="total-score">{{ total_score }}</td>
+                    <td>Overall dataset quality rating</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    </div>
+    <h2>📊 Dataset Quality Criteria</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Criteria</th>
+                <th>Excellent ✅</th>
+                <th>Good ⚠</th>
+                <th>Poor ❌</th>
+                <th>Max Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Missing Values</b></td>
+                <td class="good">0% missing (+20)</td>
+                <td class="warning">1-15% missing (+15 to +5)</td>
+                <td class="bad">>30% missing (+0)</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td><b>Duplicates</b></td>
+                <td class="good">No duplicates (+10)</td>
+                <td class="warning">1-15% (+7 to +3)</td>
+                <td class="bad">>15% (+0)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>Outliers</b></td>
+                <td class="good"><5% outliers (+15)</td>
+                <td class="warning">5-15% (+10)</td>
+                <td class="bad">>15% (+5)</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td><b>Formatting Issues</b></td>
+                <td class="good">No issues (+10)</td>
+                <td class="warning">Minor issues (+5)</td>
+                <td class="bad">Many issues (+0)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>Data Types</b></td>
+                <td class="good">All correct (+10)</td>
+                <td class="warning">Some incorrect (+5)</td>
+                <td class="bad">Many incorrect (+0)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>Feature Uniqueness</b></td>
+                <td class="good">No excessive cardinality (+10)</td>
+                <td class="warning">Some excessive values (+5)</td>
+                <td class="bad">Too many unique values (+0)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>Target Balance</b></td>
+                <td class="good">Balanced (+10)</td>
+                <td class="warning">Slightly imbalanced (+5)</td>
+                <td class="bad">Highly imbalanced (+0)</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td><b>Feature Correlation</b></td>
+                <td class="good">No redundancy (+5)</td>
+                <td class="warning">Some redundancy (+2)</td>
+                <td class="bad">High redundancy (+0)</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td><b>Domain-Specific Values</b></td>
+                <td class="good">All realistic (+10)</td>
+                <td class="warning">Some unrealistic (+5)</td>
+                <td class="bad">Many unrealistic (+0)</td>
+                <td>10</td>
+            </tr>
+        </tbody>
+    </table>
+        <h4 class="text-center">🏆 Final Score & Interpretation</h4>
+        <ul>
+            <li>90-100 → Excellent Quality ✅ → Ready for use 🎯</li>
+            <li>70-89 → Good Quality 👍 → Minor improvements needed</li>
+            <li>50-69 → Acceptable ⚠️ → Needs some cleaning</li>
+            <li><50 → Poor Quality 🚨 → Requires significant preprocessing</li>
+        </ul>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("uploadForm");
+            const evaluateButton = document.getElementById("evaluateButton");
+        
+            evaluateButton.addEventListener("click", function(event) {
+                event.preventDefault(); // Prevent the default form submission
+        
+                const formData = new FormData(form);
+                const targetCol = document.getElementById("target_col").value;
+                const includeBalance = document.getElementById("include_balance").checked;
+                const includeDomain = document.getElementById("include_domain").checked;
+        
+                // Add additional data to the FormData object
+                formData.append("target_col", targetCol);
+                formData.append("include_balance", includeBalance);
+                formData.append("include_domain", includeDomain);
+        
+                fetch('/quality/data_quality', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Data received from server:", data);
+                    displayResults(data);
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    document.getElementById("uploadMessage").textContent = "Error: " + error.message;
+                });
+            });
+        
+            function displayResults(data) {
+                const resultsDiv = document.getElementById("results");
+                resultsDiv.innerHTML = `<h2>Evaluation Results</h2>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+        });
+    </script>
+
+</body>
+</html>
