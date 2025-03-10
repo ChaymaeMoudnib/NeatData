@@ -1,5 +1,5 @@
 import os
-from flask import Flask,Blueprint,render_template,url_for, jsonify,send_file, Response,send_from_directory
+from flask import Flask,Blueprint, render_template,url_for, jsonify,send_file, Response,send_from_directory
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,6 +14,9 @@ import tempfile
 
 
 smartimp_bp = Blueprint('smartim', __name__)
+
+
+
 
 @smartimp_bp.route('/smart_imputation', methods=['GET'])
 def smart_imputation_analysis():
@@ -71,33 +74,7 @@ def smart_imputation_analysis():
     except Exception as e:
         print("Error generating report:", str(e))
         return jsonify({"error": f"Error generating report: {str(e)}"}), 500
-
-def format_image_paths():
-    """Returns dictionary of web-friendly image paths."""
-    distribution_images = sorted(glob.glob(os.path.join('static', 'images', '*_distribution.png')))
     
-    return {
-        "heatmap": url_for('static', filename='images/missing_data_heatmap.png'),
-        "correlation_matrix": url_for('static', filename='images/correlation_matrix.png'),
-        "spider_chart": url_for('static', filename='images/spider_chart.png'),
-        "distributions": [url_for('static', filename=f'images/{os.path.basename(img)}') for img in distribution_images]
-    }
-
-
-            
-STATIC_IMAGES_PATH = os.path.abspath("C:/Users/user/Documents/Projects/ToDeploy/NeatData/static/images")
-
-def adjust_image_paths(html_content):
-    """Replace web image paths with absolute local paths for PDF rendering."""
-    static_images_path = os.path.join(os.getcwd(), "static", "images")
-    for img in os.listdir(static_images_path):
-        if img.endswith(".png"):
-            web_path = f'src="{url_for("static", filename=f"images/{img}")}"'
-            local_path = f'src="file:///{os.path.join(static_images_path, img)}"'
-            html_content = html_content.replace(web_path, local_path)
-    return html_content
-
-
 @smartimp_bp.route('/generate_report', methods=['GET'])
 def generate_report():
     try:
@@ -126,14 +103,9 @@ def generate_report():
         
         config = pdfkit.configuration(wkhtmltopdf=r"C:\wkhtmltopdf\bin\wkhtmltopdf.exe")
         options = {'enable-local-file-access': ''}
-        
-        # Generate the PDF and write to the temporary file
         pdf_bytes = pdfkit.from_string(adjusted_html, False, configuration=config, options=options)
-        
         with open(report_path, 'wb') as report_file:
             report_file.write(pdf_bytes)
-
-        # Return the filename for downloading
         return jsonify({"message": "Report generated successfully!", "filename": report_filename}), 200
 
     except Exception as e:
@@ -148,3 +120,29 @@ def download(report_filename):
         return send_file(file_path, as_attachment=True)
     else:
         return jsonify({"error": "File not found"}), 404
+
+def format_image_paths():
+    """Returns dictionary of web-friendly image paths."""
+    distribution_images = sorted(glob.glob(os.path.join('static', 'images', '*_distribution.png')))
+    
+    return {
+        "heatmap": url_for('static', filename='images/missing_data_heatmap.png'),
+        "correlation_matrix": url_for('static', filename='images/correlation_matrix.png'),
+        "spider_chart": url_for('static', filename='images/spider_chart.png'),
+        "distributions": [url_for('static', filename=f'images/{os.path.basename(img)}') for img in distribution_images]
+    }
+
+
+            
+STATIC_IMAGES_PATH = os.path.abspath("C:/Users/user/Documents/Projects/ToDeploy/NeatData/static/images")
+
+def adjust_image_paths(html_content):
+    """Replace web image paths with absolute local paths for PDF rendering."""
+    static_images_path = os.path.join(os.getcwd(), "static", "images")
+    for img in os.listdir(static_images_path):
+        if img.endswith(".png"):
+            web_path = f'src="{url_for("static", filename=f"images/{img}")}"'
+            local_path = f'src="file:///{os.path.join(static_images_path, img)}"'
+            html_content = html_content.replace(web_path, local_path)
+    return html_content
+

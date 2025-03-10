@@ -7,10 +7,19 @@
     <link rel="icon" href="static/IMG/logo/neatlogo.png">
     <link rel="stylesheet" href="static/models.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for button container */
+        .button-container {
+            display: flex;
+            justify-content: center; /* Center buttons */
+            gap: 10px; /* Space between buttons */
+            margin-top: 20px; /* Add margin above buttons */
+        }
+    </style>
 </head>
 <body>
     <header class="header">
-        <navbar class="navbar">
+        <nav class="navbar">
             <div class="LOGOIM">
                 <img src="static/IMG/logo/neatlogo.png" alt="NeatData logo" class="logo">
                 <a href="{{ url_for('index') }}" class="NEAT">NeatData</a>
@@ -31,14 +40,15 @@
                     <li><a href="#contact-us" target="_blank">Contact Us</a></li>
                 </ul>
             </div>
-        </navbar>
+        </nav>
     </header>
+
     <!-- Upload Form -->
     <div id="uploadSection">
         <div class="card">
             <div class="card-header text-center">
                 <h2>Make smart moves handling missing values!</h2>
-                <p class="subtitle">Analyse the missing values ,observe the suggestions, and make the best choices.</p>
+                <p class="subtitle">Analyze the missing values, observe the suggestions, and make the best choices.</p>
             </div>
             <div class="card-body">
                 <form id="uploadForm" enctype="multipart/form-data" class="upload-form">
@@ -47,7 +57,6 @@
                             <input type="file" id="fileInput" name="file" required>
                         </label>
                         <div class="drop-content">
-                            <!--<i class="upload-icon">📂</i>-->
                             <p class="drop-text">Drag & drop your file here</p>
                             <p class="browse-text">or <span>browse</span> to upload</p>
                         </div>
@@ -65,26 +74,23 @@
                     </div>
                 </form>
                 <div id="uploadMessage" class="text-center"></div>
-<div id="loadingIndicator" class="text-center hidden">
-    <p>Loading your report...</p>
-    <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-</div>
-
+                <div id="loadingIndicator" class="text-center hidden">
+                    <p>Loading your report...</p>
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
-        
     </div>
 
     <!-- Results Section -->
     <div id="resultsSection" class="mt-5">
         <div id="resultsContainer" class="mt-3"></div>
     </div>
-    <div class="button-container">
-        <button id="applyMissingValuesBtn" class="btn btn-tree">Apply the missing values handling methods</button>
-    </div>
-    
+
+
+
     <!-- Include JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -95,7 +101,7 @@
                 e.preventDefault();
                 const formData = new FormData(this);
                 $('#loadingIndicator').removeClass('hidden'); // Show loading indicator
-        
+
                 $.ajax({
                     url: '/upload',
                     type: 'POST',
@@ -104,89 +110,48 @@
                     processData: false,
                     success: function (data) {
                         $('#loadingIndicator').addClass('hidden'); // Hide loading indicator
-                        $('#uploadMessage').html('<div class="alert alert-success">Uploaded successfully! </div>');
-                        // Show loading indicator for fetching results
+                        $('#uploadMessage').html('<div class="alert alert-success">Uploaded successfully!</div>');
                         $('#loadingIndicator').removeClass('hidden');
                         $('#resultsSection').load('/smart_imputation', function () {
                             $('#loadingIndicator').addClass('hidden'); // Hide after loading results
-                            $('#the3').show();
                         });
                     },
-                    error: function (xhr, status, error) {
+                    error: function (xhr) {
                         $('#loadingIndicator').addClass('hidden'); // Hide loading indicator
                         $('#uploadMessage').html(`<div class="alert alert-danger">An error occurred: ${xhr.responseText}</div>`);
                     }
                 });
             });
-        
-            $('#resetButton').on('click', function() {
+
+            $('#resetButton').on('click', function () {
                 $.ajax({
                     url: '/reset',
                     type: 'POST',
-                    success: function(data) {
+                    success: function () {
                         $('#uploadForm')[0].reset();
                         $('#fileNameDisplay').text('');
                         $('#reportSection').addClass('hidden');
                         $('#downloadReportBtn').addClass('hidden');
                         $('#reportSection img').attr('src', ''); // Clear image sources
-                        $('#uploadMessage').html('');
                         $('#uploadMessage').html('<div class="alert alert-success">Form reset successfully.</div>');
-                        $('#the3').addClass('hidden');
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr) {
                         $('#uploadMessage').html(`<div class="alert alert-danger">An error occurred: ${xhr.responseText}</div>`);
                     }
                 });
             });
-        
-            function displayMessageBox(message, type) {
-                const messageBox = document.getElementById('messageBox');
-                const messageContent = document.getElementById('messageContent');
-                const messageButton = document.getElementById('messageButton');
-        
-                messageContent.textContent = message;
-        
-                if (type === 'error') {
-                    messageBox.style.backgroundColor = '#dc3545'; // Red for error
-                } else if (type === 'message') {
-                    messageBox.style.backgroundColor = '#4a5fff'; // Blue for message
-                }
-        
-                messageBox.classList.remove('hidden');
-        
-                messageButton.addEventListener('click', () => {
-                    messageBox.classList.add('hidden');
-                });
-        
-                setTimeout(() => {
-                    messageBox.classList.add('hidden');
-                }, 3000); // Hide after 3 seconds
-            }
-            // Get the file input and the display element
-const fileUpload = document.getElementById('fileInput');
-const fileNameDisplay = document.getElementById('fileNameDisplay');
 
-// Add an event listener to the file input
-fileUpload.addEventListener('change', function (event) {
-    // Check if a file is selected
-    if (event.target.files.length > 0) {
-        // Get the file name
-        const fileName = event.target.files[0].name;
-        // Display the file name in the div
-        fileNameDisplay.innerHTML = `Uploaded File: <strong>${fileName}</strong>`;
-    } else {
-        // If no file is selected, clear the display
-        fileNameDisplay.innerHTML = '';
-    }
-});
-            $('#applyMissingValuesBtn').on('click', function () {
-                // Optional: Display a loading message or spinner here if needed
-                // $('#loadingIndicator').removeClass('hidden'); 
-        
-                // Redirect to the new page
-                window.location.href = '/missing_values'; 
+            // Get the file input and the display element
+            const fileUpload = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+            // Add an event listener to the file input
+            fileUpload.addEventListener('change', function (event) {
+                const fileName = event.target.files[0]?.name || 'No file chosen';
+                fileNameDisplay.textContent = `Selected file: ${fileName}`;
             });
         });
+
     </script>
 </body>
 </html>

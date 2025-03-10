@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/models.css">
     <title></title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -12,10 +11,12 @@
             font-family: 'Raleway', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #f0f8ff, #a2c2ec); /* Gradient background */
+            background: linear-gradient(135deg, #f0f8ff, #a2c2ec);
             color: #2c3e50;
             line-height: 1.6;
-            scroll-behavior: smooth;}
+            scroll-behavior: smooth;
+        }
+        
         /* Header */
         .header {
             background: rgba(255, 255, 255, 0.9);
@@ -25,33 +26,30 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            width: 100%; /* Ensure full width */
-            left: 0; /* Align to the left edge */
+            width: 100%;
         }
-        
+
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%; /* Allow navbar to take full width */
-            max-width: 1700px; /* Optional: Set a max width for the navbar content */
-            margin: 0 auto; /* Center the navbar content */
             height: 60px;
+            max-width: 1700px;
+            margin: 0 auto;
         }
-        
-        
+
         /* Logo */
         .LOGOIM {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .logo {
             height: 40px;
             transition: transform 0.3s ease;
         }
-        
+
         .NEAT {
             font-size: 24px;
             font-weight: bold;
@@ -60,7 +58,7 @@
             letter-spacing: 1.5px;
             margin-top: -2px;
         }
-        
+
         /* Navigation Links */
         .links ul {
             list-style: none;
@@ -70,7 +68,7 @@
             padding: 0;
             align-items: center;
         }
-        
+
         .links ul li a {
             text-decoration: none;
             color: rgb(84, 125, 240);
@@ -79,15 +77,14 @@
             border-radius: 8px;
             transition: all 0.3s ease;
             font-size: 18px;
-            margin-top: -13px;
         }
-        
+
         .links ul li a:hover {
             background: rgba(224, 242, 254, 0.8);
             transform: translateY(-3px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Upload Section */
         #uploadSection {
             max-width: 800px;
@@ -97,15 +94,14 @@
             padding: 24px;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .upload-form {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-        
+
         .file-drop-zone {
             display: flex;
             justify-content: center;
@@ -117,29 +113,29 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .file-drop-zone:hover {
             background: rgba(224, 242, 254, 1);
             border-color: #1e3a8a;
             transform: translateY(-3px);
         }
-        
+
         .upload-icon {
             font-size: 2.5rem;
         }
-        
+
         .browse-text span {
             color: #2563eb;
             font-weight: bold;
             text-decoration: underline;
         }
-        
+
         .button-group {
             display: flex;
             justify-content: center;
             gap: 20px;
         }
-        
+
         /* Enhanced Button Styles */
         .btn {
             padding: 12px 20px;
@@ -150,23 +146,23 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .btn-primary {
             background: linear-gradient(90deg, rgb(84, 123, 206));
             color: white;
         }
-        
+
         .btn-primary:hover {
             background: rgb(5, 40, 128);
         }
-        
+
         .upload-message {
             text-align: center;
             margin-top: 20px;
             font-size: 1rem;
             color: #1e3a8a;
         }
-        
+
         /* Report Section */
         #reportSection {
             max-width: 1200px;
@@ -175,51 +171,51 @@
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1)
-            text-align: center; /* Center align text */
-            ;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
+
         .stats-container {
             display: flex;
             justify-content: center;
-            gap: 20px; /* Space between cards */
-            margin: 20px 0; /* Space above and below */
+            text-align:center;
+            gap: 20px;
+            margin: 20px 0;
         }
-        
+
         .stat-card {
-            background: rgba(255, 255, 255, 0.9); /* Glassmorphism effect */
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Center align text */
-            width: 150px; /* Fixed width for cards */
+            text-align: center;
+            width: 150px;
         }
-        
+
         .stat-card h2 {
-            color: rgb(84, 125, 240); /* Use your preferred color */
-            margin: 10px 0 0; /* Adjust margin for the heading */
+            color: rgb(84, 125, 240);
+            margin: 10px 0 0;
         }
-        
-        
+
         .data-info {
             background: rgba(224, 242, 254, 0.8);
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
         }
-        
+
         .data-info p {
             margin: 10px 0;
             font-size: 18px;
             color: #2c3e50;
         }
-        
+
         .data-info span {
             font-weight: bold;
             color: #2563eb;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -229,33 +225,33 @@
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         th, td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
-        
+
         th {
             background: #2563eb;
             color: white;
             font-weight: bold;
         }
-        
+
         tr:nth-child(even) {
             background: #f1f5f9;
         }
-        
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
         }
-        
+
         .loading-screen {
             position: fixed;
             top: 0;
@@ -268,7 +264,7 @@
             align-items: center;
             z-index: 9999;
         }
-        
+
         .loader {
             border: 8px solid #f3f3f3;
             border-top: 8px solid #3498db;
@@ -277,24 +273,34 @@
             height: 50px;
             animation: spin 1s linear infinite;
         }
-        
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
 
-        
-        #reportSection  h2 {
-            color: rgb(84, 125, 240); /* Use your preferred color */
-            margin-bottom: 15px; /* Space below the heading */
-            font-size: 1.5em; /* Adjust heading size */
+        #reportSection h2 {
+            color: rgb(84, 125, 240);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            text-align:center;
         }
-        
+
         #reportSection p {
-            color: #333; /* Darker text for better contrast */
-            font-size: 1.1em; /* Slightly larger font for readability */
-            line-height: 1.5; /* Improve line spacing */
+            color: #333;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+            border: none;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
         }
         
     </style>
@@ -375,6 +381,13 @@
                 <a id="report-link" href="#" class="btn btn-success" download> 📥 Download Report</a>
             </div>       
             <button class="btn btn-secondary" onclick="toggleTable()" title="View the criteria for imputation methods">The criteria</button>
+            <button id="applyMissingValuesBtn" class="btn btn-warning">Apply the missing values handling methods</button>
+        </div>
+        <div id="loadingIndicator" class="text-center hidden">
+            <p>Loading your report...</p>
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
         <div id="imputationTable" style="display: none; margin-top: 20px;">
             <table border="1" style="width: 100%; border-collapse: collapse;">
@@ -441,9 +454,13 @@
     </div>
     <script>
         document.getElementById('generate-report').onclick = function() {
+            $('#loadingIndicator').removeClass('hidden'); // Show loading indicator
             fetch('/generate_report')
                 .then(response => response.json())
                 .then(data => {
+                    // Always hide the loading indicator after processing the response
+                    $('#loadingIndicator').addClass('hidden'); // Hide loading indicator
+                    
                     if (data.filename) {
                         const reportLink = document.getElementById('report-link');
                         reportLink.href = `/download/${data.filename}`;  // Use the new report filename here
@@ -454,8 +471,9 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    $('#loadingIndicator').addClass('hidden'); // Hide loading indicator on error
                 });
-        };
+        };        
         function toggleTable() {
             const table = document.getElementById('imputationTable');
             if (table.style.display === 'none') {
@@ -464,6 +482,10 @@
                 table.style.display = 'none';
             }
         }
+        $('#applyMissingValuesBtn').on('click', function () {
+            // Redirect to the missing values endpoint
+            window.location.href = '/missing_values';
+        });
     </script>
 </body>
 </html>

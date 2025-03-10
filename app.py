@@ -66,6 +66,7 @@ def reset_data():
     except Exception as e:
         print("Error resetting data:", str(e))  # Debug: Print the full error
         return jsonify({"error": f"Error resetting data: {str(e)}"}), 500
+    
 
 @app.route('/')
 def index():
