@@ -506,7 +506,7 @@ section{
     position: absolute;
     width: 40%;
     z-index: -1;
-    top: 1240px;
+    top: 1140px;
     left: 5%;
     filter: blur(4px);
 
@@ -515,10 +515,9 @@ section{
     position: absolute;
     width: 40%;
     z-index: -1;
-    top: 380px;
+    top: 2240px;
     left: 5%;
     filter: blur(4px);
-
 }
 .back2{
     position: absolute;
