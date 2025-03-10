@@ -24,11 +24,41 @@ $(document).ready(function () {
 
     function displayMessageBox(message, type) {
         const messageBox = $('#messageBox');
-        $('#messageContent').text(message);
+        $('#messageContent').html(message); // Allow HTML content
         messageBox.css('background-color', type === 'error' ? '#dc3545' : '#28a745')
             .removeClass('hidden');
 
         setTimeout(() => messageBox.addClass('hidden'), 3000);
+    }
+
+    function displayDownloadLink(link) {
+        const linkBox = $('#downloadLinkBox');
+        const linkContent = $('#downloadLinkContent');
+
+        // Clear previous content
+        linkContent.empty();
+
+        // Create link element
+        const linkElement = $('<a></a>').attr({
+            href: link,
+            download: true // Ensures download attribute is set
+        }).text("Click here to download your file").addClass("link-style");
+
+        // Append link to the link content
+        linkContent.append(linkElement);
+
+        // Apply styles to the link box
+        linkBox.css({
+            backgroundColor: '#007bff', // Blue for link box
+            color: '#ffffff', // White text color
+            padding: '15px', // Padding for the link box
+            borderRadius: '5px' // Rounded corners
+        }).removeClass('hidden'); // Show the link box
+
+        // Automatically hide after 10 seconds
+        setTimeout(() => {
+            linkBox.addClass('hidden');
+        }, 10000);
     }
 
     $('#messageButton').on('click', () => $('#messageBox').addClass('hidden'));
@@ -70,25 +100,39 @@ $(document).ready(function () {
             .fail(xhr => displayMessageBox('Failed to fetch before table: ' + xhr.responseText, 'error'));
     }
 
-
-
     $('#resetButton').on('click', function () {
-        const elementsToReset = ['uploadForm', 'uploadMessage', 'tablebef', 'saveOptions', 'nextAction',
-            'correctionResults', 'dateChoices', 'correctionsContainer', 'fileInput'];
-
-        // Reset form and hide elements
+        const elementsToReset = [
+            'uploadForm',
+            'uploadMessage',
+            'tablebef',
+            'saveOptions',
+            'nextAction',
+            'correctionResults',
+            'dateChoices',
+            'correctionsContainer',
+            'fileInput'
+        ];
+        
+        // Reset the form
         $('#uploadForm')[0].reset();
+        
+        // Clear upload message and reset file input placeholder
         $('#uploadMessage').text('');
         $('#filePlaceholder').text("Choose a File");
-        
-        $('#tablebef').addClass('hidden');
+        $('#tablebef').empty();
         $('#toggleDataOverview').text('Show Data Overview');
-
-        // Hide all other specified elements
-        elementsToReset.forEach(id => $('#' + id).addClass('hidden'));
-
+        elementsToReset.forEach(id => {
+            const element = $('#' + id);
+            element.addClass('hidden');
+            if (element.is('input, textarea')) {
+                element.val('');
+            }
+        });
+        $('#correctionResults').empty();
         displayMessageBox('Form reset successfully.', 'message');
     });
+    
+
     $('#toggleDataOverview').on('click', function () {
         $('#tablebef').toggleClass('hidden'); // Toggle visibility of the table
         const isHidden = $('#tablebef').hasClass('hidden');
@@ -107,7 +151,7 @@ $(document).ready(function () {
     $('#correctionForm').on('submit', function (event) {
         event.preventDefault();
         showSpinner();
-
+        
         $.ajax({
             url: '/correct',
             type: 'POST',
@@ -121,7 +165,6 @@ $(document).ready(function () {
         })
             .done(response => {
                 hideSpinner();
-                displayMessageBox(response.message, 'message');
                 $('#saveOptions').removeClass("hidden");
                 let tableAfterHtml = "<h4>Table After Corrections:</h4><table class='table'><thead><tr>";
                 Object.keys(response.table[0]).forEach(col => tableAfterHtml += `<th>${col}</th>`);
@@ -132,13 +175,7 @@ $(document).ready(function () {
                     Object.values(row).forEach(value => tableAfterHtml += `<td>${value}</td>`);
                     tableAfterHtml += "</tr>";
                 });
-
                 $('#correctionResults').html(tableAfterHtml).show();
-                $('#nextAction').html(`
-                    <p>${response.ask_next}</p>
-                    <button id="processAnother" class="btn btn-primary">Yes</button>
-                    <button id="saveChanges" class="btn btn-success">Save & Finish</button>
-                `).show();
             })
             .fail(xhr => {
                 hideSpinner();
@@ -215,10 +252,10 @@ $(document).ready(function () {
                 data: JSON.stringify(formData),
                 contentType: 'application/json',
                 success: function (response) {
-                    displayMessageBox(response.message, 'message'); // Show success message
-                },
-                error: function (response) {
-                    displayMessageBox(response.responseJSON.error, 'error'); // Show error message
+                    displayMessageBox(response.message);
+                    displayDownloadLink(response.download_url);                },
+                error: function (xhr) {
+                    displayMessageBox(xhr.responseJSON.error || 'An error occurred while saving.', 'error');
                 }
             });
         });

@@ -59,12 +59,14 @@ $(document).ready(function () {
             $('#customPathField').hide();
         }
     });
+
     $('#saveFormatForm').on('submit', function (e) {
         e.preventDefault();
         const fileFormat = $('input[name="file_format"]:checked').val();
         const saveLocation = $('#saveLocation').val();
         const filename = $('#filename').val();
         let savePath = saveLocation;
+
         if (saveLocation === 'custom') {
             savePath = $('#customPath').val();
             if (!savePath) {
@@ -75,19 +77,22 @@ $(document).ready(function () {
         if (!filename) {
             displayMessageBox('Please enter a filename.', 'error');
             return;
-                }
+        }
+
         const formData = {
             file_format: fileFormat,
             save_path: savePath,
             filename: filename
         };
+
         $.ajax({
             url: '/save',
             type: 'POST',
             data: JSON.stringify(formData),
             contentType: 'application/json',
             success: function (response) {
-                displayMessageBox(response.message, 'message'); // Show success message
+                displayMessageBox(response.message);
+                displayDownloadLink(response.download_url);
             },
             error: function (response) {
                 displayMessageBox(response.responseJSON.error, 'error'); // Show error message
@@ -95,30 +100,46 @@ $(document).ready(function () {
         });
     });
 });
+function displayDownloadLink(link) {
+    const linkBox = document.getElementById('downloadLinkBox');
+    const linkContent = document.getElementById('downloadLinkContent');
+    linkContent.innerHTML = "";
+    const linkElement = document.createElement('a');
+    linkElement.href = link;
+    linkElement.textContent = "Click here to download your file";
+    linkElement.target = "_blank"; // Open in new tab
+    linkElement.classList.add("link-style");
+    linkContent.appendChild(linkElement);
+    linkBox.style.backgroundColor = '#007bff'; // Blue for link box
+    linkBox.style.color = '#ffffff'; // White text color
+    linkBox.style.padding = '15px'; // Padding for the link box
+    linkBox.style.borderRadius = '5px'; // Rounded corners
+    linkBox.classList.remove('hidden');
+    setTimeout(() => {
+        linkBox.classList.add('hidden');
+    }, 10000);
+}
+
+///normal message box
 function displayMessageBox(message, type) {
     const messageBox = document.getElementById('messageBox');
     const messageContent = document.getElementById('messageContent');
     const messageButton = document.getElementById('messageButton');
-
-    messageContent.textContent = message;
-
+    messageContent.innerHTML = message;
     if (type === 'error') {
         messageBox.style.backgroundColor = '#dc3545'; // Red for error
     } else if (type === 'message') {
-        messageBox.style.backgroundColor = ' #28a745'
+        messageBox.style.backgroundColor = '#28a745'; // Green for success
     }
-
     messageBox.classList.remove('hidden');
-
     messageButton.removeEventListener('click', hideMessageBox);
     messageButton.addEventListener('click', hideMessageBox);
-
-    setTimeout(hideMessageBox, 3000); // Hide after 3 seconds
+    setTimeout(hideMessageBox, 5000); 
 }
 
 function hideMessageBox() {
     document.getElementById('messageBox').classList.add('hidden');
-}    
+}
 
 function fetchDataOverview() {
     var missingColor = $('#missingColor').val();

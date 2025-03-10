@@ -1,5 +1,5 @@
 import os
-from flask import Flask,Blueprint, render_template,url_for, jsonify, Response,send_from_directory
+from flask import Flask,Blueprint,render_template,url_for, jsonify,send_file, Response,send_from_directory
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,6 +9,7 @@ import pdfkit
 import glob
 from sklearn.preprocessing import LabelEncoder
 import io
+import tempfile
 
 
 
@@ -97,8 +98,8 @@ def adjust_image_paths(html_content):
     return html_content
 
 
-@smartimp_bp.route('/download_report')
-def download_report():
+@smartimp_bp.route('/generate_report', methods=['GET'])
+def generate_report():
     try:
         if not os.path.exists('current_df.pkl'):
             return jsonify({"error": "Dataset not found. Please upload a file first."}), 404
@@ -118,18 +119,32 @@ def download_report():
 
         adjusted_html = adjust_image_paths(rendered_html)  # Adjust image paths here
 
+        # Create a temporary file for the PDF
+        temp_dir = tempfile.gettempdir()
+        report_filename = 'report_analysis.pdf'  # Changed filename for the report
+        report_path = os.path.join(temp_dir, report_filename)
+        
         config = pdfkit.configuration(wkhtmltopdf=r"C:\wkhtmltopdf\bin\wkhtmltopdf.exe")
         options = {'enable-local-file-access': ''}
-
+        
+        # Generate the PDF and write to the temporary file
         pdf_bytes = pdfkit.from_string(adjusted_html, False, configuration=config, options=options)
-        pdf_io = io.BytesIO(pdf_bytes)
-        return Response(
-            pdf_io.getvalue(),
-            mimetype='application/pdf',
-            headers={"Content-Disposition": "attachment; filename=analysis_report.pdf"}
-        )
+        
+        with open(report_path, 'wb') as report_file:
+            report_file.write(pdf_bytes)
+
+        # Return the filename for downloading
+        return jsonify({"message": "Report generated successfully!", "filename": report_filename}), 200
+
     except Exception as e:
         return jsonify({"error": f"Error generating PDF: {str(e)}"}), 500
 
+@smartimp_bp.route('/download/<report_filename>', methods=['GET'])
+def download(report_filename):
+    temp_dir = tempfile.gettempdir()
+    file_path = os.path.join(temp_dir, report_filename)
 
-
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=True)
+    else:
+        return jsonify({"error": "File not found"}), 404

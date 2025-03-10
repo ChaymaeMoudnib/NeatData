@@ -272,37 +272,7 @@ $('#boxplotContainer').addClass('d-none'); // Hide the boxplot image
         $('#saveOptions').removeClass('hidden')
     });
 
-    $(document).ready(function () {
-        $('#saveFormatForm').on('submit', function (e) {
-            e.preventDefault();
-            const fileFormat = $('input[name="file_format"]:checked').val();
-            const saveLocation = $('#saveLocation').val();
-            const filename = $('#filename').val();
-            let savePath = saveLocation === 'custom' ? $('#customPath').val() : saveLocation;
-
-            if (!filename) {
-                displayMessageBox('Please enter a filename.', 'error');
-                return;
-            }
-            if (saveLocation === 'custom' && !savePath) {
-                displayMessageBox('Please provide a valid custom path.', 'error');
-                return;
-            }
-
-            $.ajax({
-                url: '/save',
-                type: 'POST',
-                data: JSON.stringify({ file_format: fileFormat, save_path: savePath, filename: filename }),
-                contentType: 'application/json',
-                success: function (response) {
-                    displayMessageBox(response.message, 'message');
-                },
-                error: function (response) {
-                    displayMessageBox(response.responseJSON.error, 'error');
-                }
-            });
-        });
-    });
+    
 
     function displayMessageBox(message, type) {
         const messageBox = document.getElementById('messageBox');

@@ -234,7 +234,7 @@ section{
 }
 
 
-#transform {
+.learning-paths {
     margin: -300px 0; /* Further reduce section height */
 }
 .learning-paths h2 {
@@ -242,7 +242,7 @@ section{
     margin: -50px 0px; /* Remove any extra spacing */
 }
 
-#transform h3 {
+.learning-paths h3 {
     font-size: 2.5rem;
     font-weight: 700;
     color: #3a79df;
@@ -250,11 +250,6 @@ section{
     text-align: center;
 }
 
-.learning-paths h2 {
-    font-size: 1.6em; /* Slightly reduce title size */
-    font-weight: 700;
-    margin-bottom: 8px; /* Reduce spacing below */
-}
 
 .learning-paths .highlight {
     color: #fdff78;

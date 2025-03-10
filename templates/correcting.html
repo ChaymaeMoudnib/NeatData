@@ -99,14 +99,13 @@
                             </select>
                         </div>
                         <div id="correctionsContainer" class="hidden">
-                            <label for="corrections">Corrections (old_value:new_value, one per line):</label>
+                            <label for="corrections">Corrections (old_value:new_value, one per line) for remove (old_value:):</label>
                             <textarea id="corrections" name="corrections" rows="5" required "center"></textarea>
                         </div>
                         <button type="submit" class="btn btn-success">Apply Corrections</button>
                     </form>
                 </div>
                 <div id="correctionResults" class="hidden"></div>
-                <div id="nextAction" class="hidden"></div>
                 <div id="spinner" class="hidden">
                     <div class="spinner"><p></p></div>
                 </div>
@@ -142,13 +141,6 @@
                         </label>
                     </div>
                     <br>
-                    <label for="saveLocation">Select Save Location:</label>
-                    <select id="saveLocation" name="save_path" required>
-                        <option value="documents">Documents</option>
-                        <option value="downloads">Downloads</option>
-                        <option value="desktop">Desktop</option>
-                        <option value="custom">Custom Path</option>
-                    </select>
                     <br>
                     
                     <div id="customPathField" style="display: none;">
@@ -161,7 +153,6 @@
                     <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
                     <br>
                         <button type="submit" class="btn-success">Save File</button>
-                    
                 </form>
                 </div>
                 <div id="saveMessage"></div>

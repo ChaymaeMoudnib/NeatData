@@ -157,22 +157,7 @@
                     <span>HTML</span>
                 </label>
             </div>
-            <br>
-            <label for="saveLocation">Select Save Location:</label>
-            <select id="saveLocation" name="save_path" required>
-                <option value="documents">Documents</option>
-                <option value="downloads">Downloads</option>
-                <option value="desktop">Desktop</option>
-                <option value="custom">Custom Path</option>
-            </select>
-            <br>
-            
-            <div id="customPathField" style="display: none;">
-                <label for="customPath">Enter Custom Path:</label><br>
-                <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
-            </div>
-            <br>
-            
+            <br>            
             <label for="filename">Enter the Filename:</label><br>
             <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
             <br>
@@ -196,5 +181,7 @@
     });
     </script>
 <script src="static/Encoding.js"></script>
+<script src="static/shared.js"></script>
+
 </body>
 </html>

@@ -151,19 +151,7 @@
                     </label>
                 </div>
                 <br>
-                <label for="saveLocation">Select Save Location:</label>
-                <select id="saveLocation" name="save_path" required>
-                    <option value="documents">Documents</option>
-                    <option value="downloads">Downloads</option>
-                    <option value="desktop">Desktop</option>
-                    <option value="custom">Custom Path</option>
-                </select>
-                <br>
-                <div id="customPathField" style="display: none;">
-                    <label for="customPath">Enter Custom Path:</label><br>
-                    <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
-                </div>
-                <br>
+                
                 <label for="filename">Enter the Filename:</label><br>
                 <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
                 <br>
@@ -183,11 +171,10 @@
                 this.textContent = 'Discover More Techniques!';  // Change button text back
             }
         });
-        document.getElementById("fileInput").addEventListener("change", function () {
-            var fileName = this.files.length > 0 ? this.files[0].name : "Choose a File";
-            document.getElementById("filePlaceholder").textContent = fileName;
-        });
+
         </script>
     <script src="static/scriptsS.js"></script>
+    <script src="static/shared.js"></script>
+
 </body>
 </html>

@@ -111,44 +111,6 @@ $(document).ready(function () {
         selectors.forEach(selector => $(selector).empty());
     }
 
-    $('#saveDecisionForm').on('submit', function (e) {
-        e.preventDefault();
-        const decision = $('input[name="save_decision"]:checked').val();
-        if (decision === 'yes') {
-            toggleSections(['#saveOptions'], true);
-        } else if (decision === 'no') {
-            $('#saveMessage').text('Data not saved.');
-        } else if (decision === 'process_more') {
-            toggleSections(['#saveData', '#processAnotherColumn'], [false, true]);
-        }
-    });
-
-    $('#saveLocation').on('change', function () {
-        toggleSections(['#customPathField'], $(this).val() === 'custom');
-    });
-
-    $('#saveFormatForm').on('submit', function (e) {
-        e.preventDefault();
-        const fileFormat = $('input[name="file_format"]:checked').val(),
-            saveLocation = $('#saveLocation').val(),
-            filename = $('#filename').val(),
-            savePath = saveLocation === 'custom' ? $('#customPath').val() : saveLocation;
-        
-        if (!filename) return displayMessageBox('Please enter a filename.', 'error');
-        if (saveLocation === 'custom' && !savePath) return displayMessageBox('Please provide a valid custom path.', 'error');
-        
-        $.ajax({
-            url: '/save',
-            type: 'POST',
-            data: JSON.stringify({ file_format: fileFormat, save_path: savePath, filename: filename }),
-            contentType: 'application/json',
-            success: function (response) {
-                displayMessageBox(response.message, 'message');
-            },
-            error: handleAjaxError
-        });
-    });
-
     function fetchEncodingOverview() {
         console.log('Fetching encoding overview...'); // Debugging line
         $.ajax({

@@ -26,30 +26,65 @@
             <div class="links">
                 <ul>
                     <li class="dropdown">
-                        <a href="#transform" class="dropbtn">Catalog</a>
+                        <a class="dropbtn">Catalog</a>
                         <div class="dropdown-content">
+                            <a href="#Analyze">Analyze your Data</a>
                             <a href="#transform">Transform Data</a>
-                            <a href="#cleaning">Data Cleaning</a>
-                            <a href="#engineering">Feature Engineering</a>
-                            <a href="#analyze">Analyze your Data</a>
+                            <a href="#clean">Data Cleaning</a>
+                            <a href="#Features">Feature Engineering</a>
                         </div>
                     </li>
-                    <li><a href="#ND_MODELS">Analyse with NeatData</a></li>
+                    <li><a  href="/Smart_Missing_Values">Analyse with NeatData</a></li>
                     <li><a href="#road">Roadmap</a></li>
-                    <li><a href="#contact-us" target="_blank">Contact Us</a></li>
+                    <li><a href="#contact-us" >Contact Us</a></li>
                 </ul>
             </div>
         </navbar>
-        
     </header>
+    <img src="static\IMG\Design sans titre\24.png" alt="" class="back1">
     <section class="start">
         <div class="container"></div>
     </section>
-    <section id="transform" class="learning-paths">
+    <section id="Analyze" class="learning-paths">
         <div class="catalog"></div>
     </section>
     <!-- -->
-    <section id="transform" class="learning-paths">
+        <section   class="learning-paths">
+            <div class="catalog">
+                <h3>Analyse with NeatData</h3>
+                <div class="category center-buttons">
+                    <div     class="card" data-aos="fade-up">
+                        <a class="card1" href="/Smart_Missing_Values" target="_blank">
+                            <p>Missing Values Smart Analysis</p>
+                            <p class="small">Let NeatData help you choose the right method to deal with your missing values.</p>
+                            <div class="go-corner" href="#">
+                                <div class="go-arrow">→</div>
+                            </div>
+                        </a>
+                    </div>
+                    <!--<div class="card" data-aos="fade-up">
+                        <a class="card1" href="/DataQuality" target="_blank">
+                            <p>Data Quality Analysis</p>
+                            <p class="small">What is the quality of your data scored /100 !</p>
+                            <div class="go-corner" href="#">
+                                <div class="go-arrow">→</div>
+                            </div>
+                        </a>
+                    </div>-->
+                    <div class="card" data-aos="fade-up">
+                        <a class="card1" href="/missing_values" target="_blank">
+                            <p>Missing Values</p>
+                            <p class="small">Reduce the number of input variables in your dataset.</p>
+                            <div class="go-corner" href="#">
+                                <div id="transform" class="go-arrow">→</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>   
+        </section>
+
+    <section  class="learning-paths">
         <div class="catalog">
             <h3>Transform Data</h3>
             <div class="category center-buttons">
@@ -85,7 +120,7 @@
                         <p>Correct Errors</p>
                         <p class="small">Identify and correct errors in your dataset.</p>
                         <div class="go-corner" href="#">
-                            <div class="go-arrow">→</div>
+                            <div  id="clean" class="go-arrow">→</div>
                         </div>
                     </a>
                 </div>
@@ -96,7 +131,7 @@
     <img src="static\IMG\Design sans titre\22.png" alt="" class="back1">
 
     <!-- Data Cleaning Section -->
-    <section id="transform" class="learning-paths">
+    <section class="learning-paths">
         <div class="catalog">
             <h3>Data Cleaning</h3>
             <div class="category center-buttons">
@@ -104,11 +139,12 @@
                     <a class="card1" href="/missing_values" target="_blank">
                         <p>Missing Values</p>
                         <p class="small">Handle missing data efficiently.</p>
-                        <div class="go-corner" href="#">
+                        <div   class="go-corner" href="#">
                             <div class="go-arrow">→</div>
                         </div>
                     </a>
                 </div>
+                <img src="static\IMG\Design sans titre\21.png" alt="" class="back11">
                 <div class="card" data-aos="fade-up">
                     <a class="card1" href="/Outliers" target="_blank">
                         <p>Handle Outliers</p>
@@ -118,20 +154,20 @@
                     </a>
                 </div>
                 <div class="card" data-aos="fade-up">
-                    <a class="card1" href="/test" target="_blank">
+                    <a class="card1" href="/correct" target="_blank">
                         <p>Features Correction</p>
                         <p class="small">Correct features for better model performance.</p>
                         <div class="go-corner" href="#">
-                            <div class="go-arrow">→</div>
+                            <div   id="Features" class="go-arrow">→</div>
                         </div>
                     </a>
                 </div>
             </div>
         </div>        
-    </section>
+    </section>   
 
     <!-- Feature Engineering Section -->
-    <section id="transform" class="learning-paths">
+    <section  class="learning-paths">
         <div class="catalog ">
             <h3 style="color: #007bff; text-decoration: none; margin: 0;">Feature Engineering</h3>
             <div class="category center-buttons">
@@ -144,15 +180,15 @@
                         </div>
                     </a>
                 </div>
-                    <div class="card" data-aos="fade-up">
-                        <a class="card1" href="/missing_values" target="_blank">
-                            <p>Missing Values</p>
-                            <p class="small">Reduce the number of input variables in your dataset.</p>
-                            <div class="go-corner" href="#">
-                                <div class="go-arrow">→</div>
-                            </div>
-                        </a>
-                    </div>
+                <div class="card" data-aos="fade-up">
+                    <a class="card1" href="/correct" target="_blank">
+                        <p>Features Correction</p>
+                        <p class="small">Correct features for better model performance.</p>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">→</div>
+                        </div>
+                    </a>
+                </div>
                     <div class="card" data-aos="fade-up">
                         <a class="card1" href="/Data_Sampling" target="_blank">
                             <p>Data Sampling</p>
@@ -162,44 +198,8 @@
                             </div>
                         </a>
                     </div>
-                
             </div>
-            <img src="static\IMG\Design sans titre\21.png" alt="" class="back11">
         </div>        
-    </section>
-    <section id="transform" class="learning-paths">
-        <div class="catalog">
-            <h3>Analyse with NeatData</h3>
-            <div class="category center-buttons">
-                <div     class="card" data-aos="fade-up">
-                    <a class="card1" href="/Smart_Missing_Values" target="_blank">
-                        <p>Missing Values Smart Analysis</p>
-                        <p class="small">Let NeatData help you choose the right method to deal with your missing values.</p>
-                        <div class="go-corner" href="#">
-                            <div class="go-arrow">→</div>
-                        </div>
-                    </a>
-                </div>
-                <!--<div class="card" data-aos="fade-up">
-                    <a class="card1" href="/DataQuality" target="_blank">
-                        <p>Data Quality Analysis</p>
-                        <p class="small">What is the quality of your data scored /100 !</p>
-                        <div class="go-corner" href="#">
-                            <div class="go-arrow">→</div>
-                        </div>
-                    </a>
-                </div>-->
-                <div class="card" data-aos="fade-up">
-                    <a class="card1" href="/f" target="_blank">
-                        <p>Correct Errors</p>
-                        <p class="small">Identify and correct errors in your dataset.</p>
-                        <div class="go-corner" href="#">
-                            <div class="go-arrow">→</div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>   
     </section>
     <div id="road">
         <div class="sec1">
@@ -220,7 +220,7 @@
     </div>
     <footer class="footer">
         <!-- Contact Us Section -->
-        <div id="contact-us">
+        <div>
             <h1>Contact Us</h1>
             <p>We'd love to hear from you. Share your insights and help us improve!</p>
             <button id="feedbackButton" onclick="window.location.href='mailto:chaymaemoudnibe@gmail.com';">Share Your Feedback</button>
@@ -239,7 +239,7 @@
         </div>
     
         <!-- Legal Links Section -->
-        <div class="legal-links">
+        <div class="legal-links"  id="contact-us">
             <a href="" class="legal-link">NeatData Membership</a>
             <a href="" class="legal-link">Terms and Conditions</a>
             <a href="" class="legal-link">Privacy Policy</a>

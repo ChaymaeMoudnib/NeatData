@@ -145,6 +145,7 @@ def generate_boxplot(df, column):
 def detect_outliers(df):
     if df is None:
         return jsonify({"error": "No dataset uploaded"}), 400
+    
     outlier_data = {}
     outlier_columns = []
     for col in df.select_dtypes(include=[np.number]).columns:
@@ -156,7 +157,7 @@ def detect_outliers(df):
         outliers = df[(df[col] < lower_bound) | (df[col] > upper_bound)]
         if not outliers.empty:
             outlier_columns.append(col)
-            outlier_data[col] = outliers[col].tolist()
+            outlier_data[col] = outliers[col].astype(float).unique().tolist()
     return jsonify({
         "outlier_columns": outlier_columns,
         "outliers_values": outlier_data

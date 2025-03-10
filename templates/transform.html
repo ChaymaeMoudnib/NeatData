@@ -25,7 +25,7 @@
             <div class="step" id="step5">
                 <div class="step-content">
                     <h2>Transforming Data</h2>
-                    <p>Normalize, scale, or transform data for better analysis.</p>
+                    <p>Convert your data (CSV / xlsx) into other formats (JSON , html, Parquet)..</p>
                 </div>
             </div>            <div class="card my-4">
                 <div class="card-header text-center">
@@ -87,21 +87,6 @@
             </label>
         </div>
         <br>
-        <label for="saveLocation">Select Save Location:</label>
-        <select id="saveLocation" name="save_path" required>
-            <option value="documents">Documents</option>
-            <option value="downloads">Downloads</option>
-            <option value="desktop">Desktop</option>
-            <option value="custom">Custom Path</option>
-        </select>
-        <br>
-        
-        <div id="customPathField" style="display: none;">
-            <label for="customPath">Enter Custom Path:</label><br>
-            <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
-        </div>
-        <br>
-        
         <label for="filename">Enter the Filename:</label><br>
         <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
         <br>
@@ -111,5 +96,6 @@
     </div>
     </div>
     <script src="static/commun.js"></script>
+    <script src="static/shared.js"></script>
 </body>
 </html>

@@ -268,8 +268,6 @@
                 
         <button id="toggleDataOverview" class="btn btn-warning">Show Data overview</button>                
         <div id="dimension_overview" class="hidden">
-        <h2>Data Overview</h2>
-        <h3>Data types of columns</h3>
         <div id="data_types"></div>
         <h3>Correlation between Features</h3>
 <img id="correlation" src="" class="hidden" alt="Correlation Heatmap">
@@ -379,19 +377,6 @@
             </label>
         </div>
         <br>
-        <label for="saveLocation">Select Save Location:</label>
-        <select id="saveLocation" name="save_path" required>
-            <option value="documents">Documents</option>
-            <option value="downloads">Downloads</option>
-            <option value="desktop">Desktop</option>
-            <option value="custom">Custom Path</option>
-        </select>
-        <br>
-        
-        <div id="customPathField" style="display: none;">
-            <label for="customPath">Enter Custom Path:</label><br>
-            <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
-        </div>
         <br>
         
         <label for="filename">Enter the Filename:</label><br>

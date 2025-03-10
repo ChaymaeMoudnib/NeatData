@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, jsonify, Response,send_from_directory
+from flask import Flask, render_template, jsonify, Response,send_from_directory,send_file
 from features.feature import feature_bp  
 from features.sampling import sampling_bp
 from features.dimension import dimension_bp
@@ -66,7 +66,6 @@ def reset_data():
     except Exception as e:
         print("Error resetting data:", str(e))  # Debug: Print the full error
         return jsonify({"error": f"Error resetting data: {str(e)}"}), 500
-    
 
 @app.route('/')
 def index():

@@ -322,10 +322,19 @@ select:hover, input[type="text"]:focus {
                 margin-bottom: 10px;
             }
         }
+        .link-style {
+            color: #ffffff; /* White link color */
+            text-decoration: none; /* No underline */
+        }
         
-
+        .link-style:hover {
+            color: #ffc107; /* Change color on hover, if needed */
+        }
         
-        
+        #downloadLinkBox {
+            margin-top: 10px; /* Space between the message and link box */
+            display: none; /* Hidden by default */
+        }        
     </style>
 </head>
 <body>
@@ -569,13 +578,13 @@ select:hover, input[type="text"]:focus {
                     </label>
                 </div>
                 <br>
-                <label for="saveLocation">Select Save Location:</label>
+                <!--<label for="saveLocation">Select Save Location:</label>
                 <select id="saveLocation" name="save_path" required>
                     <option value="documents">Documents</option>
                     <option value="downloads">Downloads</option>
                     <option value="desktop">Desktop</option>
                     <option value="custom">Custom Path</option>
-                </select>
+                </select>-->
                 <br>
                 <div id="customPathField" style="display: none;">
                     <label for="customPath">Enter Custom Path:</label><br>
@@ -583,7 +592,7 @@ select:hover, input[type="text"]:focus {
                 </div>
                 <br>
                 <label for="filename">Enter the Filename:</label><br>
-                <input type="text" id="filename" name="filename" placeholder="e.g., report.csv" required>
+                <input type="text" id="filename" name="filename" placeholder="e.g., report" required>
                 <br>
                     <button type="submit" class="btn-success">Save File</button>
                 </form>

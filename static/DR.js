@@ -10,21 +10,11 @@ $(document).ready(function () {
     const $messageBox = $('#messageBox');
     const $messageContent = $('#messageContent');
     const $messageButton = $('#messageButton');
+    $('.card-body').css('width', '80%'); // Adjust the width as needed
 
 
     // Get the file input and the display element
-    const fileUpload = document.getElementById('fileInput');
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
-    
-    // Add an event listener to the file input
-    fileUpload.addEventListener('change', function (event) {
-        if (event.target.files.length > 0) {
-            const fileName = event.target.files[0].name;
-            fileNameDisplay.innerHTML = `Uploaded File: <strong>${fileName}</strong>`;
-        } else {
-            fileNameDisplay.innerHTML = '';
-        }
-    });
+
     function showSpinner() {
         const spinner = document.querySelector('.spinner');
         const functionalitySection = document.querySelector('.functionality-section');
@@ -77,6 +67,7 @@ $(document).ready(function () {
             success: function (data) {
                 //$spinner.addClass('hidden');
                 hideSpinner();
+                $('#dimension_overview').removeClass('hidden')
                 if (data.error) {
                     displayMessageBox(data.error, 'error');
                 } else {
@@ -343,47 +334,67 @@ function displayResults(method, results) {
         });
     }
 
-
-
-    // Handle save format
-    $(document).ready(function () {
-        // Show/hide custom path input based on selection
-        $('#saveLocation').on('change', function () {
-            if ($(this).val() === 'custom') {
-                $('#customPathField').show();
-            } else {
-                $('#customPathField').hide();
-            }
-        });
-    });
+    function displayDownloadLink(link) {
+        const linkBox = $('#downloadLinkBox');
+        const linkContent = $('#downloadLinkContent');
+        linkContent.empty();
+        const linkElement = $('<a></a>').attr({
+            href: link,
+            download: true // Ensures download attribute is set
+        }).text("Click here to download your file").addClass("link-style");
+        linkContent.append(linkElement);
+        linkBox.css({
+            backgroundColor: '#007bff', // Blue for link box
+            color: '#ffffff', // White text color
+            padding: '15px', // Padding for the link box
+            borderRadius: '5px' // Rounded corners
+        }).removeClass('hidden');
+        setTimeout(() => {
+            linkBox.addClass('hidden');
+        }, 10000);
+    }
     
-    function handleSaveFormat(e) {
-        e.preventDefault();
-        let selectedPath = $('#saveLocation').val();
-        let customPath = $('#customPath').val();
-        const formData = {
-            file_format: $('input[name="file_format"]:checked').val(),
-            save_path: selectedPath === 'custom' ? customPath : selectedPath,
-            filename: $('input[name="filename"]').val(),
-        };
-        console.log("Form Data:", formData); // Debugging
-        if (!formData.file_format || !formData.save_path || !formData.filename) {
-            displayMessageBox('All fields are required.', 'error');
-            return;
-        }
-        $.ajax({
-            url: '/save',
-            type: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            success: function (response) {
-                displayMessageBox(response.message, 'message');
-            },
-            error: function (response) {
-                displayMessageBox(response.responseJSON.error, 'error');
-            },
+    function handleSaveFormat() {
+        // Event listener for the save format form submission
+        $('#saveFormatForm').on('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+    
+            const fileFormat = $('input[name="file_format"]:checked').val(); // Get the selected file format
+            const filename = $('#filename').val(); // Get the entered filename
+    
+            // Validate the filename
+            if (!filename) {
+                displayMessageBox('Please enter a filename.', 'error');
+                return; // Exit function if filename is empty
+            }
+    
+            // Prepare data for submission
+            const formData = {
+                file_format: fileFormat,
+                filename: filename
+            };
+    
+            // AJAX request to save the file
+            $.ajax({
+                url: '/save', // Endpoint to save the file
+                type: 'POST', // Method type
+                data: JSON.stringify(formData), // Send data as JSON
+                contentType: 'application/json', // Specify content type
+                success: function (response) {
+                    // Display success message
+                    displayMessageBox(response.message);
+                    displayDownloadLink(response.download_url); 
+                },
+                error: function (response) {
+                    // Show error message
+                    displayMessageBox(response.responseJSON.error, 'error');
+                }
+            });
         });
     }
+    
+    handleSaveFormat();
+    
     
 
     // Toggle additional techniques
@@ -402,14 +413,23 @@ function displayResults(method, results) {
 
     // Display messages
     function displayMessageBox(message, type) {
-        $messageContent.text(message);
-        $messageBox.css('background-color', type === 'error' ? '#dc3545' : '#28a745').removeClass('hidden');
-        setTimeout(hideMessageBox, 3000);
+        const messageBox = document.getElementById('messageBox');
+        const messageContent = document.getElementById('messageContent');
+        const messageButton = document.getElementById('messageButton');
+        messageContent.innerHTML = message;
+        if (type === 'error') {
+            messageBox.style.backgroundColor = '#dc3545'; // Red for error
+        } else if (type === 'message') {
+            messageBox.style.backgroundColor = '#28a745'; // Green for success
+        }
+        messageBox.classList.remove('hidden');
+        messageButton.removeEventListener('click', hideMessageBox);
+        messageButton.addEventListener('click', hideMessageBox);
+        setTimeout(hideMessageBox, 5000); 
     }
-
-    // Hide message box
+    
     function hideMessageBox() {
-        $messageBox.addClass('hidden');
+        document.getElementById('messageBox').classList.add('hidden');
     }
 
     // Handle AJAX errors

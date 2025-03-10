@@ -370,10 +370,10 @@
         <img src="{{ web_images['spider_chart'] }}" alt="Spider Chart" class="fade-in">
 
         <div class="button-group">
-            <a href="{{ url_for('smartim.download_report') }}" class="btn btn-primary">
-                <span>Download Report as PDF</span>
-                <i class="download-icon">📥</i>
-            </a>            
+            <button id="generate-report" class="btn btn-primary">Generate Report</button>
+            <div id="download-link" style="display: none;">
+                <a id="report-link" href="#" class="btn btn-success" download> 📥 Download Report</a>
+            </div>       
             <button class="btn btn-secondary" onclick="toggleTable()" title="View the criteria for imputation methods">The criteria</button>
         </div>
         <div id="imputationTable" style="display: none; margin-top: 20px;">
@@ -440,6 +440,22 @@
         </div>
     </div>
     <script>
+        document.getElementById('generate-report').onclick = function() {
+            fetch('/generate_report')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.filename) {
+                        const reportLink = document.getElementById('report-link');
+                        reportLink.href = `/download/${data.filename}`;  // Use the new report filename here
+                        document.getElementById('download-link').style.display = 'block';  // Show the link
+                    } else {
+                        alert(data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        };
         function toggleTable() {
             const table = document.getElementById('imputationTable');
             if (table.style.display === 'none') {

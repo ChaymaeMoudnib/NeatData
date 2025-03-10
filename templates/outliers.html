@@ -504,17 +504,8 @@
                             </label>
                         </div>
                         <br>
-                        <label for="saveLocation">Select Save Location:</label>
-                        <select id="saveLocation" name="save_path" required>
-                            <option value="documents">Documents</option>
-                            <option value="downloads">Downloads</option>
-                            <option value="desktop">Desktop</option>
-                            <option value="custom">Custom Path</option>
-                        </select>
-                        <br>
-                        <div id="customPathField" style="display: none;">
-                            <label for="customPath">Enter Custom Path:</label><br>
-                            <input type="text" id="customPath" name="custom_path" placeholder="e.g., C:/Users/YourName/Folder">
+                        <label for="saveLocation"></label>
+                        <div id="saveLocation" name="save_path" required>
                         </div>
                         <br>
                         <label for="filename">Enter the Filename:</label><br>
@@ -537,5 +528,7 @@
     </script>  
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='outliers.js') }}"></script>
+    <script src="{{ url_for('static', filename='shared.js') }}"></script>
+
 </body>
 </html>

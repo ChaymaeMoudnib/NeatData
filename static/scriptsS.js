@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     displayMessageBox(data.message, 'message');
                     fetchSamplingOverview();
+                    $('#sampling_overview').removeClass('hidden');
+
                 }
             },
             error: function(xhr, status, error) {
@@ -323,24 +325,5 @@ let toggleDataOverviewBtn = document.getElementById('toggleSamplingOverview');
         });
         toggleDataOverviewBtn.style.marginBottom = '20px'; // Adjust this value as needed
     }
-    $('#saveFormatForm').on('submit', function(e) {
-        e.preventDefault();
-        var formData = {
-            file_format: $('input[name="file_format"]:checked').val(),
-            save_path: $('input[name="save_path"]').val(),
-            filename: $('input[name="filename"]').val()
-        };
-        $.ajax({
-            url: '/save',
-            type: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
-            success: function(response) {
-                displayMessageBox(response.message, 'message');
-            },
-            error: function(response) {
-                displayMessageBox(response.responseJSON.error, 'error');
-            }
-        });
-    });
+
 });
