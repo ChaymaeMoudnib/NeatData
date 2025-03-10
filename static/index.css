@@ -59,7 +59,6 @@ section{
     background-size: cover; /* Ensure the image covers the entire section */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevent the image from repeating */}
-
 /* Header */
 .header {
     background: rgba(255, 255, 255, 0.9); /* Glassmorphism effect */
@@ -135,6 +134,7 @@ section{
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 /* Dropdown */
 .dropdown-content {
     display: none;
@@ -165,7 +165,6 @@ section{
 }
 
 /* Ensure the image covers the entire width and is responsive */
-/* Ensure the image covers the entire width and is responsive */
 .back4 {
     width: 100%;
     height: auto;
@@ -178,7 +177,8 @@ section{
     width: 100%;
     height: 100vh; /* Ensure the container has a height */
 }
-.w:hover{
+
+.w:hover {
     color: #fffb2bf0;
 }
 
@@ -193,6 +193,7 @@ section{
     color: white;
     font-weight: bold; /* Make the text bolder */
 }
+
 /* Style for the paragraphs */
 .w {
     font-size: 2rem; /* Adjust as needed */
@@ -206,6 +207,22 @@ section{
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the left */
+        padding: 10px; /* Add padding */
+    }
+
+    .links ul {
+        flex-direction: column; /* Stack links vertically */
+        width: 100%; /* Full width for links */
+        display: none; /* Hide links initially */
+    }
+
+    .navbar.active .links ul {
+        display: flex; /* Show links when navbar is active */
+    }
+
     .w {
         font-size: 1.5rem;
     }
@@ -216,6 +233,13 @@ section{
 
     .text-container {
         width: 90%;
+    }
+
+    /* Add a toggle button for smaller screens */
+    .toggle-button {
+        display: block; /* Show toggle button */
+        cursor: pointer; /* Change cursor on hover */
+        margin-top: 10px; /* Space above toggle button */
     }
 }
 
@@ -255,8 +279,83 @@ section{
     color: #fdff78;
 }
 
+.road{
+    display: flex; /* Arrange elements in a row */
+    align-items: flex-start; /* Align items at the start */
+    gap: 20px; /* Space between video and description */
+    height: auto; /* Set height to auto for responsiveness */
+    padding: 0 0 0 120px; /* Add padding for internal spacing */
+    position: relative; /* Ensure proper stacking context */
 
+}
 
+.vidcontainer {
+    display: flex; /* Arrange elements in a row */
+    align-items: flex-start; /* Align items at the start */
+    gap: 20px; /* Space between video and description */
+    height: auto; /* Set height to auto for responsiveness */
+    bottom: 90px; /* Move the container up */
+    padding: 40px; /* Add padding for internal spacing */
+}
+
+.demo-video video {
+    border-radius: 10px; /* Rounded corners for the video */
+    max-width: 100%; /* Responsive video */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the video area */
+}
+
+.demo-description {
+    text-align: left; /* Align text to the left */
+    flex: 1; /* Allow description to take available space */
+    padding: 20px; /* Add padding around the text */
+    margin: 35px 35px 0; /* Margin for spacing */
+}
+
+.demo-description h2 {
+    font-size: 1.5em; /* Adjust heading size for emphasis */
+    color: #007bff; /* Blue color for the heading */
+    margin-bottom: 10px; /* Space below the heading */
+}
+
+.demo-description p {
+    font-size: 1.1em; /* Adjust font size for readability */
+    color: #333; /* Dark gray text color for better contrast */
+    line-height: 1.6; /* Increased line height for better readability */
+}
+
+.demo-description p:hover {
+    color: #112a58; /* Darker blue on hover for interactivity */
+    transition: color 0.3s ease; /* Smooth transition effect */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .vidcontainer {
+        flex-direction: column; /* Stack elements vertically on small screens */
+        align-items: center; /* Center items horizontally */
+        padding: 20px; /* Reduce padding for smaller screens */
+        margin-top: -40px; /* Adjust margin for smaller screens */
+    }
+
+    .demo-video {
+        width: 380px; /* Full width for the video */
+        margin-bottom: 20px; /* Space below the video */
+    }
+
+    .demo-description {
+        margin: 0; /* Remove margin on smaller screens */
+        text-align: center; /* Center text on smaller screens */
+    }
+
+    .demo-description h2 {
+        font-size: 1em; /* Adjust heading size for smaller screens */
+    }
+
+    .demo-description p {
+        font-size: 0.8em; /* Adjust font size for readability on smaller screens */
+    }
+}
 
 
 /*  */
@@ -374,7 +473,9 @@ section{
 }
 
 /* /////////////////////////////////////////////// */
-
+.catalog {
+    padding: 20px; /* Add padding around the catalog */
+}
 
 .category {
     margin-top: 20px;
@@ -405,8 +506,8 @@ section{
     position: absolute;
     width: 40%;
     z-index: -1;
-    top: 1040px;
-    left: 13%;
+    top: 1240px;
+    left: 5%;
     filter: blur(4px);
 
 }
@@ -423,8 +524,8 @@ section{
     position: absolute;
     width: 40%;
     z-index: -1;
-    top: 1500px;
-    left: 55%;
+    top: 1700px;
+    left: 60%;
     filter: blur(4px);
 
 }
@@ -481,83 +582,85 @@ section{
 }
 /* //// */
 /* From Uiverse.io by Prince4fff */ 
+.card {
+    flex: 1 1 300px; /* Allow cards to grow and shrink, with a minimum width */
+    max-width: 300px; /* Set a maximum width for cards */
+    background-color: #ffffff; /* Card background color */
+    border-radius: 10px; /* Rounded corners for cards */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
+    overflow: hidden; /* Prevent content overflow */
+    transition: transform 0.3s, box-shadow 0.3s; /* Add transition for hover effect */
+    position: relative; /* Ensure positioning context */
+    z-index: 1; /* Bring cards above other elements */
+}
 
-.card p {
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 20px;
-    color: #0073df;
-  }
-  
-  .card p.small {
-    font-size: 14px;
-  }
-  
-  .go-corner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    overflow: hidden;
-    top: 0;
-    right: 0;
-    background-color: #575f62;
-    border-radius: 0 4px 0 32px;
-  }
-  
-  .go-arrow {
-    margin-top: -4px;
-    margin-right: -4px;
-    color: rgb(255, 255, 255);
-    font-family: courier, sans;
-  }
-  
-  .card1 {
+.card:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+.card1 {
     display: block;
     position: relative;
-    max-width: 262px;
+    max-width: 100%; /* Allow card to use most of the width */
     height: 100%;
-    background-color: #ecf3fcf0;
-    border-radius: 4px;
-    padding: 32px 24px;
-    margin: 12px;
-    text-decoration: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  
-  .card1:before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: -16px;
-    right: -16px;
-    background: #4670fa;
-    height: 32px;
-    width: 32px;
-    border-radius: 32px;
-    transform: scale(1);
-    transform-origin: 50% 50%;
-    transition: transform 0.25s ease-out;
-  }
-  
-  .card1:hover:before {
-    transform: scale(21);
-  }
-  
-  .card1:hover p {
-    transition: all 0.3s ease-out;
-    color: rgba(255, 255, 255, 0.8);
-  }
-  
-  .card1:hover h3 {
-    transition: all 0.3s ease-out;
-    color: #fff;
-  }
-/* //// */
+    background-color: #ecf3fcf0; /* Keep original background color */
+    border-radius: 4px; /* Keep original border radius */
+    padding: 32px 24px; /* Keep original padding */
+    margin: 12px; /* Ensure cards have margin */
+    text-decoration: none; /* Keep original text decoration */
+    z-index: 0; /* Keep original z-index */
+    overflow: hidden; /* Keep original overflow */
+}
+.catalog h3 {
+    margin-bottom: 20px; /* Add space below the heading */
+    font-size: 1.8em; /* Increase the font size for the heading */
+    color: #007bff; /* Blue color for the heading */
+    z-index: 1;
+}
 
+
+.card1:before {
+    content: ""; /* Keep original content */
+    position: absolute; /* Keep original position */
+    z-index: -1; /* Ensure background is behind */
+    top: -16px; /* Keep original positioning */
+    right: -16px; /* Keep original positioning */
+    background: #4670fa; /* Keep original background */
+    height: 32px; /* Keep original height */
+    width: 32px; /* Keep original width */
+    border-radius: 32px; /* Keep original border radius */
+    transform: scale(1); /* Keep original scale */
+    transform-origin: 50% 50%; /* Keep original origin */
+    transition: transform 0.25s ease-out; /* Keep original transition */
+}
+
+.card1:hover:before {
+    transform: scale(21); /* Keep original hover effect */
+}
+
+.card1:hover p {
+    transition: all 0.3s ease-out; /* Keep original transition */
+    color: rgba(255, 255, 255, 0.8); /* Keep original color change on hover */
+}
+
+.card1:hover h3 {
+    transition: all 0.3s ease-out; /* Keep original transition */
+    color: #fff; /* Keep original color change on hover */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .card {
+        flex: 1 1 100%; /* Allow cards to take full width on small screens */
+        max-width: 100%; /* Remove max-width restriction */
+        margin: 10px; /* Add margin for spacing */
+    }
+
+    .card1 {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+}
 /* //// */
 
   .center-buttons {

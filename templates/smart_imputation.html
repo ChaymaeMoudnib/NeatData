@@ -76,6 +76,8 @@
                 <div id="uploadMessage" class="text-center"></div>
                 <div id="loadingIndicator" class="text-center hidden">
                     <p>Loading your report...</p>
+                    <p>It may takes some minutes to fetch...</p>
+
                     <div class="spinner-border" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
@@ -110,7 +112,7 @@
                     processData: false,
                     success: function (data) {
                         $('#loadingIndicator').addClass('hidden'); // Hide loading indicator
-                        $('#uploadMessage').html('<div class="alert alert-success">Uploaded successfully!</div>');
+                        $('#uploadMessage').html('<div class="alert alert-success">Uploaded successfully! </div>');
                         $('#loadingIndicator').removeClass('hidden');
                         $('#resultsSection').load('/smart_imputation', function () {
                             $('#loadingIndicator').addClass('hidden'); // Hide after loading results
