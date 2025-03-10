@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from features.mv_model import visualize_spider_chart,analyze_missing_data,visualize_missing_data,visualize_distributions,visualize_relationships
-import pdfkit
+from weasyprint import HTML
 import glob
 from sklearn.preprocessing import LabelEncoder
 import io
@@ -74,7 +74,7 @@ def smart_imputation_analysis():
     except Exception as e:
         print("Error generating report:", str(e))
         return jsonify({"error": f"Error generating report: {str(e)}"}), 500
-    
+
 @smartimp_bp.route('/generate_report', methods=['GET'])
 def generate_report():
     try:
@@ -93,19 +93,19 @@ def generate_report():
             numerical_cols=df.select_dtypes(include=['int64', 'float64']).columns.tolist(),
             web_images=web_images
         )
-
         adjusted_html = adjust_image_paths(rendered_html)  # Adjust image paths here
+        
+        # Use WeasyPrint to generate the PDF
+        pdf_bytes = HTML(string=adjusted_html).write_pdf()
 
         # Create a temporary file for the PDF
         temp_dir = tempfile.gettempdir()
         report_filename = 'report_analysis.pdf'  # Changed filename for the report
         report_path = os.path.join(temp_dir, report_filename)
         
-        config = pdfkit.configuration(wkhtmltopdf=r"C:\wkhtmltopdf\bin\wkhtmltopdf.exe")
-        options = {'enable-local-file-access': ''}
-        pdf_bytes = pdfkit.from_string(adjusted_html, False, configuration=config, options=options)
         with open(report_path, 'wb') as report_file:
             report_file.write(pdf_bytes)
+        
         return jsonify({"message": "Report generated successfully!", "filename": report_filename}), 200
 
     except Exception as e:
@@ -120,6 +120,7 @@ def download(report_filename):
         return send_file(file_path, as_attachment=True)
     else:
         return jsonify({"error": "File not found"}), 404
+
 
 def format_image_paths():
     """Returns dictionary of web-friendly image paths."""
