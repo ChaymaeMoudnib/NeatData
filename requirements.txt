@@ -90,7 +90,6 @@ pandas
 patsy
 pdfkit
 pdfminer.six
-pdfshift
 pdfplumber
 pillow
 plotly
