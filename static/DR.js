@@ -10,8 +10,6 @@ $(document).ready(function () {
     const $messageBox = $('#messageBox');
     const $messageContent = $('#messageContent');
     const $messageButton = $('#messageButton');
-    $('.card-body').css('width', '80%'); // Adjust the width as needed
-
 
     // Get the file input and the display element
 

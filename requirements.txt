@@ -1,14 +1,6 @@
 
 category_encoders
-certifi
-cffi
-charset-normalizer
 click
-cloudpathlib
-distro
-Django
-django-cors-headers
-dnspython
 et_xmlfile
 fancyimpute
 filelock
@@ -31,7 +23,6 @@ matplotlib
 numpy
 packaging
 pandas
-pillow
 plotly
 pyarrow
 pyasn1

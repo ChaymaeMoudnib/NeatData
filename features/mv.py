@@ -15,6 +15,7 @@ from features.utils import  generate_missing_data_table,generate_missing_values_
 import os
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
+print(tf.config.list_physical_devices('GPU'))
 
 
 mv_bp = Blueprint('mv', __name__)
