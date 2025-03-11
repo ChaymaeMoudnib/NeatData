@@ -102,7 +102,7 @@ def generate_missing_values_plot(df, save_path, color_map, plot_width, plot_heig
     plt.close()
     
 
-def visualize_missing_values(df, missing_color='#425df5', present_color='#fffff'):
+def visualize_missing_values(df, missing_color='#425df5', present_color='#ffffff'):
     missing_stats = df.isnull().sum().to_dict()
     missing_percentage = (df.isnull().sum() / len(df) * 100).to_dict()
     data_types = df.dtypes.apply(lambda x: x.name).to_dict()
