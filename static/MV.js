@@ -165,103 +165,79 @@ function fetchDataOverview() {
     });
 }
 
-$('#processForm').on('submit', function(e) {
-    e.preventDefault();
-    $('#saveOptions').removeClass('hidden');
+$(document).ready(function() {
+    $('#processForm').on('submit', function(e) {
+        e.preventDefault();
 
-    var formData = {
-        choice: $('input[name="choice"]:checked').val(),
-        columns: $('input[name="columns"]').val(),
-        impute_choice: $('input[name="impute_choice"]:checked').val(),
-        impute_params: {}
-    };
+        var formData = {
+            choice: $('input[name="choice"]:checked').val(),
+            columns: $('input[name="columns"]').val(),
+            impute_choice: $('input[name="impute_choice"]:checked').val(),
+            impute_params: {}
+        };
 
-    switch (formData.impute_choice) {
-        case 'mean_median_mode':
-            formData.impute_params.strategy = $('input[name="strategy"]:checked').val();
-            break;
-        case 'knn':
-            formData.impute_params.n_neighbors = parseInt($('input[name="n_neighbors"]').val()) || 5;
-            formData.impute_params.metric = $('input[name="metric"]:checked').val();
-            break;
-        case 'mice':
-            formData.impute_params.n_imputations = parseInt($('input[name="n_imputations"]').val()) || 10;
-            formData.impute_params.max_iter = parseInt($('input[name="max_iter"]').val()) || 10;
-            formData.impute_params.method = $('input[name="method"]:checked').val();
-            break;
-        case 'regression':
-            formData.impute_params.model = $('input[name="regression_model"]:checked').val();
-            formData.impute_params.predictors = $('input[name="predictors"]').val().split(',').map(s => s.trim());
-            break;
-        case 'probability':
-            formData.impute_params.distribution = $('input[name="distribution"]:checked').val();
-            formData.impute_params.parameters = $('input[name="parameters"]').val().split(',').map(Number);
-            break;
-        case 'autoencoder':
-            formData.impute_params.hidden_layers = parseInt($('input[name="hidden_layers"]').val()) || 2;
-            formData.impute_params.activation = $('input[name="activation"]:checked').val();
-            formData.impute_params.epochs = parseInt($('input[name="epochs"]').val()) || 50;
-            formData.impute_params.learning_rate = parseFloat($('input[name="learning_rate"]').val()) || 0.001;
-            break;
-    }
-
-    console.log("Form Data Sent:", formData);
-
-    $.ajax({
-        url: '/process',
-        type: 'POST',
-        data: JSON.stringify(formData),
-        contentType: 'application/json',
-        success: function(response) {
-            displayMessageBox(response.message, 'message');
-            $('#saveOptions').removeClass('hidden');
-
-            if (response.missing_data_table) {
-                $('#missingValuesContainer').html(response.missing_data_table).removeClass('hidden');
-            } else {
-                $('#missingValuesContainer').html("<p>No missing data found.</p>").removeClass('hidden');
-            }
-        },
-        error: function(response) {
-            displayMessageBox(response.responseJSON?.error || "Unknown error", 'error');
-            $('#missingValuesContainer').html(response.missing_values_table).removeClass('hidden');
+        switch (formData.impute_choice) {
+            case 'mean_median_mode':
+                formData.impute_params.strategy = $('input[name="strategy"]:checked').val();
+                break;
+            case 'knn':
+                formData.impute_params.n_neighbors = parseInt($('input[name="n_neighbors"]').val()) || 5;
+                formData.impute_params.metric = $('input[name="metric"]:checked').val();
+                break;
+            case 'mice':
+                formData.impute_params.n_imputations = parseInt($('input[name="n_imputations"]').val()) || 10;
+                formData.impute_params.max_iter = parseInt($('input[name="max_iter"]').val()) || 10;
+                formData.impute_params.method = $('input[name="method"]:checked').val();
+                break;
+            case 'regression':
+                formData.impute_params.model = $('input[name="regression_model"]:checked').val();
+                formData.impute_params.predictors = $('input[name="predictors"]').val()
+                    ? $('input[name="predictors"]').val().split(',').map(s => s.trim()).filter(Boolean)
+                    : [];
+                break;
+            case 'probability':
+                formData.impute_params.distribution = $('input[name="distribution"]:checked').val();
+                formData.impute_params.parameters = $('input[name="parameters"]').val()
+                    ? $('input[name="parameters"]').val().split(',').map(Number).filter(n => !isNaN(n))
+                    : [];
+                break;
+            case 'autoencoder':
+                formData.impute_params.hidden_layers = parseInt($('input[name="hidden_layers"]').val()) || 2;
+                formData.impute_params.activation = $('input[name="activation"]:checked').val();
+                formData.impute_params.epochs = parseInt($('input[name="epochs"]').val()) || 50;
+                formData.impute_params.learning_rate = parseFloat($('input[name="learning_rate"]').val()) || 0.001;
+                break;
         }
+
+        console.log("Form Data Sent:", formData);
+
+        $.ajax({
+            url: '/process',
+            type: 'POST',
+            data: JSON.stringify(formData),
+            contentType: 'application/json',
+            success: function(response) {
+                displayMessageBox(response.message, 'message');
+                $('#saveOptions').removeClass('hidden');
+                $('#missingValuesContainer').html(response.missing_data_table || "<p>No missing data found.</p>").removeClass('hidden');
+            },
+            error: function(response) {
+                displayMessageBox(response.responseJSON?.error || "Unknown error", 'error');
+                $('#missingValuesContainer').html(response.responseJSON?.missing_values_table || "<p>Error retrieving missing values.</p>").removeClass('hidden');
+            }
+        });
     });
-});
 
-$('input[name="choice"]').change(function() {
-    if ($(this).val() === '3') {
-        $('#imputationMethods').removeClass('hidden');
+    $('input[name="choice"]').change(function() {
+        let show = $(this).val() === '3';
+        $('#imputationMethods').toggleClass('hidden', !show);
         $('.hidden-params').addClass('hidden');
-    } else {
-        $('#imputationMethods').addClass('hidden');
+    });
+
+    $('input[name="impute_choice"]').change(function() {
         $('.hidden-params').addClass('hidden');
-    }
-});
-
-$('input[name="impute_choice"]').change(function() {
-    $('.hidden-params').addClass('hidden');
-
-    switch ($(this).val()) {
-        case 'mean_median_mode':
-            $('#meanMedianModeParams').removeClass('hidden');
-            break;
-        case 'knn':
-            $('#knnParams').removeClass('hidden');
-            break;
-        case 'mice':
-            $('#miceParams').removeClass('hidden');
-            break;
-        case 'regression':
-            $('#regressionParams').removeClass('hidden');
-            break;
-        case 'probability':
-            $('#probabilityParams').removeClass('hidden');
-            break;
-        case 'autoencoder':
-            $('#autoencoderParams').removeClass('hidden');
-            break;
-    }
+        $('#' + $(this).val() + 'Params').removeClass('hidden');
+    });
 });
 
 $('#resetButton').on('click', function() {
