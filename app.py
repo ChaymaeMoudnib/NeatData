@@ -53,18 +53,30 @@ app.register_blueprint(utile_bp)
 @app.route('/reset', methods=['POST'])
 def reset_data():
     try:
+        # Reset the DataFrame
         empty_df = pd.DataFrame()
         empty_df.to_pickle('current_df.pkl')
-        print("DataFrame reset successfully.") 
+        print("DataFrame reset successfully.")
+
+        # Reset the static/images folder
         static_folder = os.path.join('static', 'images')
         if os.path.exists(static_folder):
-            shutil.rmtree(static_folder)  
-            print("Deleted static/images folder.")  
-        os.makedirs(static_folder)  
-        print("Recreated static/images folder.")  # Debug: Confirm folder recreation
-        return jsonify({"message": "Data reset successfully."})
+            shutil.rmtree(static_folder)
+            print("Deleted static/images folder.")
+        os.makedirs(static_folder)
+        print("Recreated static/images folder.")
+
+        # Reset the uploads folder
+        uploads_folder = os.path.join('uploads')
+        if os.path.exists(uploads_folder):
+            shutil.rmtree(uploads_folder)
+            print("Deleted uploads folder.")
+        os.makedirs(uploads_folder)
+        print("Recreated uploads folder.")
+
+        return jsonify({"message": "Data and folders reset successfully."})
     except Exception as e:
-        print("Error resetting data:", str(e))  # Debug: Print the full error
+        print("Error resetting data:", str(e))
         return jsonify({"error": f"Error resetting data: {str(e)}"}), 500
     
 
